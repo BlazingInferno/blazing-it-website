@@ -40,7 +40,6 @@ jobs:
           action: "upload"
           app_location: "/"                 # The location of your React app
           api_location: ""                  # Leave blank unless using Azure Functions
-          github_id_token: ${{ steps.builddeploy.outputs.result }}
           path: build/       
           production_branch: "main" # CRA outputs to 'build/' — don't change this
 
