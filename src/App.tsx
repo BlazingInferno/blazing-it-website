@@ -1,0 +1,39 @@
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Home from './pages/Home';
+import Services from './pages/Services';
+import Contact from './pages/Contact';
+import Cybersecurity from './pages/services/Cybersecurity';
+import CloudSolutions from './pages/services/CloudSolutions';
+import ITConsulting from './pages/services/ITConsulting';
+import DataBackup from './pages/services/DataBackup';
+import ITSupport from './pages/services/ITSupport';
+
+function App() {
+  return (
+    <div className="min-h-screen bg-white">
+      <Header />
+      <main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/services/cybersecurity" element={<Cybersecurity />} />
+          <Route path="/services/cloud-solutions" element={<CloudSolutions />} />
+          <Route path="/services/it-consulting" element={<ITConsulting />} />
+          <Route path="/services/data-backup" element={<DataBackup />} />
+          <Route path="/services/it-support" element={<ITSupport />} />
+          <Route path="/contact" element={<Contact />} />
+          {/* Placeholder routes for future pages */}
+          <Route path="/about" element={<div className="py-20 text-center"><h1 className="text-4xl font-bold">About Page Coming Soon</h1></div>} />
+          <Route path="/team" element={<div className="py-20 text-center"><h1 className="text-4xl font-bold">Team Page Coming Soon</h1></div>} />
+          <Route path="/careers" element={<div className="py-20 text-center"><h1 className="text-4xl font-bold">Careers Page Coming Soon</h1></div>} />
+        </Routes>
+      </main>
+      <Footer />
+    </div>
+  );
+}
+
+export default App;
