@@ -40,7 +40,7 @@ jobs:
           action: "upload"
           app_location: "/"                 # The location of your React app
           api_location: ""                  # Leave blank unless using Azure Functions
-          path: build/       
+          output_location: "build"
           production_branch: "main" # CRA outputs to 'build/' — don't change this
 
   close_pull_request_job:
