@@ -217,6 +217,47 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Areas Covered Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Areas We Cover
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Providing IT solutions across the United Kingdom with local expertise and nationwide reach
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {[
+              'London', 'Manchester', 'Birmingham', 'Leeds',
+              'Glasgow', 'Liverpool', 'Newcastle', 'Sheffield',
+              'Bristol', 'Edinburgh', 'Leicester', 'Coventry',
+              'Bradford', 'Cardiff', 'Belfast', 'Nottingham',
+              'Hull', 'Plymouth', 'Stoke-on-Trent', 'Wolverhampton',
+              'Derby', 'Swansea', 'Southampton', 'Salford'
+            ].map((city) => (
+              <div key={city} className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 text-center hover:shadow-md transition-shadow">
+                <div className="text-lg font-semibold text-gray-900">{city}</div>
+              </div>
+            ))}
+          </div>
+          
+          <div className="text-center mt-12">
+            <p className="text-lg text-gray-600 mb-6">
+              Don't see your area listed? We provide services nationwide across the UK.
+            </p>
+            <Link
+              to="/contact"
+              className="inline-flex items-center bg-blue-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-800 transition-colors"
+            >
+              Contact Us for Your Area <ArrowRight className="h-4 w-4 ml-2" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-blue-700 to-indigo-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
