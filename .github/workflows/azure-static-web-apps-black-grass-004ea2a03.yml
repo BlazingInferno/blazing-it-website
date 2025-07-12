@@ -41,7 +41,8 @@ jobs:
           app_location: "/"                 # The location of your React app
           api_location: ""                  # Leave blank unless using Azure Functions
           github_id_token: ${{ steps.builddeploy.outputs.result }}
-          path: build/                      # CRA outputs to 'build/' — don't change this
+          path: build/       
+          production_branch: "main" # CRA outputs to 'build/' — don't change this
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
