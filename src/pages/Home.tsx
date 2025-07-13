@@ -228,11 +228,10 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {[
               'London', 'Manchester', 'Birmingham', 'Leeds',
-              'Glasgow', 'Liverpool', 'Newcastle', 'Sheffield',
-              'Bristol', 'Edinburgh', 'Leicester', 'Coventry',
-              'Bradford', 'Cardiff', 'Belfast', 'Nottingham',
-              'Hull', 'Plymouth', 'Stoke-on-Trent', 'Wolverhampton',
-              'Derby', 'Swansea', 'Southampton', 'Salford'
+              'Liverpool', 'Newcastle', 'Sheffield', 'Bristol',
+              'Coventry', 'Bradford', 'Nottingham', 'Hull',
+              'Plymouth', 'Stoke-on-Trent', 'Wolverhampton', 'Derby',
+              'Southampton', 'Salford'
             ].map((city) => (
               <div key={city} className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 text-center hover:shadow-md transition-shadow">
                 <div className="text-lg font-semibold text-gray-900">{city}</div>
