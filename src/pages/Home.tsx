@@ -74,7 +74,6 @@ export default function Home() {
                 <div className="w-16 h-16 bg-orange-100 rounded-lg flex items-center justify-center mb-6">
                   <Shield className="h-8 w-8 text-orange-600" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-100 mb-4">Cybersecurity</h3>
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">Cybersecurity</h3>
                 <p className="text-gray-600 leading-relaxed mb-4">
                   Comprehensive security solutions to protect your business from cyber threats and ensure data integrity.
@@ -90,7 +89,6 @@ export default function Home() {
                 <div className="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center mb-6">
                   <Zap className="h-8 w-8 text-green-600" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-100 mb-4">Cloud Solutions</h3>
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">Cloud Solutions</h3>
                 <p className="text-gray-600 leading-relaxed mb-4">
                   Scalable cloud infrastructure and migration services to enhance your business agility and reduce costs.
@@ -106,7 +104,6 @@ export default function Home() {
                 <div className="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center mb-6">
                   <Users className="h-8 w-8 text-purple-600" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-100 mb-4">IT Consulting</h3>
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">IT Consulting</h3>
                 <p className="text-gray-600 leading-relaxed mb-4">
                   Strategic IT consulting to help you make informed technology decisions and optimize your digital transformation.
@@ -122,7 +119,6 @@ export default function Home() {
                 <div className="w-16 h-16 bg-red-100 rounded-lg flex items-center justify-center mb-6">
                   <Shield className="h-8 w-8 text-red-600" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-100 mb-4">Data Backup & Recovery</h3>
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">Data Backup & Recovery</h3>
                 <p className="text-gray-600 leading-relaxed mb-4">
                   Reliable data backup and recovery solutions to ensure your critical business data is always protected.
