@@ -229,8 +229,8 @@ export default function Home() {
             {[
               'London', 'Manchester', 'Birmingham', 'Leeds',
               'Liverpool', 'Newcastle', 'Sheffield', 'Bristol',
-              'Coventry', 'Bradford', 'Nottingham', 'Hull',
-              'Plymouth', 'Stoke-on-Trent', 'Wolverhampton', 'Derby',
+              'Bradford', 'Nottingham', 'Hull', 'Stoke-on-Trent', 
+              'Wolverhampton', 'Derby',
               'Southampton', 'Salford'
             ].map((city) => (
               <div key={city} className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 text-center hover:shadow-md transition-shadow">
