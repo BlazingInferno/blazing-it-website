@@ -227,9 +227,9 @@ export default function Home() {
           
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
             {[
-              'Leeds', 'Hull', 'York', 'Scarbrough',
-              'London', 'Manchester', 'Birmingham', 
-              'Liverpool', 'Newcastle', 'Sheffield',
+            'Leeds', 'Hull', 'York', 
+            'Scarbrough', 'London' , 'Manchester',
+            'Liverpool', 'Newcastle', 'Sheffield',
             ].map((city) => (
               <div key={city} className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 text-center hover:shadow-md transition-shadow">
                 <div className="text-lg font-semibold text-gray-900">{city}</div>
