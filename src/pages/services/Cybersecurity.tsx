@@ -119,7 +119,7 @@ function Cybersecurity() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="text-4xl font-bold text-orange-600 mb-2">$4.45M</div>
+              <div className="text-4xl font-bold text-orange-600 mb-2">£3.6M</div>
               <div className="text-gray-600">Average cost of a data breach in 2023</div>
             </div>
             <div className="text-center">
