@@ -328,8 +328,8 @@ export default function Contact() {
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-4">Call Us</h3>
               <p className="text-gray-600 mb-4">Speak directly with our team during business hours</p>
-              <a href="tel:+441131234567" className="text-green-700 font-medium hover:text-green-800">
-                +44 113 123 4567
+              <a href="tel:01918 202 449" className="text-green-700 font-medium hover:text-green-800">
+                01918 202 449
               </a>
             </div>
 
