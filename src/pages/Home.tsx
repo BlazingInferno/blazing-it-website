@@ -221,15 +221,16 @@ export default function Home() {
               Areas We Cover
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Providing IT solutions across the United Kingdom with local expertise and nationwide reach
+              Providing IT solutions across Yorkshire and beyond!
             </p>
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {[
-              'London', 'Manchester', 'Birmingham', 'Leeds',
-              'Liverpool', 'Newcastle', 'Sheffield','Salford',
-             'Nottingham', 'Hull', 'Stoke-on-Trent', 'Wolverhampton', 
+               'Leeds', 'Hull', 'York', 'Scarbrough',
+              'London', 'Manchester', 'Birmingham', 
+              'Liverpool', 'Don', 'Sheffield',
+               
             ].map((city) => (
               <div key={city} className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 text-center hover:shadow-md transition-shadow">
                 <div className="text-lg font-semibold text-gray-900">{city}</div>
