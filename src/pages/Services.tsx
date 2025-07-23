@@ -58,7 +58,6 @@ export default function Services() {
                 className="w-full h-48 object-cover rounded-lg mb-6"
               />
               <div className="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center mb-6">
-                <img src="/unnamed-removebg-preview copy.png" alt="Blazing IT Logo" className="h-8 w-8" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-4">Cloud Solutions</h3>
               <p className="text-gray-600 leading-relaxed">
