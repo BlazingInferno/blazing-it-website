@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Shield, HardDrive, Clock, RefreshCw, CheckCircle, AlertTriangle } from 'lucide-react';
 
 function DataBackup() {
@@ -173,7 +174,7 @@ function DataBackup() {
               <div className="text-gray-600">Of companies without data recovery go out of business within a year</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-red-600 mb-2">$1.7M</div>
+              <div className="text-4xl font-bold text-red-600 mb-2">£1.25M</div>
               <div className="text-gray-600">Average cost of a data breach</div>
             </div>
             <div className="text-center">
@@ -225,9 +226,10 @@ function DataBackup() {
             Protect your business with reliable backup solutions. Get started with a free backup assessment today.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-red-600 px-8 py-3 rounded-lg text-lg font-medium hover:bg-gray-100 transition-colors">
-              Free Backup Assessment
-            </button>
+<Link 
+  to="/contact" 
+  className="bg-red-600 text-white px-8 py-3 rounded-lg text-lg font-medium hover:bg-red-700 transition-colors text-center">Backup Assessment
+</Link>
             <button className="border-2 border-white text-white px-8 py-3 rounded-lg text-lg font-medium hover:bg-white hover:text-red-600 transition-colors">
               Test Your Recovery
             </button>
