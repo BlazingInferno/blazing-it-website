@@ -44,7 +44,6 @@ export default function Footer() {
             <ul className="space-y-2 text-gray-400">
               <li><Link to="/services/cybersecurity" className="hover:text-white transition-colors">Cybersecurity</Link></li>
               <li><Link to="/services/cloud-solutions" className="hover:text-white transition-colors">Cloud Solutions</Link></li>
-              <li><Link to="/services/it-consulting" className="hover:text-white transition-colors">IT Consulting</Link></li>
               <li><Link to="/services/data-backup" className="hover:text-white transition-colors">Data Backup</Link></li>
               <li><Link to="/services/it-support" className="hover:text-white transition-colors">IT Support</Link></li>
             </ul>
@@ -53,16 +52,13 @@ export default function Footer() {
           <div>
             <h4 className="text-lg font-semibold mb-4">Company</h4>
             <ul className="space-y-2 text-gray-400">
-              <li><Link to="/about" className="hover:text-white transition-colors">About Us</Link></li>
-              <li><Link to="/team" className="hover:text-white transition-colors">Our Team</Link></li>
-              <li><Link to="/careers" className="hover:text-white transition-colors">Careers</Link></li>
               <li><Link to="/contact" className="hover:text-white transition-colors">Contact</Link></li>
             </ul>
           </div>
         </div>
         
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; 2024 Blazing IT Limited. All rights reserved. | Company Number: 16558935</p>
+          <p>&copy; 2025 Blazing IT Limited. All rights reserved. | Company Number: 16558935</p>
         </div>
       </div>
     </footer>
