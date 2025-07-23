@@ -230,9 +230,9 @@ function DataBackup() {
   to="/contact" 
   className="bg-red-600 text-white px-8 py-3 rounded-lg text-lg font-medium hover:bg-red-700 transition-colors text-center">Backup Assessment
 </Link>
-            <button className="border-2 border-white text-white px-8 py-3 rounded-lg text-lg font-medium hover:bg-white hover:text-red-600 transition-colors">
-              Test Your Recovery
-            </button>
+<Link
+  to="/contact" className="border-2 border-white text-white px-8 py-3 rounded-lg text-lg font-medium hover:bg-white hover:text-red-600 transition-colors"> Test Your Recovery
+         </Link>
           </div>
         </div>
       </section>
