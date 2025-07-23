@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, Zap } from 'lucide-react';
+import { Menu, X, Zap, Phone } from 'lucide-react'; // Added Phone icon
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -8,11 +8,11 @@ function Header() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const isActive = (path: string) => {
+  const isActive = (path) => {
     return location.pathname === path;
   };
 
-  const handleServiceClick = (servicePath: string) => {
+  const handleServiceClick = (servicePath) => {
     navigate(servicePath);
     setIsServicesOpen(false);
     setIsMenuOpen(false);
@@ -89,16 +89,30 @@ function Header() {
               </div>
             </div>
           </div>
-          <div className="md:hidden">
+
+          {/* START: Phone number for desktop view */}
+          <div className="hidden md:flex items-center">
+            <Phone className="h-4 w-4 text-gray-600 mr-2" />
+            <a href="tel:01918202449" className="text-sm font-medium text-gray-700 hover:text-blue-600">
+              01918 202 449
+            </a>
+          </div>
+          {/* END: Phone number for desktop view */}
+
+          {/* Mobile menu button */}
+          <div className="-mr-2 flex md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-blue-600 focus:outline-none"
             >
+              <span className="sr-only">Open main menu</span>
               {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
           </div>
         </div>
       </div>
+
+      {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
@@ -166,6 +180,18 @@ function Header() {
               >
                 Contact
               </Link>
+
+              {/* START: Phone number for mobile view */}
+              <div className="border-t border-gray-200 my-2 pt-4">
+                 <div className="flex items-center px-3">
+                    <Phone className="h-5 w-5 text-gray-600 mr-3" />
+                    <a href="tel:01918202449" className="text-base font-medium text-gray-700 hover:text-blue-600">
+                        01918 202 449
+                    </a>
+                 </div>
+              </div>
+              {/* END: Phone number for mobile view */}
+
             </div>
           </div>
         </div>
