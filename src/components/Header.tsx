@@ -49,13 +49,6 @@ function Header() {
                   {isServicesOpen && (
                     <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
                       <div className="py-2">
-                        <Link
-                          to="/services"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                          onClick={() => setIsServicesOpen(false)}
-                        >
-                          All Services
-                        </Link>
                         <hr className="my-2" />
                         <button
                           onClick={() => handleServiceClick('/services/cybersecurity')}
