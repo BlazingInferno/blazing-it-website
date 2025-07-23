@@ -86,14 +86,6 @@ function Header() {
                   )}
                 </div>
                 <Link
-                  to="/about"
-                  className={`px-3 py-2 text-sm font-medium transition-colors ${
-                    isActive('/about') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
-                  }`}
-                >
-                  About
-                </Link>
-                <Link
                   to="/contact"
                   className={`px-3 py-2 text-sm font-medium transition-colors ${
                     isActive('/contact') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
