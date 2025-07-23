@@ -69,27 +69,6 @@ export default function Services() {
               </div>
               </Link>
             </div>
-            
-            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
-              <Link to="/services/it-consulting" className="block">
-              <img
-                src="https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=400"
-                alt="Professional business consultation with technology analysis"
-                className="w-full h-48 object-cover rounded-lg mb-6"
-              />
-              <div className="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center mb-6">
-                <Users className="h-8 w-8 text-purple-600" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">IT Consulting</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Strategic IT consulting to help you make informed technology decisions and optimize your digital transformation.
-              </p>
-              <div className="mt-6">
-                <span className="text-purple-600 font-medium hover:text-purple-700">Learn More →</span>
-              </div>
-              </Link>
-            </div>
-            
             <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
               <Link to="/services/data-backup" className="block">
               <img
