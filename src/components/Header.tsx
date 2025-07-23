@@ -73,12 +73,6 @@ function Header() {
                           onClick={() => handleServiceClick('/services/it-consulting')}
                           className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         >
-                          IT Consulting
-                        </button>
-                        <button
-                          onClick={() => handleServiceClick('/services/data-backup')}
-                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        >
                           Data Backup
                         </button>
                         <button
@@ -178,15 +172,6 @@ function Header() {
                   </div>
                 )}
               </div>
-              <Link
-                to="/about"
-                className={`block px-3 py-2 text-base font-medium w-full text-left ${
-                  isActive('/about') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
-                }`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                About
-              </Link>
               <Link
                 to="/contact"
                 className={`block px-3 py-2 text-base font-medium w-full text-left ${
