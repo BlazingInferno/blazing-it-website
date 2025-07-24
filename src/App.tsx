@@ -1,6 +1,5 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import ReactGA from 'react-ga4';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -11,7 +10,6 @@ import CloudSolutions from './pages/services/CloudSolutions';
 import ITConsulting from './pages/services/ITConsulting';
 import DataBackup from './pages/services/DataBackup';
 import ITSupport from './pages/services/ITSupport';
-ReactGA.initialize('G-7HR5FVXMZY');
 function App() {
   return (
     <div className="min-h-screen bg-white">
