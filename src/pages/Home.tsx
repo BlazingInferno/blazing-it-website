@@ -4,15 +4,6 @@ import { Code, Shield, Zap, Users, CheckCircle, ArrowRight, Headphones, Clock, P
 
 export default function Home() {
   return (
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7HR5FVXMZY"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7HR5FVXMZY');
-</script>
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-blue-950 via-blue-900 to-indigo-950 text-white overflow-hidden">
