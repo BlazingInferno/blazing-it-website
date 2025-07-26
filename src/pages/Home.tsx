@@ -61,6 +61,69 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Technology Solutions We Work With
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              We partner with industry-leading platforms to deliver comprehensive IT solutions
+            </p>
+          </div>
+          
+          <div className="relative">
+            <img
+              src="https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&cs=tinysrgb&w=1200"
+              alt="Technology solutions including AWS, Azure, Microsoft 365, and cloud computing platforms"
+              className="w-full h-96 object-cover rounded-2xl shadow-2xl"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-purple-900/80 rounded-2xl flex items-center justify-center">
+              <div className="text-center text-white">
+                <h3 className="text-3xl md:text-4xl font-bold mb-6">
+                  Enterprise-Grade Technology Partners
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                  <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
+                    <div className="w-16 h-16 bg-orange-500 rounded-lg flex items-center justify-center mx-auto mb-4">
+                      <span className="text-white font-bold text-lg">AWS</span>
+                    </div>
+                    <h4 className="text-xl font-semibold mb-2">Amazon Web Services</h4>
+                    <p className="text-blue-100">Scalable cloud infrastructure and computing services</p>
+                  </div>
+                  
+                  <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
+                    <div className="w-16 h-16 bg-blue-500 rounded-lg flex items-center justify-center mx-auto mb-4">
+                      <span className="text-white font-bold text-lg">Azure</span>
+                    </div>
+                    <h4 className="text-xl font-semibold mb-2">Microsoft Azure</h4>
+                    <p className="text-blue-100">Enterprise cloud platform and hybrid solutions</p>
+                  </div>
+                  
+                  <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
+                    <div className="w-16 h-16 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-4">
+                      <span className="text-white font-bold text-sm">M365</span>
+                    </div>
+                    <h4 className="text-xl font-semibold mb-2">Microsoft 365</h4>
+                    <p className="text-blue-100">Productivity suite and collaboration tools</p>
+                  </div>
+                </div>
+                
+                <div className="mt-8">
+                  <Link
+                    to="/services"
+                    className="inline-block bg-white text-blue-900 px-8 py-3 rounded-lg text-lg font-medium hover:bg-gray-100 transition-colors shadow-lg"
+                  >
+                    Explore Our Solutions
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Our Services
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -133,7 +196,7 @@ export default function Home() {
       </section>
 
       {/* Why Choose Us Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -185,7 +248,7 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -214,7 +277,7 @@ export default function Home() {
       </section>
 
       {/* Areas Covered Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -240,7 +303,7 @@ export default function Home() {
       </section>
 
       {/* Contact Form Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
