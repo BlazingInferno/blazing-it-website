@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, Zap, Phone } from 'lucide-react'; // Added Phone icon
+import { Menu, X, Zap, Phone, Mail } from 'lucide-react'; // Added Phone and Mail icons
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -98,11 +98,19 @@ function Header() {
           </div>
 
           {/* START: Phone number for desktop view */}
-          <div className="hidden md:flex items-center">
+          <div className="hidden md:flex items-center space-x-6">
+            <div className="flex items-center">
+              <Mail className="h-4 w-4 text-gray-600 mr-2" />
+              <a href="mailto:info@blazingit.co.uk" className="text-sm font-medium text-gray-700 hover:text-blue-600">
+                info@blazingit.co.uk
+              </a>
+            </div>
+            <div className="flex items-center">
             <Phone className="h-4 w-4 text-gray-600 mr-2" />
             <a href="tel:01918202449" className="text-sm font-medium text-gray-700 hover:text-blue-600">
               01918 202 449
             </a>
+            </div>
           </div>
           {/* END: Phone number for desktop view */}
 
@@ -199,6 +207,12 @@ function Header() {
 
               {/* START: Phone number for mobile view */}
               <div className="border-t border-gray-200 my-2 pt-4">
+                 <div className="flex items-center px-3 mb-3">
+                    <Mail className="h-5 w-5 text-gray-600 mr-3" />
+                    <a href="mailto:info@blazingit.co.uk" className="text-base font-medium text-gray-700 hover:text-blue-600">
+                        info@blazingit.co.uk
+                    </a>
+                 </div>
                  <div className="flex items-center px-3">
                     <Phone className="h-5 w-5 text-gray-600 mr-3" />
                     <a href="tel:01918202449" className="text-base font-medium text-gray-700 hover:text-blue-600">
