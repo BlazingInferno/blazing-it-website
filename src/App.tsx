@@ -12,6 +12,9 @@ import DataBackup from './pages/services/DataBackup';
 import ITSupport from './pages/services/ITSupport';
 import Projects from './pages/Projects';
 import Admin from './pages/Admin';
+import About from './pages/About';
+import Team from './pages/Team';
+import Careers from './pages/Careers';
 import GoogleWorkspaceToMicrosoft365 from './pages/blog/GoogleWorkspaceToMicrosoft365';
 import DynamicBlogPost from './pages/blog/DynamicBlogPost';
 
@@ -30,13 +33,12 @@ function App() {
           <Route path="/services/it-support" element={<ITSupport />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/posts" element={<Admin />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/team" element={<Team />} />
+          <Route path="/careers" element={<Careers />} />
           <Route path="/blog/google-workspace-to-microsoft-365" element={<GoogleWorkspaceToMicrosoft365 />} />
           <Route path="/blog/:slug" element={<DynamicBlogPost />} />
           <Route path="/contact" element={<Contact />} />
-          {/* Placeholder routes for future pages */}
-          <Route path="/about" element={<div className="py-20 text-center"><h1 className="text-4xl font-bold">About Page Coming Soon</h1></div>} />
-          <Route path="/team" element={<div className="py-20 text-center"><h1 className="text-4xl font-bold">Team Page Coming Soon</h1></div>} />
-          <Route path="/careers" element={<div className="py-20 text-center"><h1 className="text-4xl font-bold">Careers Page Coming Soon</h1></div>} />
         </Routes>
       </main>
       <Footer />
