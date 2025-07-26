@@ -12,9 +12,6 @@ import DataBackup from './pages/services/DataBackup';
 import ITSupport from './pages/services/ITSupport';
 import Projects from './pages/Projects';
 import Admin from './pages/Admin';
-import About from './pages/About';
-import Team from './pages/Team';
-import Careers from './pages/Careers';
 import GoogleWorkspaceToMicrosoft365 from './pages/blog/GoogleWorkspaceToMicrosoft365';
 import DynamicBlogPost from './pages/blog/DynamicBlogPost';
 
@@ -33,9 +30,6 @@ function App() {
           <Route path="/services/it-support" element={<ITSupport />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/posts" element={<Admin />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/team" element={<Team />} />
-          <Route path="/careers" element={<Careers />} />
           <Route path="/blog/google-workspace-to-microsoft-365" element={<GoogleWorkspaceToMicrosoft365 />} />
           <Route path="/blog/:slug" element={<DynamicBlogPost />} />
           <Route path="/contact" element={<Contact />} />
