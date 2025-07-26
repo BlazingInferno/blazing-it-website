@@ -11,6 +11,9 @@ import CloudSolutions from './pages/services/CloudSolutions';
 import ITConsulting from './pages/services/ITConsulting';
 import DataBackup from './pages/services/DataBackup';
 import ITSupport from './pages/services/ITSupport';
+import GoogleWorkspaceToMicrosoft365 from './pages/blog/GoogleWorkspaceToMicrosoft365';
+import ExchangeToMicrosoft365 from './pages/blog/ExchangeToMicrosoft365';
+
 function App() {
   return (
     <div className="min-h-screen bg-white">
@@ -25,6 +28,8 @@ function App() {
           <Route path="/services/it-consulting" element={<ITConsulting />} />
           <Route path="/services/data-backup" element={<DataBackup />} />
           <Route path="/services/it-support" element={<ITSupport />} />
+          <Route path="/blog/google-workspace-to-microsoft-365" element={<GoogleWorkspaceToMicrosoft365 />} />
+          <Route path="/blog/exchange-to-microsoft-365" element={<ExchangeToMicrosoft365 />} />
           <Route path="/contact" element={<Contact />} />
           {/* Placeholder routes for future pages */}
           <Route path="/about" element={<div className="py-20 text-center"><h1 className="text-4xl font-bold">About Page Coming Soon</h1></div>} />
