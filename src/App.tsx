@@ -29,7 +29,7 @@ function App() {
           <Route path="/services/data-backup" element={<DataBackup />} />
           <Route path="/services/it-support" element={<ITSupport />} />
           <Route path="/projects" element={<Projects />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/posts" element={<Admin />} />
           <Route path="/blog/google-workspace-to-microsoft-365" element={<GoogleWorkspaceToMicrosoft365 />} />
           <Route path="/blog/:slug" element={<DynamicBlogPost />} />
           <Route path="/contact" element={<Contact />} />
