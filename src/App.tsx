@@ -14,6 +14,7 @@ import Projects from './pages/Projects';
 import Admin from './pages/Admin';
 import GoogleWorkspaceToMicrosoft365 from './pages/blog/GoogleWorkspaceToMicrosoft365';
 import DynamicBlogPost from './pages/blog/DynamicBlogPost';
+import Leeds from './pages/Leeds';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/blog/google-workspace-to-microsoft-365" element={<GoogleWorkspaceToMicrosoft365 />} />
           <Route path="/blog/:slug" element={<DynamicBlogPost />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/leeds" element={<Leeds />} />
         </Routes>
       </main>
       <Footer />
