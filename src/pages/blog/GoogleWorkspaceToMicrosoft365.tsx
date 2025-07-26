@@ -1,8 +1,38 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Calendar, User, Clock, Tag, ArrowLeft } from 'lucide-react';
+import { Calendar, User, Clock, Tag, ArrowLeft, MessageCircle, Send } from 'lucide-react';
 
 export default function GoogleWorkspaceToMicrosoft365() {
+  const [comments, setComments] = useState([]);
+
+  const [newComment, setNewComment] = useState({
+    name: '',
+    email: '',
+    comment: ''
+  });
+
+  const handleCommentSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newComment.name && newComment.email && newComment.comment) {
+      const comment = {
+        id: comments.length + 1,
+        ...newComment,
+        date: new Date().toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        }),
+        time: new Date().toLocaleTimeString('en-US', { 
+          hour: 'numeric', 
+          minute: '2-digit',
+          hour12: true 
+        })
+      };
+      setComments([...comments, comment]);
+      setNewComment({ name: '', email: '', comment: '' });
+    }
+  };
+
   const post = {
     title: "Google Workspace to Microsoft 365 Migration",
     excerpt: "A comprehensive guide to successfully migrating from Google Workspace to Microsoft 365, including best practices, common challenges, and step-by-step implementation strategies.",
@@ -392,6 +422,98 @@ export default function GoogleWorkspaceToMicrosoft365() {
             >
               Get Migration Consultation
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Comments Section */}
+      <section className="py-12 bg-gray-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center mb-8">
+            <MessageCircle className="h-6 w-6 text-gray-600 mr-2" />
+            <h3 className="text-2xl font-bold text-gray-900">
+              Comments ({comments.length})
+            </h3>
+          </div>
+
+          {/* Existing Comments */}
+          <div className="space-y-6 mb-12">
+            {comments.map((comment) => (
+              <div key={comment.id} className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                      <span className="text-blue-600 font-semibold text-sm">
+                        {comment.name.split(' ').map(n => n[0]).join('')}
+                      </span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-900">{comment.name}</h4>
+                      <p className="text-sm text-gray-500">{comment.date} at {comment.time}</p>
+                    </div>
+                  </div>
+                </div>
+                <p className="text-gray-700 leading-relaxed">{comment.comment}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Add Comment Form */}
+          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+            <h4 className="text-xl font-semibold text-gray-900 mb-4">Leave a Comment</h4>
+            <form onSubmit={handleCommentSubmit} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                    Name *
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    required
+                    value={newComment.name}
+                    onChange={(e) => setNewComment({...newComment, name: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Your name"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                    Email *
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    required
+                    value={newComment.email}
+                    onChange={(e) => setNewComment({...newComment, email: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="your@email.com"
+                  />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="comment" className="block text-sm font-medium text-gray-700 mb-1">
+                  Comment *
+                </label>
+                <textarea
+                  id="comment"
+                  rows={4}
+                  required
+                  value={newComment.comment}
+                  onChange={(e) => setNewComment({...newComment, comment: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Share your thoughts..."
+                ></textarea>
+              </div>
+              <button
+                type="submit"
+                className="inline-flex items-center bg-blue-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-800 transition-colors"
+              >
+                <Send className="h-4 w-4 mr-2" />
+                Post Comment
+              </button>
+            </form>
           </div>
         </div>
       </section>
