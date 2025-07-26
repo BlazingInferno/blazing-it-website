@@ -37,44 +37,50 @@ function Header() {
                   Home
                 </Link>
                 <div className="relative">
-                  <button
-                    onClick={() => setIsServicesOpen(!isServicesOpen)}
-                    className={`px-3 py-2 text-sm font-medium transition-colors ${
+                  <div
+                    onMouseEnter={() => setIsServicesOpen(true)}
+                    onMouseLeave={() => setIsServicesOpen(false)}
+                    className="relative"
+                  >
+                    <Link
+                      to="/services"
+                      className={`px-3 py-2 text-sm font-medium transition-colors ${
                       isActive('/services') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
                     }`}
-                  >
-                    Services
-                  </button>
-                  {isServicesOpen && (
-                    <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
-                      <div className="py-2">
-                        <button
-                          onClick={() => handleServiceClick('/services/cybersecurity')}
-                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        >
-                          Cybersecurity
-                        </button>
-                        <button
-                          onClick={() => handleServiceClick('/services/cloud-solutions')}
-                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        >
-                          Cloud Solutions
-                        </button>
-                        <button
-                          onClick={() => handleServiceClick('/services/data-backup')}
-                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        >
-                          Data Backup
-                        </button>
-                        <button
-                          onClick={() => handleServiceClick('/services/it-support')}
-                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        >
-                          IT Support
-                        </button>
+                    >
+                      Services
+                    </Link>
+                    {isServicesOpen && (
+                      <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                        <div className="py-2">
+                          <Link
+                            to="/services/cybersecurity"
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          >
+                            Cybersecurity
+                          </Link>
+                          <Link
+                            to="/services/cloud-solutions"
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          >
+                            Cloud Solutions
+                          </Link>
+                          <Link
+                            to="/services/data-backup"
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          >
+                            Data Backup
+                          </Link>
+                          <Link
+                            to="/services/it-support"
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          >
+                            IT Support
+                          </Link>
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
                 <Link
                   to="/contact"
