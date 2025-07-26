@@ -48,7 +48,6 @@ function Header() {
                   {isServicesOpen && (
                     <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
                       <div className="py-2">
-                        <hr className="my-2" />
                         <button
                           onClick={() => handleServiceClick('/services/cybersecurity')}
                           className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -62,7 +61,7 @@ function Header() {
                           Cloud Solutions
                         </button>
                         <button
-                          onClick={() => handleServiceClick('/services/it-consulting')}
+                          onClick={() => handleServiceClick('/services/data-backup')}
                           className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         >
                           Data Backup
@@ -164,7 +163,7 @@ function Header() {
                       Cloud Solutions
                     </button>
                     <button
-                      onClick={() => handleServiceClick('/services/it-consulting')}
+                      onClick={() => handleServiceClick('/services/data-backup')}
                       className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:text-blue-600"
                     >
                       Data Backup
