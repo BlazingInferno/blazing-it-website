@@ -28,20 +28,20 @@ export default function Leeds() {
                 </span>
               </h1>
               <p className="text-xl md:text-2xl text-blue-200 mb-8 leading-relaxed">
-                Serving Leeds businesses with cutting-edge technology solutions. From city center startups to established Yorkshire enterprises, we deliver blazing-fast IT services.
+                Serving local businesses with cutting-edge technology solutions. From city center startups to established Yorkshire enterprises, we deliver blazing-fast IT services.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Link
                   to="/services"
                   className="bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-medium hover:bg-blue-800 transition-colors shadow-lg hover:shadow-xl"
                 >
-                  Our Leeds Services
+                  Our Services
                 </Link>
                 <Link
                   to="/contact"
                   className="border-2 border-blue-700 text-blue-700 px-8 py-3 rounded-lg text-lg font-medium hover:bg-blue-700 hover:text-white transition-colors"
                 >
-                  Get Leeds Quote
+                  Get Quote
                 </Link>
               </div>
             </div>
@@ -65,10 +65,10 @@ export default function Leeds() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              IT Services for Leeds Businesses
+              IT Services for Local Businesses
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Comprehensive technology solutions tailored for Leeds companies, from small businesses in Headingley to large enterprises in the city center.
+              Comprehensive technology solutions tailored for local companies, from small businesses in Headingley to large enterprises in the city center.
             </p>
           </div>
           
@@ -78,9 +78,9 @@ export default function Leeds() {
                 <div className="w-16 h-16 bg-orange-100 rounded-lg flex items-center justify-center mb-6">
                   <Shield className="h-8 w-8 text-orange-600" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Leeds Cybersecurity</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">Cybersecurity</h3>
                 <p className="text-gray-600 leading-relaxed mb-4">
-                  Protect your Leeds business from cyber threats with our comprehensive security solutions and 24/7 monitoring.
+                  Protect your business from cyber threats with our comprehensive security solutions and 24/7 monitoring.
                 </p>
                 <div className="flex items-center text-orange-600 font-medium">
                   Learn More <ArrowRight className="h-4 w-4 ml-2" />
@@ -93,9 +93,9 @@ export default function Leeds() {
                 <div className="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center mb-6">
                   <Zap className="h-8 w-8 text-green-600" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Cloud Migration Leeds</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">Cloud Migration</h3>
                 <p className="text-gray-600 leading-relaxed mb-4">
-                  Move your Leeds business to the cloud with our expert migration services and ongoing support.
+                  Move your business to the cloud with our expert migration services and ongoing support.
                 </p>
                 <div className="flex items-center text-green-600 font-medium">
                   Learn More <ArrowRight className="h-4 w-4 ml-2" />
@@ -108,9 +108,9 @@ export default function Leeds() {
                 <div className="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center mb-6">
                   <Users className="h-8 w-8 text-purple-600" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">IT Consulting Leeds</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">IT Consulting</h3>
                 <p className="text-gray-600 leading-relaxed mb-4">
-                  Strategic IT guidance for Leeds businesses looking to optimize their technology investments.
+                  Strategic IT guidance for businesses looking to optimize their technology investments.
                 </p>
                 <div className="flex items-center text-purple-600 font-medium">
                   Learn More <ArrowRight className="h-4 w-4 ml-2" />
@@ -123,9 +123,9 @@ export default function Leeds() {
                 <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
                   <Phone className="h-8 w-8 text-blue-600" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Leeds IT Support</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">IT Support</h3>
                 <p className="text-gray-600 leading-relaxed mb-4">
-                  24/7 technical support for Leeds businesses with rapid response times and local expertise.
+                  24/7 technical support with rapid response times and local expertise.
                 </p>
                 <div className="flex items-center text-blue-600 font-medium">
                   Learn More <ArrowRight className="h-4 w-4 ml-2" />
@@ -142,18 +142,18 @@ export default function Leeds() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                Why Leeds Businesses Choose Us
+                Why Local Businesses Choose Us
               </h2>
               <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                As a trusted IT partner for Leeds businesses, we understand the unique challenges facing 
+                As a trusted IT partner for local businesses, we understand the unique challenges facing 
                 Yorkshire companies. From supporting growing startups in the Innovation District to 
-                maintaining enterprise systems for established Leeds corporations.
+                maintaining enterprise systems for established corporations.
               </p>
               
               <ul className="space-y-4 mb-8">
                 <li className="flex items-center">
                   <CheckCircle className="h-6 w-6 text-blue-700 mr-3" />
-                  <span className="text-gray-600">Local Leeds support team with rapid response</span>
+                  <span className="text-gray-600">Local support team with rapid response</span>
                 </li>
                 <li className="flex items-center">
                   <CheckCircle className="h-6 w-6 text-blue-700 mr-3" />
@@ -161,7 +161,7 @@ export default function Leeds() {
                 </li>
                 <li className="flex items-center">
                   <CheckCircle className="h-6 w-6 text-blue-700 mr-3" />
-                  <span className="text-gray-600">Proven track record with Leeds companies</span>
+                  <span className="text-gray-600">Proven track record with local companies</span>
                 </li>
                 <li className="flex items-center">
                   <CheckCircle className="h-6 w-6 text-blue-700 mr-3" />
@@ -173,7 +173,7 @@ export default function Leeds() {
                 to="/contact" 
                 className="inline-flex items-center bg-blue-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-800 transition-colors"
               >
-                Contact Our Leeds Team <ArrowRight className="h-4 w-4 ml-2" />
+                Contact Our Team <ArrowRight className="h-4 w-4 ml-2" />
               </Link>
             </div>
             
@@ -193,10 +193,10 @@ export default function Leeds() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Leeds Areas We Serve
+              Areas We Serve
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Providing IT support across all Leeds districts and surrounding areas
+              Providing IT support across all districts and surrounding areas
             </p>
           </div>
           
@@ -220,17 +220,17 @@ export default function Leeds() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Our Leeds Impact
+              Our Local Impact
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Supporting Leeds businesses with reliable IT solutions
+              Supporting local businesses with reliable IT solutions
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 justify-items-center">
             <div className="text-center">
               <div className="text-4xl font-bold text-blue-700 mb-2">25+</div>
-              <div className="text-gray-600">Leeds Clients Served</div>
+              <div className="text-gray-600">Local Clients Served</div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold text-blue-700 mb-2">99.9%</div>
@@ -238,7 +238,7 @@ export default function Leeds() {
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold text-blue-700 mb-2">&lt; 2hr</div>
-              <div className="text-gray-600">Leeds Response Time</div>
+              <div className="text-gray-600">Response Time</div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold text-blue-700 mb-2">24/7</div>
@@ -248,16 +248,16 @@ export default function Leeds() {
         </div>
       </section>
 
-      {/* Leeds Contact Section */}
+      {/* Contact Section */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                Get IT Support in Leeds
+                Get IT Support
               </h2>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Ready to transform your Leeds business? Contact our local team for a free consultation and quote.
+                Ready to transform your business? Contact our local team for a free consultation and quote.
               </p>
             </div>
             
@@ -267,8 +267,8 @@ export default function Leeds() {
                   <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Phone className="h-8 w-8 text-blue-600" />
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Call Our Leeds Team</h3>
-                  <p className="text-gray-600 mb-4">Speak directly with our Leeds IT specialists</p>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Call Our Team</h3>
+                  <p className="text-gray-600 mb-4">Speak directly with our IT specialists</p>
                   <a href="tel:01918202449" className="text-blue-600 font-semibold text-lg hover:text-blue-800">
                     01918 202 449
                   </a>
@@ -278,8 +278,8 @@ export default function Leeds() {
                   <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <MapPin className="h-8 w-8 text-green-600" />
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Leeds Service Area</h3>
-                  <p className="text-gray-600 mb-4">Covering all Leeds districts and surrounding areas</p>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Service Area</h3>
+                  <p className="text-gray-600 mb-4">Covering all districts and surrounding areas</p>
                   <span className="text-green-600 font-semibold">LS1 - LS29 Postcodes</span>
                 </div>
               </div>
@@ -289,7 +289,7 @@ export default function Leeds() {
                   to="/contact"
                   className="bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-medium hover:bg-blue-800 transition-colors shadow-lg hover:shadow-xl"
                 >
-                  Get Your Free Leeds IT Consultation
+                  Get Your Free IT Consultation
                 </Link>
               </div>
             </div>
@@ -301,10 +301,10 @@ export default function Leeds() {
       <section className="py-20 bg-gradient-to-r from-blue-700 to-indigo-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Ready to Upgrade Your Leeds Business IT?
+            Ready to Upgrade Your Business IT?
           </h2>
           <p className="text-xl text-blue-200 mb-8 max-w-3xl mx-auto">
-            Join the growing number of Leeds businesses that trust us with their technology needs. 
+            Join the growing number of local businesses that trust us with their technology needs. 
             Get started with a free consultation today.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -312,7 +312,7 @@ export default function Leeds() {
               to="/contact"
               className="bg-white text-blue-700 px-8 py-3 rounded-lg text-lg font-medium hover:bg-gray-100 transition-colors shadow-lg hover:shadow-xl"
             >
-              Free Leeds Consultation
+              Free Consultation
             </Link>
             <Link
               to="/services"
