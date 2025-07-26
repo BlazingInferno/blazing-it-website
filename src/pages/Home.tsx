@@ -236,18 +236,6 @@ export default function Home() {
               </div>
             ))}
           </div>
-          
-          <div className="text-center mt-12">
-            <p className="text-lg text-gray-600 mb-6">
-              Don't see your area listed? We provide services nationwide across the UK.
-            </p>
-            <Link
-              to="/contact"
-              className="inline-flex items-center bg-blue-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-800 transition-colors"
-            >
-              Contact Us for Your Area <ArrowRight className="h-4 w-4 ml-2" />
-            </Link>
-          </div>
         </div>
       </section>
 
