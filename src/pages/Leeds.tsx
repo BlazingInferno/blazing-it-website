@@ -237,7 +237,7 @@ export default function Leeds() {
               <div className="text-gray-600">Uptime Guarantee</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-blue-700 mb-2">< 2hr</div>
+              <div className="text-4xl font-bold text-blue-700 mb-2">&lt; 2hr</div>
               <div className="text-gray-600">Leeds Response Time</div>
             </div>
             <div className="text-center">
