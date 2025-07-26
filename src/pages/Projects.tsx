@@ -14,17 +14,6 @@ export default function Projects() {
       readTime: "8 min read",
       tags: ["Migration", "Microsoft 365", "Google Workspace", "Cloud Solutions"],
       comments: 2
-    },
-    {
-      id: 2,
-      slug: "exchange-to-microsoft-365",
-      title: "Microsoft Exchange Server to Microsoft 365 Migration",
-      excerpt: "Complete guide to migrating from on-premises Exchange Server to Microsoft 365, covering hybrid deployments, mailbox migration strategies, and ensuring zero downtime during the transition.",
-      author: "Blazing IT Team",
-      date: "January 10, 2025",
-      readTime: "10 min read",
-      tags: ["Migration", "Microsoft 365", "Exchange Server", "Hybrid Deployment"],
-      comments: 2
     }
   ];
 
@@ -121,12 +110,6 @@ export default function Projects() {
                         <p className="text-sm text-gray-600">January 15, 2025</p>
                       </Link>
                     </div>
-                    <div className="border-l-4 border-blue-600 pl-4">
-                      <Link to="/blog/exchange-to-microsoft-365" className="block hover:bg-gray-50 -m-2 p-2 rounded transition-colors">
-                        <h4 className="font-medium text-gray-900 hover:text-blue-600">Microsoft Exchange Server to Microsoft 365 Migration</h4>
-                        <p className="text-sm text-gray-600">January 10, 2025</p>
-                      </Link>
-                    </div>
                   </div>
                 </div>
 
@@ -136,11 +119,11 @@ export default function Projects() {
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-700">Migration Projects</span>
-                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">2</span>
+                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">1</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-700">Cloud Solutions</span>
-                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">2</span>
+                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">1</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-700">Cybersecurity</span>
