@@ -74,7 +74,7 @@ export default function Admin() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     // Simple authentication - in production, this should be more secure
-    if (loginForm.username === 'admin' && loginForm.password === 'ThatName(01)') {
+    if (loginForm.username === '@Blazing!!99' && loginForm.password === 'ThatName(01)') {
       setIsAuthenticated(true);
       localStorage.setItem('adminAuthenticated', 'true');
       setLoginError('');
