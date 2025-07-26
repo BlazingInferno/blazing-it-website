@@ -280,7 +280,7 @@ export default function Projects() {
             {/* Main Content */}
             <div className="lg:col-span-2">
               {blogPosts.map((post) => (
-                <article key={post.id} className="mb-12">
+                <article key={post.id} id={`post-${post.id}`} className="mb-12">
                   <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
                     <div className="p-8">
                       <div className="flex items-center text-sm text-gray-500 mb-4">
@@ -340,12 +340,16 @@ export default function Projects() {
                   <h3 className="text-xl font-semibold text-gray-900 mb-4">Recent Projects</h3>
                   <div className="space-y-4">
                     <div className="border-l-4 border-blue-600 pl-4">
-                      <h4 className="font-medium text-gray-900">Google Workspace to Microsoft 365 Migration</h4>
+                      <a href="#post-1" className="block hover:bg-gray-50 -m-2 p-2 rounded transition-colors">
+                        <h4 className="font-medium text-gray-900 hover:text-blue-600">Google Workspace to Microsoft 365 Migration</h4>
                       <p className="text-sm text-gray-600">January 15, 2025</p>
+                      </a>
                     </div>
                     <div className="border-l-4 border-blue-600 pl-4">
-                      <h4 className="font-medium text-gray-900">Microsoft Exchange Server to Microsoft 365 Migration</h4>
+                      <a href="#post-2" className="block hover:bg-gray-50 -m-2 p-2 rounded transition-colors">
+                        <h4 className="font-medium text-gray-900 hover:text-blue-600">Microsoft Exchange Server to Microsoft 365 Migration</h4>
                       <p className="text-sm text-gray-600">January 10, 2025</p>
+                      </a>
                     </div>
                   </div>
                 </div>
