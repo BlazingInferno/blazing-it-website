@@ -122,11 +122,11 @@ export default function GoogleWorkspaceToMicrosoft365() {
       <section className="bg-gradient-to-br from-blue-50 to-indigo-100 py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
-            to="/projects"
+            to="/"
             className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6 font-medium"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Projects
+            Back to Home
           </Link>
           
           <div className="flex items-center text-sm text-gray-500 mb-4">
