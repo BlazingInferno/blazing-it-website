@@ -9,7 +9,6 @@ export default function Contact() {
     lastName: '',
     email: '',
     phone: '',
-    company: '',
     service: '',
     message: ''
   });
@@ -88,7 +87,6 @@ export default function Contact() {
         from_name: `${formData.firstName} ${formData.lastName}`,
         from_email: formData.email,
         phone: formData.phone,
-        company: formData.company,
         service_interest: formData.service,
         message: formData.message,
         to_name: 'Blazing IT Limited',
@@ -103,7 +101,6 @@ export default function Contact() {
         lastName: '',
         email: '',
         phone: '',
-        company: '',
         service: '',
         message: ''
       });
@@ -233,20 +230,6 @@ export default function Contact() {
                       <p className="mt-1 text-sm text-red-600">{validationErrors.phone}</p>
                     )}
                   </div>
-                </div>
-                <div>
-                  <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-2">
-                    Company Name
-                  </label>
-                  <input
-                    type="text"
-                    id="company"
-                    name="company"
-                    value={formData.company}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg"
-                    placeholder="Your Company"
-                  />
                 </div>
                 <div>
                   <label htmlFor="service" className="block text-sm font-medium text-gray-700 mb-2">
