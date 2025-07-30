@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Plus, Edit, Trash2, Eye, Calendar, User, Tag, Lock, LogOut } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, Calendar, User, Tag, Lock, LogOut, Upload, Image, X } from 'lucide-react';
 
 interface BlogPost {
   id: string;
@@ -15,6 +15,13 @@ interface BlogPost {
   published: boolean;
 }
 
+interface UploadedImage {
+  id: string;
+  name: string;
+  url: string;
+  uploadDate: string;
+}
+
 export default function Admin() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loginForm, setLoginForm] = useState({ username: '', password: '' });
@@ -22,6 +29,8 @@ export default function Admin() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
+  const [showImageManager, setShowImageManager] = useState(false);
+  const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
@@ -39,6 +48,19 @@ export default function Admin() {
       setIsAuthenticated(true);
     }
   }, []);
+
+  // Load uploaded images from localStorage
+  useEffect(() => {
+    const savedImages = localStorage.getItem('uploadedImages');
+    if (savedImages) {
+      setUploadedImages(JSON.parse(savedImages));
+    }
+  }, []);
+
+  // Save images to localStorage whenever images change
+  useEffect(() => {
+    localStorage.setItem('uploadedImages', JSON.stringify(uploadedImages));
+  }, [uploadedImages]);
 
   // Load posts from localStorage on component mount
   useEffect(() => {
@@ -70,6 +92,43 @@ export default function Admin() {
   useEffect(() => {
     localStorage.setItem('blogPosts', JSON.stringify(posts));
   }, [posts]);
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      Array.from(files).forEach(file => {
+        if (file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const imageUrl = event.target?.result as string;
+            const newImage: UploadedImage = {
+              id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+              name: file.name,
+              url: imageUrl,
+              uploadDate: new Date().toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+              })
+            };
+            setUploadedImages(prev => [newImage, ...prev]);
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+  };
+
+  const deleteImage = (imageId: string) => {
+    if (window.confirm('Are you sure you want to delete this image?')) {
+      setUploadedImages(prev => prev.filter(img => img.id !== imageId));
+    }
+  };
+
+  const copyImageUrl = (imageUrl: string) => {
+    navigator.clipboard.writeText(imageUrl);
+    alert('Image URL copied to clipboard! You can now paste it in your blog post content.');
+  };
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -155,6 +214,7 @@ export default function Admin() {
 
   const handleEdit = (post: BlogPost) => {
     setEditingPost(post);
+    setShowImageManager(false);
     setFormData({
       title: post.title,
       slug: post.slug,
@@ -271,6 +331,7 @@ export default function Admin() {
               <button
                 onClick={() => {
                   setShowForm(true);
+                  setShowImageManager(false);
                   setEditingPost(null);
                   setFormData({
                     title: '',
@@ -287,18 +348,133 @@ export default function Admin() {
                 <Plus className="h-4 w-4 mr-2" />
                 New Post
               </button>
+              <button
+                onClick={() => {
+                  setShowImageManager(!showImageManager);
+                  setShowForm(false);
+                }}
+                className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center"
+              >
+                <Image className="h-4 w-4 mr-2" />
+                Images
+              </button>
             </div>
           </div>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {showForm ? (
+        {showImageManager ? (
+          /* Image Manager */
+          <div className="bg-white rounded-lg shadow-sm border p-6 mb-8">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-semibold text-gray-900">Image Manager</h2>
+              <div className="flex items-center space-x-4">
+                <label className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors cursor-pointer flex items-center">
+                  <Upload className="h-4 w-4 mr-2" />
+                  Upload Images
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                  />
+                </label>
+                <button
+                  onClick={() => setShowImageManager(false)}
+                  className="text-gray-600 hover:text-gray-800"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+            
+            <div className="mb-4 p-4 bg-blue-50 rounded-lg">
+              <h3 className="font-medium text-blue-900 mb-2">How to use images in blog posts:</h3>
+              <ol className="text-sm text-blue-800 space-y-1">
+                <li>1. Upload your images using the "Upload Images" button above</li>
+                <li>2. Click "Copy URL" on any image to copy its URL to clipboard</li>
+                <li>3. In your blog post content, paste the URL in an HTML img tag:</li>
+                <li className="font-mono bg-blue-100 p-2 rounded mt-2">
+                  &lt;img src="PASTE_URL_HERE" alt="Description" className="w-full rounded-lg mb-4" /&gt;
+                </li>
+              </ol>
+            </div>
+
+            {uploadedImages.length === 0 ? (
+              <div className="text-center py-12">
+                <Image className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                <p className="text-gray-500 mb-4">No images uploaded yet</p>
+                <label className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors cursor-pointer">
+                  Upload Your First Image
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {uploadedImages.map((image) => (
+                  <div key={image.id} className="bg-gray-50 rounded-lg p-4">
+                    <img
+                      src={image.url}
+                      alt={image.name}
+                      className="w-full h-48 object-cover rounded-lg mb-3"
+                    />
+                    <div className="space-y-2">
+                      <p className="font-medium text-gray-900 truncate">{image.name}</p>
+                      <p className="text-sm text-gray-500">Uploaded: {image.uploadDate}</p>
+                      <div className="flex space-x-2">
+                        <button
+                          onClick={() => copyImageUrl(image.url)}
+                          className="flex-1 bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700 transition-colors"
+                        >
+                          Copy URL
+                        </button>
+                        <button
+                          onClick={() => deleteImage(image.id)}
+                          className="bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700 transition-colors"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : showForm ? (
           /* Blog Post Form */
           <div className="bg-white rounded-lg shadow-sm border p-6 mb-8">
             <h2 className="text-xl font-semibold text-gray-900 mb-6">
               {editingPost ? 'Edit Post' : 'Create New Post'}
             </h2>
+            
+            <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="font-medium text-gray-900">Need to add images?</h3>
+                  <p className="text-sm text-gray-600">Upload and manage images in the Image Manager</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowImageManager(true);
+                    setShowForm(false);
+                  }}
+                  className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center"
+                >
+                  <Image className="h-4 w-4 mr-2" />
+                  Open Image Manager
+                </button>
+              </div>
+            </div>
             
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -419,6 +595,7 @@ export default function Admin() {
                   type="button"
                   onClick={() => {
                     setShowForm(false);
+                    setShowImageManager(false);
                     setEditingPost(null);
                   }}
                   className="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400 transition-colors"
@@ -440,7 +617,20 @@ export default function Admin() {
                 <div className="p-8 text-center">
                   <p className="text-gray-500 mb-4">No blog posts yet</p>
                   <button
-                    onClick={() => setShowForm(true)}
+                    onClick={() => {
+                      setShowForm(true);
+                      setShowImageManager(false);
+                      setEditingPost(null);
+                      setFormData({
+                        title: '',
+                        slug: '',
+                        excerpt: '',
+                        content: '',
+                        author: 'Blazing IT Team',
+                        tags: '',
+                        published: false
+                      });
+                    }}
                     className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
                   >
                     Create Your First Post
