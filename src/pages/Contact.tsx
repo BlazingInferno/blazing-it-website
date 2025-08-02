@@ -78,10 +78,10 @@ export default function Contact() {
     setSubmitStatus('idle');
 
     try {
-      // Replace these with your actual EmailJS credentials
-      const serviceId = 'service_4ei57if';
-      const templateId = 'template_n7od9lb';
-      const publicKey = 'OEDH1wLe8bNyMtlkd';
+      // Use environment variables for EmailJS credentials
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
       const templateParams = {
         from_name: `${formData.firstName} ${formData.lastName}`,
