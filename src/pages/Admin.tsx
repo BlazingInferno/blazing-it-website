@@ -54,10 +54,12 @@ export default function Admin() {
   const loadPosts = async () => {
     try {
       setLoading(true);
+      setError(null);
       const data = await getBlogPosts();
       setPosts(data || []);
     } catch (err) {
-      setError('Failed to load posts');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to load posts';
+      setError(`Unable to load posts: ${errorMessage}`);
       console.error('Error loading posts:', err);
     } finally {
       setLoading(false);
@@ -67,20 +69,26 @@ export default function Admin() {
   // Load images from Supabase
   const loadImages = async () => {
     try {
+      setError(null);
       const data = await getImages();
       setUploadedImages(data || []);
     } catch (err) {
-      setError('Failed to load images');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to load images';
+      setError(`Unable to load images: ${errorMessage}`);
+      console.error('Error loading images:', err);
     }
   };
 
   // Load comments from Supabase
   const loadComments = async () => {
     try {
+      setError(null);
       const data = await getAllComments();
       setComments(data || []);
     } catch (err) {
-      setError('Failed to load comments');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to load comments';
+      setError(`Unable to load comments: ${errorMessage}`);
+      console.error('Error loading comments:', err);
     }
   };
 
@@ -132,7 +140,8 @@ export default function Admin() {
       // Reload posts
       await loadPosts();
     } catch (err) {
-      setError('Failed to save post');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to save post';
+      setError(`Unable to save post: ${errorMessage}`);
       console.error('Error saving post:', err);
     } finally {
       setLoading(false);
@@ -162,7 +171,8 @@ export default function Admin() {
         await deleteBlogPost(id);
         await loadPosts();
       } catch (err) {
-        setError('Failed to delete post');
+        const errorMessage = err instanceof Error ? err.message : 'Failed to delete post';
+        setError(`Unable to delete post: ${errorMessage}`);
         console.error('Error deleting post:', err);
       } finally {
         setLoading(false);
@@ -179,7 +189,8 @@ export default function Admin() {
         await uploadImage(file);
         await loadImages();
       } catch (err) {
-        setError('Failed to upload image');
+        const errorMessage = err instanceof Error ? err.message : 'Failed to upload image';
+        setError(`Unable to upload image: ${errorMessage}`);
         console.error('Error uploading image:', err);
       } finally {
         setLoading(false);
@@ -201,7 +212,8 @@ export default function Admin() {
         await deleteImage(id, url);
         await loadImages();
       } catch (err) {
-        setError('Failed to delete image');
+        const errorMessage = err instanceof Error ? err.message : 'Failed to delete image';
+        setError(`Unable to delete image: ${errorMessage}`);
         console.error('Error deleting image:', err);
       } finally {
         setLoading(false);
@@ -216,7 +228,8 @@ export default function Admin() {
       await updateCommentApproval(id, approved);
       await loadComments();
     } catch (err) {
-      setError('Failed to update comment');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to update comment';
+      setError(`Unable to update comment: ${errorMessage}`);
       console.error('Error updating comment:', err);
     } finally {
       setLoading(false);
@@ -231,7 +244,8 @@ export default function Admin() {
         await deleteComment(id);
         await loadComments();
       } catch (err) {
-        setError('Failed to delete comment');
+        const errorMessage = err instanceof Error ? err.message : 'Failed to delete comment';
+        setError(`Unable to delete comment: ${errorMessage}`);
         console.error('Error deleting comment:', err);
       } finally {
         setLoading(false);
@@ -324,13 +338,25 @@ export default function Admin() {
         {/* Error Message */}
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            {error}
-            <button 
-              onClick={() => setError(null)}
-              className="float-right text-red-700 hover:text-red-900"
-            >
-              ×
-            </button>
+            <div className="flex items-start">
+              <div className="flex-1">
+                <strong className="font-medium">Error:</strong> {error}
+              </div>
+              <button 
+                onClick={() => setError(null)}
+                className="ml-4 text-red-700 hover:text-red-900 font-bold"
+              >
+                ×
+              </button>
+            </div>
+            <div className="mt-2 text-sm">
+              <p>If this problem persists, please check:</p>
+              <ul className="list-disc list-inside mt-1">
+                <li>Your internet connection</li>
+                <li>Database configuration in environment variables</li>
+                <li>Authentication status</li>
+              </ul>
+            </div>
           </div>
         )}
 

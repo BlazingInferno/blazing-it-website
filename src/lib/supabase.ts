@@ -12,6 +12,60 @@ export const supabase = supabaseUrl && supabaseAnonKey
   ? createClient(supabaseUrl, supabaseAnonKey)
   : null;
 
+// Error types for better error handling
+export enum DatabaseError {
+  CONNECTION_FAILED = 'CONNECTION_FAILED',
+  UNAUTHORIZED = 'UNAUTHORIZED',
+  NOT_FOUND = 'NOT_FOUND',
+  VALIDATION_ERROR = 'VALIDATION_ERROR',
+  UNKNOWN_ERROR = 'UNKNOWN_ERROR'
+}
+
+// Enhanced error handling utility
+export const handleDatabaseError = (error: any): { type: DatabaseError; message: string } => {
+  if (!error) {
+    return { type: DatabaseError.UNKNOWN_ERROR, message: 'An unknown error occurred' };
+  }
+
+  // Network/connection errors
+  if (error.message?.includes('Failed to fetch') || error.message?.includes('NetworkError')) {
+    return { 
+      type: DatabaseError.CONNECTION_FAILED, 
+      message: 'Unable to connect to the database. Please check your internet connection.' 
+    };
+  }
+
+  // Authentication errors
+  if (error.code === 'PGRST301' || error.message?.includes('JWT')) {
+    return { 
+      type: DatabaseError.UNAUTHORIZED, 
+      message: 'Authentication failed. Please log in again.' 
+    };
+  }
+
+  // Not found errors
+  if (error.code === 'PGRST116' || error.message?.includes('not found')) {
+    return { 
+      type: DatabaseError.NOT_FOUND, 
+      message: 'The requested content was not found.' 
+    };
+  }
+
+  // Validation errors
+  if (error.code?.startsWith('23') || error.message?.includes('violates')) {
+    return { 
+      type: DatabaseError.VALIDATION_ERROR, 
+      message: 'Invalid data provided. Please check your input.' 
+    };
+  }
+
+  // Default error
+  return { 
+    type: DatabaseError.UNKNOWN_ERROR, 
+    message: error.message || 'An unexpected error occurred' 
+  };
+};
+
 export interface BlogPost {
   id: string;
   title: string;
@@ -53,9 +107,16 @@ export const getPublishedBlogPosts = async (): Promise<BlogPost[]> => {
       .eq('published', true)
       .order('created_at', { ascending: false });
     
-    if (error) throw error;
+    if (error) {
+      const { type, message } = handleDatabaseError(error);
+      console.error(`Database error (${type}):`, message);
+      throw new Error(message);
+    }
+    
     return data || [];
   } catch (error) {
+    const { message } = handleDatabaseError(error);
+    console.error('Error loading published blog posts:', message);
     return [];
   }
 };
@@ -70,9 +131,16 @@ export const getBlogPosts = async (): Promise<BlogPost[]> => {
       .select('*')
       .order('created_at', { ascending: false });
     
-    if (error) throw error;
+    if (error) {
+      const { type, message } = handleDatabaseError(error);
+      console.error(`Database error (${type}):`, message);
+      throw new Error(message);
+    }
+    
     return data || [];
   } catch (error) {
+    const { message } = handleDatabaseError(error);
+    console.error('Error loading blog posts:', message);
     return [];
   }
 };
@@ -89,9 +157,22 @@ export const getBlogPostBySlug = async (slug: string): Promise<BlogPost | null> 
       .eq('published', true)
       .single();
     
-    if (error) throw error;
+    if (error) {
+      const { type, message } = handleDatabaseError(error);
+      if (type === DatabaseError.NOT_FOUND) {
+        return null; // This is expected for non-existent posts
+      }
+      console.error(`Database error (${type}):`, message);
+      throw new Error(message);
+    }
+    
     return data;
   } catch (error) {
+    const { type } = handleDatabaseError(error);
+    if (type === DatabaseError.NOT_FOUND) {
+      return null;
+    }
+    console.error('Error loading blog post:', error);
     return null;
   }
 };
@@ -107,9 +188,16 @@ export const createBlogPost = async (postData: Omit<BlogPost, 'id' | 'created_at
       .select()
       .single();
     
-    if (error) throw error;
+    if (error) {
+      const { type, message } = handleDatabaseError(error);
+      console.error(`Database error (${type}):`, message);
+      throw new Error(message);
+    }
+    
     return data;
   } catch (error) {
+    const { message } = handleDatabaseError(error);
+    console.error('Error creating blog post:', message);
     throw error;
   }
 };
@@ -126,9 +214,16 @@ export const updateBlogPost = async (id: string, postData: Partial<BlogPost>): P
       .select()
       .single();
     
-    if (error) throw error;
+    if (error) {
+      const { type, message } = handleDatabaseError(error);
+      console.error(`Database error (${type}):`, message);
+      throw new Error(message);
+    }
+    
     return data;
   } catch (error) {
+    const { message } = handleDatabaseError(error);
+    console.error('Error updating blog post:', message);
     throw error;
   }
 };
@@ -143,8 +238,14 @@ export const deleteBlogPost = async (id: string): Promise<void> => {
       .delete()
       .eq('id', id);
     
-    if (error) throw error;
+    if (error) {
+      const { type, message } = handleDatabaseError(error);
+      console.error(`Database error (${type}):`, message);
+      throw new Error(message);
+    }
   } catch (error) {
+    const { message } = handleDatabaseError(error);
+    console.error('Error deleting blog post:', message);
     throw error;
   }
 };
@@ -159,9 +260,16 @@ export const getImages = async (): Promise<UploadedImage[]> => {
       .select('*')
       .order('created_at', { ascending: false });
     
-    if (error) throw error;
+    if (error) {
+      const { type, message } = handleDatabaseError(error);
+      console.error(`Database error (${type}):`, message);
+      throw new Error(message);
+    }
+    
     return data || [];
   } catch (error) {
+    const { message } = handleDatabaseError(error);
+    console.error('Error loading images:', message);
     return [];
   }
 };
@@ -178,7 +286,11 @@ export const uploadImage = async (file: File): Promise<UploadedImage | null> => 
       .from('blog-images')
       .upload(fileName, file);
     
-    if (uploadError) throw uploadError;
+    if (uploadError) {
+      const { type, message } = handleDatabaseError(uploadError);
+      console.error(`Storage upload error (${type}):`, message);
+      throw new Error(`Failed to upload image: ${message}`);
+    }
     
     // Get public URL
     const { data: { publicUrl } } = supabase.storage
@@ -202,9 +314,16 @@ export const uploadImage = async (file: File): Promise<UploadedImage | null> => 
       .select()
       .single();
     
-    if (error) throw error;
+    if (error) {
+      const { type, message } = handleDatabaseError(error);
+      console.error(`Database error (${type}):`, message);
+      throw new Error(`Failed to save image metadata: ${message}`);
+    }
+    
     return data;
   } catch (error) {
+    const { message } = handleDatabaseError(error);
+    console.error('Error uploading image:', message);
     throw error;
   }
 };
@@ -223,7 +342,11 @@ export const deleteImage = async (id: string, url: string): Promise<void> => {
         .from('blog-images')
         .remove([fileName]);
       
-      if (storageError) throw storageError;
+      if (storageError) {
+        const { type, message } = handleDatabaseError(storageError);
+        console.error(`Storage deletion error (${type}):`, message);
+        // Continue with database deletion even if storage fails
+      }
     }
     
     // Delete from database
@@ -232,8 +355,14 @@ export const deleteImage = async (id: string, url: string): Promise<void> => {
       .delete()
       .eq('id', id);
     
-    if (error) throw error;
+    if (error) {
+      const { type, message } = handleDatabaseError(error);
+      console.error(`Database error (${type}):`, message);
+      throw new Error(message);
+    }
   } catch (error) {
+    const { message } = handleDatabaseError(error);
+    console.error('Error deleting image:', message);
     throw error;
   }
 };
@@ -250,10 +379,16 @@ export const getCommentsBySlug = async (slug: string): Promise<BlogComment[]> =>
       .eq('approved', true)
       .order('created_at', { ascending: true });
     
-    if (error) throw error;
+    if (error) {
+      const { type, message } = handleDatabaseError(error);
+      console.error(`Database error (${type}):`, message);
+      return []; // Return empty array for comments to not break the UI
+    }
+    
     return data || [];
   } catch (error) {
-    console.error('Error loading comments:', error);
+    const { message } = handleDatabaseError(error);
+    console.error('Error loading comments:', message);
     return [];
   }
 };
@@ -269,10 +404,16 @@ export const createComment = async (commentData: Omit<BlogComment, 'id' | 'creat
       .select()
       .single();
     
-    if (error) throw error;
+    if (error) {
+      const { type, message } = handleDatabaseError(error);
+      console.error(`Database error (${type}):`, message);
+      throw new Error(message);
+    }
+    
     return data;
   } catch (error) {
-    console.error('Error creating comment:', error);
+    const { message } = handleDatabaseError(error);
+    console.error('Error creating comment:', message);
     throw error;
   }
 };
@@ -287,10 +428,16 @@ export const getAllComments = async (): Promise<BlogComment[]> => {
       .select('*')
       .order('created_at', { ascending: false });
     
-    if (error) throw error;
+    if (error) {
+      const { type, message } = handleDatabaseError(error);
+      console.error(`Database error (${type}):`, message);
+      return []; // Return empty array to not break admin UI
+    }
+    
     return data || [];
   } catch (error) {
-    console.error('Error loading all comments:', error);
+    const { message } = handleDatabaseError(error);
+    console.error('Error loading all comments:', message);
     return [];
   }
 };
@@ -305,9 +452,14 @@ export const updateCommentApproval = async (id: string, approved: boolean): Prom
       .update({ approved })
       .eq('id', id);
     
-    if (error) throw error;
+    if (error) {
+      const { type, message } = handleDatabaseError(error);
+      console.error(`Database error (${type}):`, message);
+      throw new Error(message);
+    }
   } catch (error) {
-    console.error('Error updating comment approval:', error);
+    const { message } = handleDatabaseError(error);
+    console.error('Error updating comment approval:', message);
     throw error;
   }
 };
@@ -322,9 +474,14 @@ export const deleteComment = async (id: string): Promise<void> => {
       .delete()
       .eq('id', id);
     
-    if (error) throw error;
+    if (error) {
+      const { type, message } = handleDatabaseError(error);
+      console.error(`Database error (${type}):`, message);
+      throw new Error(message);
+    }
   } catch (error) {
-    console.error('Error deleting comment:', error);
+    const { message } = handleDatabaseError(error);
+    console.error('Error deleting comment:', message);
     throw error;
   }
 };

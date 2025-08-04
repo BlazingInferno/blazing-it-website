@@ -14,10 +14,12 @@ export default function Projects() {
     const loadPosts = async () => {
       try {
         setLoading(true);
+        setError(null);
         const posts = await getPublishedBlogPosts();
         setBlogPosts(posts || []);
       } catch (err) {
-        setError('Failed to load blog posts');
+        const errorMessage = err instanceof Error ? err.message : 'Failed to load blog posts';
+        setError(`Unable to load projects: ${errorMessage}`);
         console.error('Error loading posts:', err);
       } finally {
         setLoading(false);
@@ -65,8 +67,22 @@ export default function Projects() {
         </section>
         <section className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div className="text-red-600 mb-4">⚠️</div>
-            <p className="text-red-600">{error}</p>
+            <div className="bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-lg max-w-2xl mx-auto">
+              <div className="flex items-center mb-2">
+                <div className="text-red-600 mr-2">⚠️</div>
+                <strong className="font-medium">Unable to Load Projects</strong>
+              </div>
+              <p className="mb-3">{error}</p>
+              <div className="text-sm">
+                <p>This might be due to:</p>
+                <ul className="list-disc list-inside mt-1 text-left">
+                  <li>Network connectivity issues</li>
+                  <li>Database configuration problems</li>
+                  <li>Temporary service unavailability</li>
+                </ul>
+                <p className="mt-2">Please try refreshing the page or contact support if the issue persists.</p>
+              </div>
+            </div>
           </div>
         </section>
       </div>

@@ -23,15 +23,19 @@ export default function DynamicBlogPost() {
       
       try {
         setLoading(true);
+        setError(null);
         const postData = await getBlogPostBySlug(slug);
-        setPost(postData);
         
         if (postData) {
+          setPost(postData);
           const commentsData = await getCommentsBySlug(slug);
           setComments(commentsData);
+        } else {
+          setError('Post not found');
         }
       } catch (err) {
-        setError('Post not found');
+        const errorMessage = err instanceof Error ? err.message : 'Failed to load post';
+        setError(errorMessage);
         console.error('Error loading post:', err);
       } finally {
         setLoading(false);
@@ -60,8 +64,9 @@ export default function DynamicBlogPost() {
         setNewComment({ name: '', email: '', comment: '' });
       }
     } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to submit comment';
       console.error('Error submitting comment:', err);
-      alert('Failed to submit comment. Please try again.');
+      alert(`Unable to submit comment: ${errorMessage}. Please try again.`);
     } finally {
       setSubmittingComment(false);
     }
@@ -80,20 +85,36 @@ export default function DynamicBlogPost() {
   if (error || !post) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">{error || 'Post Not Found'}</h1>
-          <p className="text-gray-600 mb-8">
-            {error === 'Post not found' 
-              ? "The blog post you're looking for doesn't exist or hasn't been published yet."
-              : "There was an error loading the post."
-            }
-          </p>
-          <Link
-            to="/projects"
-            className="bg-blue-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-800 transition-colors"
-          >
-            Back to Projects
-          </Link>
+        <div className="text-center max-w-2xl mx-auto px-4">
+          <div className="bg-red-100 border border-red-400 text-red-700 px-6 py-8 rounded-lg">
+            <h1 className="text-2xl font-bold text-red-900 mb-4">
+              {error === 'Post not found' ? 'Post Not Found' : 'Error Loading Post'}
+            </h1>
+            <div className="mb-6">
+              <p className="mb-3">
+                {error === 'Post not found' 
+                  ? "The blog post you're looking for doesn't exist or hasn't been published yet."
+                  : `There was an error loading the post: ${error}`
+                }
+              </p>
+              {error !== 'Post not found' && (
+                <div className="text-sm">
+                  <p>This might be due to:</p>
+                  <ul className="list-disc list-inside mt-1 text-left">
+                    <li>Network connectivity issues</li>
+                    <li>Database configuration problems</li>
+                    <li>Temporary service unavailability</li>
+                  </ul>
+                </div>
+              )}
+            </div>
+            <Link
+              to="/projects"
+              className="bg-blue-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-800 transition-colors"
+            >
+              Back to Projects
+            </Link>
+          </div>
         </div>
       </div>
     );
