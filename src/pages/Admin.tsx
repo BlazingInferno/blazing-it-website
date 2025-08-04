@@ -330,6 +330,7 @@ export default function Admin() {
               </div>
             </div>
           </div>
+        )}
         {/* Blog Post Form */}
         {showForm && (
           <div className="bg-white rounded-lg shadow-md p-6 mb-8">
