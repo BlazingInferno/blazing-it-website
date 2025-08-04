@@ -107,7 +107,7 @@ export default function Admin() {
               <p className="text-gray-600">Welcome, {user?.name || 'Admin'}!</p>
             </div>
             <div className="flex items-center space-x-4">
-              <Link to="/posts" className="text-gray-600 hover:text-blue-600 transition-colors">
+              <Link to="/" className="text-gray-600 hover:text-blue-600 transition-colors">
                 ← Back to Site
               </Link>
               <button
