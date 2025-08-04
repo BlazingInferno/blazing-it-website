@@ -1,19 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Calendar, User, Clock, Tag, ArrowLeft, MessageCircle, Send } from 'lucide-react';
-
-interface BlogPost {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string;
-  content: string;
-  author: string;
-  date: string;
-  readTime: string;
-  tags: string[];
-  published: boolean;
-}
+import { getBlogPostBySlug, BlogPost } from '../../lib/supabase';
 
 interface Comment {
   id: number;
@@ -27,6 +15,8 @@ interface Comment {
 export default function DynamicBlogPost() {
   const { slug } = useParams<{ slug: string }>();
   const [post, setPost] = useState<BlogPost | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState({
     name: '',
@@ -35,13 +25,22 @@ export default function DynamicBlogPost() {
   });
 
   useEffect(() => {
-    // Load post from localStorage
-    const savedPosts = localStorage.getItem('blogPosts');
-    if (savedPosts && slug) {
-      const allPosts = JSON.parse(savedPosts);
-      const foundPost = allPosts.find((p: BlogPost) => p.slug === slug && p.published);
-      setPost(foundPost || null);
-    }
+    const loadPost = async () => {
+      if (!slug) return;
+      
+      try {
+        setLoading(true);
+        const postData = await getBlogPostBySlug(slug);
+        setPost(postData);
+      } catch (err) {
+        setError('Post not found');
+        console.error('Error loading post:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPost();
 
     // Load comments for this post
     const savedComments = localStorage.getItem(`comments-${slug}`);
@@ -79,12 +78,27 @@ export default function DynamicBlogPost() {
     }
   };
 
-  if (!post) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Post Not Found</h1>
-          <p className="text-gray-600 mb-8">The blog post you're looking for doesn't exist or hasn't been published yet.</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading post...</p>
+        </div>
+      </div>
+    );
+  }
+  if (error || !post) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">{error || 'Post Not Found'}</h1>
+          <p className="text-gray-600 mb-8">
+            {error === 'Post not found' 
+              ? "The blog post you're looking for doesn't exist or hasn't been published yet."
+              : "There was an error loading the post."
+            }
+          </p>
           <Link
             to="/projects"
             className="bg-blue-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-800 transition-colors"
@@ -115,7 +129,7 @@ export default function DynamicBlogPost() {
             <Calendar className="h-4 w-4 mr-2" />
             <span className="mr-4">{post.date}</span>
             <Clock className="h-4 w-4 mr-2" />
-            <span>{post.readTime}</span>
+            <span>{post.read_time}</span>
           </div>
           
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">

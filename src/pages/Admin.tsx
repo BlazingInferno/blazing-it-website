@@ -1,38 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react'; // Import the Auth0 hook
+import { useAuth0 } from '@auth0/auth0-react';
 import { Plus, Edit, Trash2, Eye, Calendar, User, Tag, Lock, LogOut, Upload, Image, X } from 'lucide-react';
-
-interface BlogPost {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string;
-  content: string;
-  author: string;
-  date: string;
-  readTime: string;
-  tags: string[];
-  published: boolean;
-}
-
-interface UploadedImage {
-  id: string;
-  name: string;
-  url: string;
-  uploadDate: string;
-}
+import { 
+  getBlogPosts, 
+  createBlogPost, 
+  updateBlogPost, 
+  deleteBlogPost,
+  getImages,
+  uploadImage,
+  deleteImage,
+  BlogPost,
+  UploadedImage
+} from '../lib/supabase';
 
 export default function Admin() {
-  // Use the Auth0 hook to manage authentication state
   const { user, isAuthenticated, isLoading, loginWithRedirect, logout } = useAuth0();
 
-  // The rest of your state for managing posts and UI remains the same
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
   const [showImageManager, setShowImageManager] = useState(false);
   const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
@@ -53,47 +44,83 @@ export default function Admin() {
       .trim();
   };
 
-  // Handle form submission
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const slug = formData.slug || generateSlug(formData.title);
-    const tags = formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
-    
-    const newPost: BlogPost = {
-      id: editingPost ? editingPost.id : Date.now().toString(),
-      title: formData.title,
-      slug,
-      excerpt: formData.excerpt,
-      content: formData.content,
-      author: formData.author,
-      date: new Date().toLocaleDateString('en-US', { 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
-      }),
-      readTime: `${Math.ceil(formData.content.split(' ').length / 200)} min read`,
-      tags,
-      published: formData.published
-    };
-
-    if (editingPost) {
-      setPosts(posts.map(post => post.id === editingPost.id ? newPost : post));
-    } else {
-      setPosts([newPost, ...posts]);
+  // Load posts from Supabase
+  const loadPosts = async () => {
+    try {
+      setLoading(true);
+      const data = await getBlogPosts();
+      setPosts(data || []);
+    } catch (err) {
+      setError('Failed to load posts');
+      console.error('Error loading posts:', err);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    // Reset form
-    setFormData({
-      title: '',
-      slug: '',
-      excerpt: '',
-      content: '',
-      author: 'Blazing IT Team',
-      tags: '',
-      published: false
-    });
-    setShowForm(false);
-    setEditingPost(null);
+  // Load images from Supabase
+  const loadImages = async () => {
+    try {
+      const data = await getImages();
+      setUploadedImages(data || []);
+    } catch (err) {
+      console.error('Error loading images:', err);
+    }
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    try {
+      const slug = formData.slug || generateSlug(formData.title);
+      const tags = formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
+      
+      const postData = {
+        title: formData.title,
+        slug,
+        excerpt: formData.excerpt,
+        content: formData.content,
+        author: formData.author,
+        date: new Date().toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        }),
+        read_time: `${Math.ceil(formData.content.split(' ').length / 200)} min read`,
+        tags,
+        published: formData.published
+      };
+
+      if (editingPost) {
+        await updateBlogPost(editingPost.id, postData);
+      } else {
+        await createBlogPost(postData);
+      }
+
+      // Reset form
+      setFormData({
+        title: '',
+        slug: '',
+        excerpt: '',
+        content: '',
+        author: 'Blazing IT Team',
+        tags: '',
+        published: false
+      });
+      setShowForm(false);
+      setEditingPost(null);
+      
+      // Reload posts
+      await loadPosts();
+    } catch (err) {
+      setError('Failed to save post');
+      console.error('Error saving post:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Handle editing a post
@@ -112,27 +139,35 @@ export default function Admin() {
   };
 
   // Handle deleting a post
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this post?')) {
-      setPosts(posts.filter(post => post.id !== id));
+      try {
+        setLoading(true);
+        await deleteBlogPost(id);
+        await loadPosts();
+      } catch (err) {
+        setError('Failed to delete post');
+        console.error('Error deleting post:', err);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
   // Handle image upload
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const newImage: UploadedImage = {
-          id: Date.now().toString(),
-          name: file.name,
-          url: e.target?.result as string,
-          uploadDate: new Date().toLocaleDateString()
-        };
-        setUploadedImages([newImage, ...uploadedImages]);
-      };
-      reader.readAsDataURL(file);
+      try {
+        setLoading(true);
+        await uploadImage(file);
+        await loadImages();
+      } catch (err) {
+        setError('Failed to upload image');
+        console.error('Error uploading image:', err);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -143,36 +178,30 @@ export default function Admin() {
   };
 
   // Delete image
-  const deleteImage = (id: string) => {
+  const handleDeleteImage = async (id: string, url: string) => {
     if (confirm('Are you sure you want to delete this image?')) {
-      setUploadedImages(uploadedImages.filter(img => img.id !== id));
+      try {
+        setLoading(true);
+        await deleteImage(id, url);
+        await loadImages();
+      } catch (err) {
+        setError('Failed to delete image');
+        console.error('Error deleting image:', err);
+      } finally {
+        setLoading(false);
+      }
     }
   };
-  // Load posts and images from localStorage (this part remains the same)
+
+  // Load data on component mount
   useEffect(() => {
-    const savedPosts = localStorage.getItem('blogPosts');
-    if (savedPosts) {
-      setPosts(JSON.parse(savedPosts));
+    if (isAuthenticated) {
+      loadPosts();
+      loadImages();
     }
-    const savedImages = localStorage.getItem('uploadedImages');
-    if (savedImages) {
-      setUploadedImages(JSON.parse(savedImages));
-    }
-  }, []);
+  }, [isAuthenticated]);
 
-  useEffect(() => {
-    localStorage.setItem('blogPosts', JSON.stringify(posts));
-  }, [posts]);
-
-  useEffect(() => {
-    localStorage.setItem('uploadedImages', JSON.stringify(uploadedImages));
-  }, [uploadedImages]);
-
-  // All previous login/logout/credential handling logic is now removed.
-
-  // ... (All your functions for managing posts and images like handleSubmit, handleEdit, handleDelete, etc., remain the same)
-
-  // Show a loading screen while the SDK checks the session
+  // Show loading screen while checking authentication
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -184,8 +213,8 @@ export default function Admin() {
     );
   }
 
-  // Check if Auth0 is properly configured
-  if (!import.meta.env.VITE_AUTH0_DOMAIN || !import.meta.env.VITE_AUTH0_CLIENT_ID) {
+  // Check if environment variables are configured
+  if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY) {
     return (
       <div className="min-h-screen bg-red-50 flex items-center justify-center">
         <div className="max-w-md w-full text-center">
@@ -193,16 +222,12 @@ export default function Admin() {
             <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Lock className="h-8 w-8 text-red-600" />
             </div>
-            <h1 className="text-2xl font-bold text-red-900 mb-2">Auth0 Configuration Missing</h1>
+            <h1 className="text-2xl font-bold text-red-900 mb-2">Supabase Configuration Missing</h1>
             <p className="text-red-700 mb-4">
-              Please configure your Auth0 environment variables:
+              Please configure your Supabase environment variables and connect to Supabase.
             </p>
-            <div className="text-left bg-gray-100 p-3 rounded text-sm font-mono mb-4">
-              <div>VITE_AUTH0_DOMAIN=your-domain.auth0.com</div>
-              <div>VITE_AUTH0_CLIENT_ID=your-client-id</div>
-            </div>
             <p className="text-sm text-red-600">
-              Add these to your .env file and restart the development server.
+              Click "Connect to Supabase" in the top right corner to set up your database.
             </p>
           </div>
         </div>
@@ -210,7 +235,7 @@ export default function Admin() {
     );
   }
 
-  // If the user is NOT authenticated, render the login page
+  // If not authenticated, show login page
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -233,10 +258,10 @@ export default function Admin() {
     );
   }
 
-  // If the user IS authenticated, render the full admin dashboard
+  // Main admin dashboard
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header with user info and logout button */}
+      {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
@@ -251,6 +276,7 @@ export default function Admin() {
               <button
                 onClick={() => setShowImageManager(true)}
                 className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center"
+                disabled={loading}
               >
                 <Image className="h-4 w-4 mr-2" />
                 Images
@@ -258,6 +284,7 @@ export default function Admin() {
               <button
                 onClick={() => setShowForm(true)}
                 className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center"
+                disabled={loading}
               >
                 <Plus className="h-4 w-4 mr-2" />
                 New Post
@@ -275,6 +302,29 @@ export default function Admin() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Error Message */}
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            {error}
+            <button 
+              onClick={() => setError(null)}
+              className="float-right text-red-700 hover:text-red-900"
+            >
+              ×
+            </button>
+          </div>
+        )}
+
+        {/* Loading Indicator */}
+        {loading && (
+          <div className="fixed top-4 right-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg">
+            <div className="flex items-center">
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+              Loading...
+            </div>
+          </div>
+        )}
+
         {/* Image Manager Modal */}
         {showImageManager && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -297,7 +347,8 @@ export default function Admin() {
                   type="file"
                   accept="image/*"
                   onChange={handleImageUpload}
-                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                  disabled={loading}
+                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 disabled:opacity-50"
                 />
               </div>
               
@@ -310,7 +361,7 @@ export default function Admin() {
                       className="w-full h-32 object-cover rounded mb-2"
                     />
                     <p className="text-sm font-medium text-gray-900 truncate">{image.name}</p>
-                    <p className="text-xs text-gray-500 mb-2">{image.uploadDate}</p>
+                    <p className="text-xs text-gray-500 mb-2">{image.upload_date}</p>
                     <div className="flex space-x-2">
                       <button
                         onClick={() => copyImageUrl(image.url)}
@@ -319,8 +370,9 @@ export default function Admin() {
                         Copy URL
                       </button>
                       <button
-                        onClick={() => deleteImage(image.id)}
-                        className="text-xs bg-red-100 text-red-800 px-2 py-1 rounded hover:bg-red-200"
+                        onClick={() => handleDeleteImage(image.id, image.url)}
+                        disabled={loading}
+                        className="text-xs bg-red-100 text-red-800 px-2 py-1 rounded hover:bg-red-200 disabled:opacity-50"
                       >
                         Delete
                       </button>
@@ -331,6 +383,7 @@ export default function Admin() {
             </div>
           </div>
         )}
+
         {/* Blog Post Form */}
         {showForm && (
           <div className="bg-white rounded-lg shadow-md p-6 mb-8">
@@ -351,6 +404,7 @@ export default function Admin() {
                     onChange={(e) => setFormData({...formData, title: e.target.value})}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Enter post title"
+                    disabled={loading}
                   />
                 </div>
                 
@@ -364,6 +418,7 @@ export default function Admin() {
                     onChange={(e) => setFormData({...formData, slug: e.target.value})}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Auto-generated from title"
+                    disabled={loading}
                   />
                 </div>
               </div>
@@ -379,6 +434,7 @@ export default function Admin() {
                   onChange={(e) => setFormData({...formData, excerpt: e.target.value})}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Brief description of the post"
+                  disabled={loading}
                 />
               </div>
               
@@ -393,6 +449,7 @@ export default function Admin() {
                   onChange={(e) => setFormData({...formData, content: e.target.value})}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-sm"
                   placeholder="Enter HTML content"
+                  disabled={loading}
                 />
               </div>
               
@@ -406,6 +463,7 @@ export default function Admin() {
                     value={formData.author}
                     onChange={(e) => setFormData({...formData, author: e.target.value})}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    disabled={loading}
                   />
                 </div>
                 
@@ -419,6 +477,7 @@ export default function Admin() {
                     onChange={(e) => setFormData({...formData, tags: e.target.value})}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="tag1, tag2, tag3"
+                    disabled={loading}
                   />
                 </div>
               </div>
@@ -430,6 +489,7 @@ export default function Admin() {
                   checked={formData.published}
                   onChange={(e) => setFormData({...formData, published: e.target.checked})}
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  disabled={loading}
                 />
                 <label htmlFor="published" className="ml-2 block text-sm text-gray-900">
                   Publish immediately
@@ -439,9 +499,10 @@ export default function Admin() {
               <div className="flex space-x-4">
                 <button
                   type="submit"
-                  className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                  disabled={loading}
+                  className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
                 >
-                  {editingPost ? 'Update Post' : 'Create Post'}
+                  {loading ? 'Saving...' : (editingPost ? 'Update Post' : 'Create Post')}
                 </button>
                 <button
                   type="button"
@@ -458,7 +519,8 @@ export default function Admin() {
                       published: false
                     });
                   }}
-                  className="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400 transition-colors"
+                  disabled={loading}
+                  className="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400 transition-colors disabled:opacity-50"
                 >
                   Cancel
                 </button>
@@ -466,6 +528,7 @@ export default function Admin() {
             </form>
           </div>
         )}
+
         {/* Posts List */}
         <div className="bg-white rounded-lg shadow-md">
           <div className="px-6 py-4 border-b border-gray-200">
@@ -501,7 +564,7 @@ export default function Admin() {
                         <Calendar className="h-4 w-4 mr-1" />
                         {post.date}
                       </span>
-                      <span>{post.readTime}</span>
+                      <span>{post.read_time}</span>
                     </div>
                     
                     <div className="flex flex-wrap gap-1 mt-2">
@@ -529,14 +592,16 @@ export default function Admin() {
                     )}
                     <button
                       onClick={() => handleEdit(post)}
-                      className="text-gray-600 hover:text-blue-600 p-2"
+                      disabled={loading}
+                      className="text-gray-600 hover:text-blue-600 p-2 disabled:opacity-50"
                       title="Edit Post"
                     >
                       <Edit className="h-4 w-4" />
                     </button>
                     <button
                       onClick={() => handleDelete(post.id)}
-                      className="text-gray-600 hover:text-red-600 p-2"
+                      disabled={loading}
+                      className="text-gray-600 hover:text-red-600 p-2 disabled:opacity-50"
                       title="Delete Post"
                     >
                       <Trash2 className="h-4 w-4" />
@@ -546,7 +611,7 @@ export default function Admin() {
               </div>
             ))}
             
-            {posts.length === 0 && (
+            {posts.length === 0 && !loading && (
               <div className="p-12 text-center">
                 <div className="text-gray-400 mb-4">
                   <Plus className="h-12 w-12 mx-auto" />

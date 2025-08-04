@@ -2,30 +2,75 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, User, ArrowRight, Clock, Tag, MessageCircle } from 'lucide-react';
-
-interface BlogPost {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string;
-  author: string;
-  date: string;
-  readTime: string;
-  tags: string[];
-  published: boolean;
-}
+import { getPublishedBlogPosts, BlogPost } from '../lib/supabase';
 
 export default function Projects() {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const savedPosts = localStorage.getItem('blogPosts');
-    if (savedPosts) {
-      const allPosts = JSON.parse(savedPosts);
-      // Only show published posts
-      setBlogPosts(allPosts.filter((post: BlogPost) => post.published));
-    }
+    const loadPosts = async () => {
+      try {
+        setLoading(true);
+        const posts = await getPublishedBlogPosts();
+        setBlogPosts(posts || []);
+      } catch (err) {
+        setError('Failed to load blog posts');
+        console.error('Error loading posts:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPosts();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white">
+        <section className="bg-gradient-to-br from-blue-50 to-indigo-100 py-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+              Our Projects
+            </h1>
+            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+              Loading our latest projects and case studies...
+            </p>
+          </div>
+        </section>
+        <section className="py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading projects...</p>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-white">
+        <section className="bg-gradient-to-br from-blue-50 to-indigo-100 py-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+              Our Projects
+            </h1>
+            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+              Insights, case studies, and technical articles from our IT experts.
+            </p>
+          </div>
+        </section>
+        <section className="py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="text-red-600 mb-4">⚠️</div>
+            <p className="text-red-600">{error}</p>
+          </div>
+        </section>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -58,7 +103,7 @@ export default function Projects() {
                         <Calendar className="h-4 w-4 mr-2" />
                         <span className="mr-4">{post.date}</span>
                         <Clock className="h-4 w-4 mr-2" />
-                        <span className="mr-4">{post.readTime}</span>
+                        <span className="mr-4">{post.read_time}</span>
                       </div>
                       
                       <h2 className="text-3xl font-bold text-gray-900 mb-4">
@@ -117,7 +162,7 @@ export default function Projects() {
                       </div>
                     ))}
                     {blogPosts.length === 0 && (
-                      <p className="text-gray-500 text-sm">No published posts yet.</p>
+                      <p className="text-gray-500 text-sm">No published projects yet.</p>
                     )}
                   </div>
                 </div>
@@ -127,27 +172,27 @@ export default function Projects() {
                   <h3 className="text-xl font-semibold text-gray-900 mb-4">Categories</h3>
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-700">Migration Projects</span>
+                      <span className="text-gray-700">Migrations</span>
                       <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
-                        {blogPosts.filter(post => post.tags.some(tag => tag.toLowerCase().includes('migration'))).length}
+                        {blogPosts.filter(post => post.tags?.some(tag => tag.toLowerCase().includes('migration'))).length}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-700">Cloud Solutions</span>
                       <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
-                        {blogPosts.filter(post => post.tags.some(tag => tag.toLowerCase().includes('cloud'))).length}
+                        {blogPosts.filter(post => post.tags?.some(tag => tag.toLowerCase().includes('cloud'))).length}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-700">Cybersecurity</span>
                       <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
-                        {blogPosts.filter(post => post.tags.some(tag => tag.toLowerCase().includes('security') || tag.toLowerCase().includes('cyber'))).length}
+                        {blogPosts.filter(post => post.tags?.some(tag => tag.toLowerCase().includes('security') || tag.toLowerCase().includes('cyber'))).length}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-700">IT Consulting</span>
                       <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
-                        {blogPosts.filter(post => post.tags.some(tag => tag.toLowerCase().includes('consulting'))).length}
+                        {blogPosts.filter(post => post.tags?.some(tag => tag.toLowerCase().includes('consulting'))).length}
                       </span>
                     </div>
                   </div>
