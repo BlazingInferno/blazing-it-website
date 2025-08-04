@@ -1,0 +1,16 @@
+[build]
+  publish = "dist"
+  command = "npm run build"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Environment variables for Netlify build
+# Note: Set these in Netlify Dashboard under Site Settings > Environment Variables
+# VITE_AUTH0_DOMAIN = your-auth0-domain
+# VITE_AUTH0_CLIENT_ID = your-auth0-client-id
