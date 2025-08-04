@@ -42,6 +42,7 @@ export default function DynamicBlogPost() {
 
     loadPost();
 
+    // TODO: Replace with proper database storage for comments
     // Load comments for this post
     const savedComments = localStorage.getItem(`comments-${slug}`);
     if (savedComments) {
@@ -51,6 +52,7 @@ export default function DynamicBlogPost() {
 
   useEffect(() => {
     // Save comments whenever they change
+    // TODO: Replace with proper database storage for comments
     if (slug) {
       localStorage.setItem(`comments-${slug}`, JSON.stringify(comments));
     }
