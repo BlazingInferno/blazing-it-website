@@ -3,6 +3,16 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
+// Debug Supabase configuration
+console.log('Supabase URL:', supabaseUrl);
+console.log('Supabase Anon Key (first 20 chars):', supabaseAnonKey?.substring(0, 20) + '...');
+
+// Validate that we're using the anon key, not the secret key
+if (supabaseAnonKey && supabaseAnonKey.includes('service_role')) {
+  console.error('🚨 SECURITY WARNING: You are using the service_role key in the browser!');
+  console.error('Please use the anon key instead. The service_role key should never be exposed to browsers.');
+}
+
 export const supabase = supabaseUrl && supabaseAnonKey 
   ? createClient(supabaseUrl, supabaseAnonKey)
   : null;
