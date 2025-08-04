@@ -15,8 +15,7 @@ import Admin from './pages/Admin';
 import GoogleWorkspaceToMicrosoft365 from './pages/blog/GoogleWorkspaceToMicrosoft365';
 import DynamicBlogPost from './pages/blog/DynamicBlogPost';
 import Leeds from './pages/Leeds';
-// Correct the import statement by adding the .tsx extension
-import { ProtectedRoute } from './components/ProtectedRoute.tsx'; 
+import { ProtectedRoute } from './components/ProtectedRoute';
 
 function App() {
   return (
@@ -34,7 +33,7 @@ function App() {
           <Route path="/projects" element={<Projects />} />
           
           {/* Admin route - protected with Auth0 */}
-          <Route path="/posts" element={<Admin />} />
+          <Route path="/posts" element={<ProtectedRoute component={Admin} />} />
           
           <Route path="/blog/google-workspace-to-microsoft-365" element={<GoogleWorkspaceToMicrosoft365 />} />
           <Route path="/blog/:slug" element={<DynamicBlogPost />} />

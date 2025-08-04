@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 import { Plus, Edit, Trash2, Eye, Calendar, User, Tag, Lock, LogOut, Upload, Image, X } from 'lucide-react';
 import { 
   getBlogPosts, 
@@ -14,8 +15,7 @@ import {
 } from '../lib/supabase';
 
 export default function Admin() {
-  // For now, we'll use a simple password-based authentication
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { user, logout, isLoading } = useAuth0();
 
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [showForm, setShowForm] = useState(false);
@@ -24,8 +24,6 @@ export default function Admin() {
   const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [password, setPassword] = useState('');
-  const [showLogin, setShowLogin] = useState(true);
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
@@ -35,15 +33,6 @@ export default function Admin() {
     tags: '',
     published: false
   });
-
-  // Simple password check
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (password === 'admin123') {
-      setIsAuthenticated(true);
-      setShowLogin(false);
-    }
-  };
 
   // Generate slug from title
   const generateSlug = (title: string) => {
@@ -206,11 +195,11 @@ export default function Admin() {
 
   // Load data on component mount
   useEffect(() => {
-    if (isAuthenticated) {
+    if (user) {
       loadPosts();
       loadImages();
     }
-  }, [isAuthenticated]);
+  }, [user]);
 
   // Check if environment variables are configured
   if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY) {
@@ -234,34 +223,17 @@ export default function Admin() {
     );
   }
 
-  // If not authenticated, show simple login
-  if (!isAuthenticated) {
+  // Show loading while Auth0 is initializing
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="max-w-md w-full text-center">
           <div className="bg-white rounded-lg shadow-md p-8">
             <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Lock className="h-8 w-8 text-blue-600" />
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
             </div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">Admin Login</h1>
-            <form onSubmit={handleLogin} className="space-y-4">
-              <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Enter admin password"
-                />
-              </div>
-              <button type="submit" className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                Login
-              </button>
-            </form>
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">Loading...</h1>
+            <p className="text-gray-600">Authenticating with Auth0...</p>
           </div>
         </div>
       </div>
@@ -277,7 +249,7 @@ export default function Admin() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Blog Admin</h1>
-              <p className="text-gray-600">Welcome, Admin!</p>
+              <p className="text-gray-600">Welcome, {user?.name || user?.email}!</p>
             </div>
             <div className="flex items-center space-x-4">
               <Link to="/" className="text-gray-600 hover:text-blue-600 transition-colors">
@@ -300,7 +272,7 @@ export default function Admin() {
                 New Post
               </button>
               <button
-                onClick={() => setIsAuthenticated(false)}
+                onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
                 className="text-gray-600 hover:text-red-600 transition-colors flex items-center"
               >
                 <LogOut className="h-4 w-4 mr-1" />
