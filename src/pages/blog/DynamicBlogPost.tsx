@@ -1,23 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Calendar, User, Clock, Tag, ArrowLeft, MessageCircle, Send } from 'lucide-react';
-import { getBlogPostBySlug, BlogPost } from '../../lib/supabase';
-
-interface Comment {
-  id: number;
-  name: string;
-  email: string;
-  comment: string;
-  date: string;
-  time: string;
-}
+import { getBlogPostBySlug, getCommentsBySlug, createComment, BlogPost, BlogComment } from '../../lib/supabase';
 
 export default function DynamicBlogPost() {
   const { slug } = useParams<{ slug: string }>();
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [comments, setComments] = useState<Comment[]>([]);
+  const [comments, setComments] = useState<BlogComment[]>([]);
+  const [submittingComment, setSubmittingComment] = useState(false);
   const [newComment, setNewComment] = useState({
     name: '',
     email: '',
@@ -32,6 +24,11 @@ export default function DynamicBlogPost() {
         setLoading(true);
         const postData = await getBlogPostBySlug(slug);
         setPost(postData);
+        
+        if (postData) {
+          const commentsData = await getCommentsBySlug(slug);
+          setComments(commentsData);
+        }
       } catch (err) {
         setError('Post not found');
         console.error('Error loading post:', err);
@@ -41,42 +38,31 @@ export default function DynamicBlogPost() {
     };
 
     loadPost();
-
-    // TODO: Replace with proper database storage for comments
-    // Load comments for this post
-    const savedComments = localStorage.getItem(`comments-${slug}`);
-    if (savedComments) {
-      setComments(JSON.parse(savedComments));
-    }
   }, [slug]);
 
-  useEffect(() => {
-    // Save comments whenever they change
-    // TODO: Replace with proper database storage for comments
-    if (slug) {
-      localStorage.setItem(`comments-${slug}`, JSON.stringify(comments));
-    }
-  }, [comments, slug]);
-
-  const handleCommentSubmit = (e: React.FormEvent) => {
+  const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (newComment.name && newComment.email && newComment.comment) {
-      const comment: Comment = {
-        id: comments.length + 1,
-        ...newComment,
-        date: new Date().toLocaleDateString('en-US', { 
-          year: 'numeric', 
-          month: 'long', 
-          day: 'numeric' 
-        }),
-        time: new Date().toLocaleTimeString('en-US', { 
-          hour: 'numeric', 
-          minute: '2-digit',
-          hour12: true 
-        })
+    if (!slug || !newComment.name || !newComment.email || !newComment.comment) return;
+    
+    try {
+      setSubmittingComment(true);
+      const commentData = {
+        post_slug: slug,
+        name: newComment.name,
+        email: newComment.email,
+        comment: newComment.comment
       };
-      setComments([...comments, comment]);
-      setNewComment({ name: '', email: '', comment: '' });
+      
+      const createdComment = await createComment(commentData);
+      if (createdComment) {
+        setComments([...comments, createdComment]);
+        setNewComment({ name: '', email: '', comment: '' });
+      }
+    } catch (err) {
+      console.error('Error submitting comment:', err);
+      alert('Failed to submit comment. Please try again.');
+    } finally {
+      setSubmittingComment(false);
     }
   };
 
@@ -198,7 +184,15 @@ export default function DynamicBlogPost() {
                     </div>
                     <div>
                       <h4 className="font-semibold text-gray-900">{comment.name}</h4>
-                      <p className="text-sm text-gray-500">{comment.date} at {comment.time}</p>
+                      <p className="text-sm text-gray-500">
+                        {new Date(comment.created_at).toLocaleDateString('en-US', { 
+                          year: 'numeric', 
+                          month: 'long', 
+                          day: 'numeric',
+                          hour: 'numeric',
+                          minute: '2-digit'
+                        })}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -257,10 +251,11 @@ export default function DynamicBlogPost() {
               </div>
               <button
                 type="submit"
+                disabled={submittingComment}
                 className="inline-flex items-center bg-blue-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-800 transition-colors"
               >
                 <Send className="h-4 w-4 mr-2" />
-                Post Comment
+                {submittingComment ? 'Posting...' : 'Post Comment'}
               </button>
             </form>
           </div>

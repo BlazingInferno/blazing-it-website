@@ -32,6 +32,16 @@ export interface UploadedImage {
   upload_date: string;
 }
 
+export interface BlogComment {
+  id: string;
+  post_slug: string;
+  name: string;
+  email: string;
+  comment: string;
+  approved: boolean;
+  created_at: string;
+}
+
 // Get published blog posts only (for public display)
 export const getPublishedBlogPosts = async (): Promise<BlogPost[]> => {
   if (!supabase) return [];
@@ -224,6 +234,97 @@ export const deleteImage = async (id: string, url: string): Promise<void> => {
     
     if (error) throw error;
   } catch (error) {
+    throw error;
+  }
+};
+
+// Get comments for a blog post
+export const getCommentsBySlug = async (slug: string): Promise<BlogComment[]> => {
+  if (!supabase) return [];
+  
+  try {
+    const { data, error } = await supabase
+      .from('blog_comments')
+      .select('*')
+      .eq('post_slug', slug)
+      .eq('approved', true)
+      .order('created_at', { ascending: true });
+    
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.error('Error loading comments:', error);
+    return [];
+  }
+};
+
+// Create a new comment
+export const createComment = async (commentData: Omit<BlogComment, 'id' | 'created_at' | 'approved'>): Promise<BlogComment | null> => {
+  if (!supabase) return null;
+  
+  try {
+    const { data, error } = await supabase
+      .from('blog_comments')
+      .insert([{ ...commentData, approved: true }])
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error('Error creating comment:', error);
+    throw error;
+  }
+};
+
+// Get all comments (for admin)
+export const getAllComments = async (): Promise<BlogComment[]> => {
+  if (!supabase) return [];
+  
+  try {
+    const { data, error } = await supabase
+      .from('blog_comments')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.error('Error loading all comments:', error);
+    return [];
+  }
+};
+
+// Update comment approval status
+export const updateCommentApproval = async (id: string, approved: boolean): Promise<void> => {
+  if (!supabase) return;
+  
+  try {
+    const { error } = await supabase
+      .from('blog_comments')
+      .update({ approved })
+      .eq('id', id);
+    
+    if (error) throw error;
+  } catch (error) {
+    console.error('Error updating comment approval:', error);
+    throw error;
+  }
+};
+
+// Delete comment
+export const deleteComment = async (id: string): Promise<void> => {
+  if (!supabase) return;
+  
+  try {
+    const { error } = await supabase
+      .from('blog_comments')
+      .delete()
+      .eq('id', id);
+    
+    if (error) throw error;
+  } catch (error) {
+    console.error('Error deleting comment:', error);
     throw error;
   }
 };

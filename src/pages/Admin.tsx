@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Plus, Edit, Trash2, Eye, Calendar, User, Tag, Lock, LogOut, Upload, Image, X } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, Calendar, User, Tag, Lock, LogOut, Upload, Image, X, MessageCircle, Check, Ban } from 'lucide-react';
 import { 
   getBlogPosts, 
   createBlogPost, 
@@ -10,8 +10,12 @@ import {
   getImages,
   uploadImage,
   deleteImage,
+  getAllComments,
+  updateCommentApproval,
+  deleteComment,
   BlogPost,
-  UploadedImage
+  UploadedImage,
+  BlogComment
 } from '../lib/supabase';
 
 export default function Admin() {
@@ -21,7 +25,9 @@ export default function Admin() {
   const [showForm, setShowForm] = useState(false);
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
   const [showImageManager, setShowImageManager] = useState(false);
+  const [showCommentManager, setShowCommentManager] = useState(false);
   const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
+  const [comments, setComments] = useState<BlogComment[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
@@ -65,6 +71,16 @@ export default function Admin() {
       setUploadedImages(data || []);
     } catch (err) {
       setError('Failed to load images');
+    }
+  };
+
+  // Load comments from Supabase
+  const loadComments = async () => {
+    try {
+      const data = await getAllComments();
+      setComments(data || []);
+    } catch (err) {
+      setError('Failed to load comments');
     }
   };
 
@@ -193,10 +209,41 @@ export default function Admin() {
     }
   };
 
+  // Handle comment approval
+  const handleCommentApproval = async (id: string, approved: boolean) => {
+    try {
+      setLoading(true);
+      await updateCommentApproval(id, approved);
+      await loadComments();
+    } catch (err) {
+      setError('Failed to update comment');
+      console.error('Error updating comment:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle deleting a comment
+  const handleDeleteComment = async (id: string) => {
+    if (confirm('Are you sure you want to delete this comment?')) {
+      try {
+        setLoading(true);
+        await deleteComment(id);
+        await loadComments();
+      } catch (err) {
+        setError('Failed to delete comment');
+        console.error('Error deleting comment:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
   // Load data on component mount
   useEffect(() => {
     loadPosts();
     loadImages();
+    loadComments();
   }, []);
 
   // Check if environment variables are configured
@@ -244,6 +291,14 @@ export default function Admin() {
               >
                 <Image className="h-4 w-4 mr-2" />
                 Images
+              </button>
+              <button
+                onClick={() => setShowCommentManager(true)}
+                className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors flex items-center"
+                disabled={loading}
+              >
+                <MessageCircle className="h-4 w-4 mr-2" />
+                Comments ({comments.length})
               </button>
               <button
                 onClick={() => setShowForm(true)}
@@ -343,6 +398,99 @@ export default function Admin() {
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Comment Manager Modal */}
+        {showCommentManager && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg p-6 w-full max-w-6xl max-h-[80vh] overflow-y-auto">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-gray-900">Comment Manager</h2>
+                <button
+                  onClick={() => setShowCommentManager(false)}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+              
+              <div className="space-y-4">
+                {comments.map((comment) => (
+                  <div key={comment.id} className="border rounded-lg p-4">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <h4 className="font-semibold text-gray-900">{comment.name}</h4>
+                          <span className="text-sm text-gray-500">({comment.email})</span>
+                          {comment.approved ? (
+                            <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
+                              Approved
+                            </span>
+                          ) : (
+                            <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">
+                              Pending
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-sm text-gray-600 mb-2">
+                          On: <Link to={`/blog/${comment.post_slug}`} className="text-blue-600 hover:underline">
+                            {comment.post_slug}
+                          </Link>
+                        </p>
+                        <p className="text-gray-700 mb-2">{comment.comment}</p>
+                        <p className="text-xs text-gray-500">
+                          {new Date(comment.created_at).toLocaleDateString('en-US', { 
+                            year: 'numeric', 
+                            month: 'long', 
+                            day: 'numeric',
+                            hour: 'numeric',
+                            minute: '2-digit'
+                          })}
+                        </p>
+                      </div>
+                      <div className="flex space-x-2 ml-4">
+                        {!comment.approved && (
+                          <button
+                            onClick={() => handleCommentApproval(comment.id, true)}
+                            disabled={loading}
+                            className="text-green-600 hover:text-green-800 p-2 disabled:opacity-50"
+                            title="Approve Comment"
+                          >
+                            <Check className="h-4 w-4" />
+                          </button>
+                        )}
+                        {comment.approved && (
+                          <button
+                            onClick={() => handleCommentApproval(comment.id, false)}
+                            disabled={loading}
+                            className="text-yellow-600 hover:text-yellow-800 p-2 disabled:opacity-50"
+                            title="Unapprove Comment"
+                          >
+                            <Ban className="h-4 w-4" />
+                          </button>
+                        )}
+                        <button
+                          onClick={() => handleDeleteComment(comment.id)}
+                          disabled={loading}
+                          className="text-red-600 hover:text-red-800 p-2 disabled:opacity-50"
+                          title="Delete Comment"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                
+                {comments.length === 0 && (
+                  <div className="text-center py-8">
+                    <MessageCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                    <p className="text-gray-500">No comments yet</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
