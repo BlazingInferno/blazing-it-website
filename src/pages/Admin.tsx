@@ -69,7 +69,40 @@ export default function Admin() {
 
   // Show a loading screen while the SDK checks the session
   if (isLoading) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Check if Auth0 is properly configured
+  if (!import.meta.env.VITE_AUTH0_DOMAIN || !import.meta.env.VITE_AUTH0_CLIENT_ID) {
+    return (
+      <div className="min-h-screen bg-red-50 flex items-center justify-center">
+        <div className="max-w-md w-full text-center">
+          <div className="bg-white rounded-lg shadow-md p-8 border border-red-200">
+            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Lock className="h-8 w-8 text-red-600" />
+            </div>
+            <h1 className="text-2xl font-bold text-red-900 mb-2">Auth0 Configuration Missing</h1>
+            <p className="text-red-700 mb-4">
+              Please configure your Auth0 environment variables:
+            </p>
+            <div className="text-left bg-gray-100 p-3 rounded text-sm font-mono mb-4">
+              <div>VITE_AUTH0_DOMAIN=your-domain.auth0.com</div>
+              <div>VITE_AUTH0_CLIENT_ID=your-client-id</div>
+            </div>
+            <p className="text-sm text-red-600">
+              Add these to your .env file and restart the development server.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   // If the user is NOT authenticated, render the login page
