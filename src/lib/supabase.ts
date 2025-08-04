@@ -12,9 +12,6 @@ export const supabase = supabaseUrl && supabaseAnonKey
   ? createClient(supabaseUrl, supabaseAnonKey)
   : null;
 
-// Simple file-based storage for blog posts
-// This will be replaced with a proper database solution later
-
 export interface BlogPost {
   id: string;
   title: string;
@@ -23,7 +20,7 @@ export interface BlogPost {
   content: string;
   author: string;
   date: string;
-  readTime: string;
+  read_time: string;
   tags: string[];
   published: boolean;
 }
@@ -32,54 +29,8 @@ export interface UploadedImage {
   id: string;
   name: string;
   url: string;
-  uploadDate: string;
+  upload_date: string;
 }
-
-// For now, we'll use a simple approach with localStorage as a temporary solution
-// In production, this should be replaced with a proper backend API
-export const blogStorage = {
-  // Get all blog posts
-  async getBlogPosts(): Promise<BlogPost[]> {
-    try {
-      const posts = localStorage.getItem('blogPosts');
-      return posts ? JSON.parse(posts) : [];
-    } catch (error) {
-      console.error('Error loading blog posts:', error);
-      return [];
-    }
-  },
-
-  // Save blog posts
-  async saveBlogPosts(posts: BlogPost[]): Promise<void> {
-    try {
-      localStorage.setItem('blogPosts', JSON.stringify(posts));
-    } catch (error) {
-      console.error('Error saving blog posts:', error);
-      throw error;
-    }
-  },
-
-  // Get uploaded images
-  async getUploadedImages(): Promise<UploadedImage[]> {
-    try {
-      const images = localStorage.getItem('uploadedImages');
-      return images ? JSON.parse(images) : [];
-    } catch (error) {
-      console.error('Error loading images:', error);
-      return [];
-    }
-  },
-
-  // Save uploaded images
-  async saveUploadedImages(images: UploadedImage[]): Promise<void> {
-    try {
-      localStorage.setItem('uploadedImages', JSON.stringify(images));
-    } catch (error) {
-      console.error('Error saving images:', error);
-      throw error;
-    }
-  }
-};
 
 // Get published blog posts only (for public display)
 export const getPublishedBlogPosts = async (): Promise<BlogPost[]> => {
@@ -95,7 +46,6 @@ export const getPublishedBlogPosts = async (): Promise<BlogPost[]> => {
     if (error) throw error;
     return data || [];
   } catch (error) {
-    console.error('Error fetching published blog posts:', error);
     return [];
   }
 };
@@ -113,7 +63,6 @@ export const getBlogPosts = async (): Promise<BlogPost[]> => {
     if (error) throw error;
     return data || [];
   } catch (error) {
-    console.error('Error fetching blog posts:', error);
     return [];
   }
 };
@@ -133,7 +82,6 @@ export const getBlogPostBySlug = async (slug: string): Promise<BlogPost | null> 
     if (error) throw error;
     return data;
   } catch (error) {
-    console.error('Error fetching blog post by slug:', error);
     return null;
   }
 };
@@ -152,7 +100,6 @@ export const createBlogPost = async (postData: Omit<BlogPost, 'id' | 'created_at
     if (error) throw error;
     return data;
   } catch (error) {
-    console.error('Error creating blog post:', error);
     throw error;
   }
 };
@@ -172,7 +119,6 @@ export const updateBlogPost = async (id: string, postData: Partial<BlogPost>): P
     if (error) throw error;
     return data;
   } catch (error) {
-    console.error('Error updating blog post:', error);
     throw error;
   }
 };
@@ -189,7 +135,6 @@ export const deleteBlogPost = async (id: string): Promise<void> => {
     
     if (error) throw error;
   } catch (error) {
-    console.error('Error deleting blog post:', error);
     throw error;
   }
 };
@@ -207,7 +152,6 @@ export const getImages = async (): Promise<UploadedImage[]> => {
     if (error) throw error;
     return data || [];
   } catch (error) {
-    console.error('Error fetching images:', error);
     return [];
   }
 };
@@ -251,7 +195,6 @@ export const uploadImage = async (file: File): Promise<UploadedImage | null> => 
     if (error) throw error;
     return data;
   } catch (error) {
-    console.error('Error uploading image:', error);
     throw error;
   }
 };
@@ -270,7 +213,7 @@ export const deleteImage = async (id: string, url: string): Promise<void> => {
         .from('blog-images')
         .remove([fileName]);
       
-      if (storageError) console.error('Error deleting from storage:', storageError);
+      if (storageError) throw storageError;
     }
     
     // Delete from database
@@ -281,7 +224,6 @@ export const deleteImage = async (id: string, url: string): Promise<void> => {
     
     if (error) throw error;
   } catch (error) {
-    console.error('Error deleting image:', error);
     throw error;
   }
 };
