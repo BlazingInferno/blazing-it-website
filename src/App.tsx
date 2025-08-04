@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
+import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -14,7 +14,18 @@ import Projects from './pages/Projects';
 import Admin from './pages/Admin';
 import DynamicBlogPost from './pages/blog/DynamicBlogPost';
 import Leeds from './pages/Leeds';
-import { ProtectedRoute } from './components/ProtectedRoute';
+
+// Create a protected Admin component
+const ProtectedAdmin = withAuthenticationRequired(Admin, {
+  onRedirecting: () => (
+    <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+        <p className="text-gray-600">Loading admin...</p>
+      </div>
+    </div>
+  )
+});
 
 function App() {
   const { isLoading } = useAuth0();
@@ -44,8 +55,8 @@ function App() {
           <Route path="/projects" element={<Projects />} />
           
           {/* Admin routes - protected with Auth0 */}
-          <Route path="/login" element={<ProtectedRoute component={Admin} />} />
-          <Route path="/admin" element={<ProtectedRoute component={Admin} />} />
+          <Route path="/login" element={<ProtectedAdmin />} />
+          <Route path="/admin" element={<ProtectedAdmin />} />
           
           <Route path="/blog/:slug" element={<DynamicBlogPost />} />
           <Route path="/contact" element={<Contact />} />
