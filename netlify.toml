@@ -12,5 +12,7 @@
 
 # Environment variables for Netlify build
 # Note: Set these in Netlify Dashboard under Site Settings > Environment Variables
+# VITE_SUPABASE_URL = https://aozwunncglcsfqwfjwkj.supabase.co
+# VITE_SUPABASE_ANON_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvendubm5jZ2xjc2Zxd2Zqd2tqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5NzI4NzQsImV4cCI6MjA1MjU0ODg3NH0.sb_publishable_k1ILCBPWwC2GZVLYkLq-bw_DYhBwswN
 # VITE_AUTH0_DOMAIN = your-auth0-domain
 # VITE_AUTH0_CLIENT_ID = your-auth0-client-id
