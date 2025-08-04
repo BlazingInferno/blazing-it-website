@@ -167,37 +167,6 @@ export default function Projects() {
                   </div>
                 </div>
 
-                {/* Categories */}
-                <div className="bg-gray-50 rounded-xl p-6 mb-8">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">Categories</h3>
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-700">Migrations</span>
-                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
-                        {blogPosts.filter(post => post.tags?.some(tag => tag.toLowerCase().includes('migration'))).length}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-700">Cloud Solutions</span>
-                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
-                        {blogPosts.filter(post => post.tags?.some(tag => tag.toLowerCase().includes('cloud'))).length}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-700">Cybersecurity</span>
-                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
-                        {blogPosts.filter(post => post.tags?.some(tag => tag.toLowerCase().includes('security') || tag.toLowerCase().includes('cyber'))).length}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-700">IT Consulting</span>
-                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
-                        {blogPosts.filter(post => post.tags?.some(tag => tag.toLowerCase().includes('consulting'))).length}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
                 {/* Contact CTA */}
                 <div className="bg-blue-700 rounded-xl p-6 text-white">
                   <h3 className="text-xl font-semibold mb-4">Need Similar Solutions?</h3>
