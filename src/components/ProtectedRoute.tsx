@@ -61,7 +61,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ component: Compo
             <p className="text-gray-600 mb-6">You need to log in to access the admin dashboard.</p>
             <button
               onClick={() => loginWithRedirect({
-                appState: { returnTo: location.pathname }
+                appState: { returnTo: '/posts' }
               })}
               className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
             >
