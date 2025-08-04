@@ -8,7 +8,6 @@ import Services from './pages/Services';
 import Contact from './pages/Contact';
 import Cybersecurity from './pages/services/Cybersecurity';
 import CloudSolutions from './pages/services/CloudSolutions';
-import ITConsulting from './pages/services/ITConsulting';
 import DataBackup from './pages/services/DataBackup';
 import ITSupport from './pages/services/ITSupport';
 import Projects from './pages/Projects';
@@ -40,7 +39,6 @@ function App() {
           <Route path="/services" element={<Services />} />
           <Route path="/services/cybersecurity" element={<Cybersecurity />} />
           <Route path="/services/cloud-solutions" element={<CloudSolutions />} />
-          <Route path="/services/it-consulting" element={<ITConsulting />} />
           <Route path="/services/data-backup" element={<DataBackup />} />
           <Route path="/services/it-support" element={<ITSupport />} />
           <Route path="/projects" element={<Projects />} />

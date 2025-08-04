@@ -107,13 +107,13 @@ export default function Home() {
             </div>
             
             <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
-              <Link to="/services/it-consulting" className="block">
+              <Link to="/services/it-support" className="block">
                 <div className="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center mb-6">
                   <Users className="h-8 w-8 text-purple-600" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">IT Consulting</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">IT Support</h3>
                 <p className="text-gray-600 leading-relaxed mb-4">
-                  Strategic IT consulting to help you make informed technology decisions and optimize your digital transformation.
+                  24/7 technical support and helpdesk services to keep your business running smoothly.
                 </p>
                 <div className="flex items-center text-purple-600 font-medium">
                   Learn More <ArrowRight className="h-4 w-4 ml-2" />
@@ -330,8 +330,6 @@ export default function Home() {
                   >
                     <option value="">Select a service</option>
                     <option value="cybersecurity">Cybersecurity</option>
-                    <option value="cloud-solutions">Cloud Solutions</option>
-                    <option value="it-consulting">IT Consulting</option>
                     <option value="data-backup">Data Backup</option>
                     <option value="it-support">IT Support</option>
                     <option value="multiple">Multiple Services</option>

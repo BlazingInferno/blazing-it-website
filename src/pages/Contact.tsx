@@ -253,7 +253,6 @@ export default function Contact() {
                     <option value="">Select a service</option>
                     <option value="cybersecurity">Cybersecurity</option>
                     <option value="cloud-solutions">Cloud Solutions</option>
-                    <option value="it-consulting">IT Consulting</option>
                     <option value="data-backup">Data Backup</option>
                     <option value="it-support">IT Support</option>
                     <option value="multiple">Multiple Services</option>
