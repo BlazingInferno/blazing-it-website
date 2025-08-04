@@ -98,6 +98,14 @@ function Header() {
                 >
                   Projects
                 </Link>
+                <Link
+                  to="/login"
+                  className={`px-3 py-2 text-sm font-medium transition-colors ${
+                    isActive('/login') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+                  }`}
+                >
+                  Admin
+                </Link>
               </div>
             </div>
           </div>
@@ -217,6 +225,15 @@ function Header() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Projects
+              </Link>
+              <Link
+                to="/login"
+                className={`block px-3 py-2 text-base font-medium w-full text-left ${
+                  isActive('/login') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Admin
               </Link>
 
               {/* START: Phone number for mobile view */}

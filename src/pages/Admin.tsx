@@ -237,7 +237,7 @@ export default function Admin() {
                 ← Back to Site
               </Link>
               <button
-                onClick={() => setShowImageManager(true)}
+                View Public Projects
                 className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center"
                 disabled={loading}
               >

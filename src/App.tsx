@@ -47,7 +47,7 @@ function App() {
           <Route path="/projects" element={<Projects />} />
           
           {/* Admin route - protected with Auth0 */}
-          <Route path="/posts" element={<ProtectedRoute component={Admin} />} />
+          <Route path="/login" element={<ProtectedRoute component={Admin} />} />
           
           <Route path="/blog/google-workspace-to-microsoft-365" element={<GoogleWorkspaceToMicrosoft365 />} />
           <Route path="/blog/:slug" element={<DynamicBlogPost />} />
