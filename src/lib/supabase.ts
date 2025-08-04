@@ -75,3 +75,22 @@ export const blogStorage = {
     }
   }
 };
+
+// Get published blog posts only (for public display)
+export const getPublishedBlogPosts = async (): Promise<BlogPost[]> => {
+  if (!supabase) return [];
+  
+  try {
+    const { data, error } = await supabase
+      .from('blog_posts')
+      .select('*')
+      .eq('published', true)
+      .order('created_at', { ascending: false });
+    
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.error('Error fetching published blog posts:', error);
+    return [];
+  }
+};
