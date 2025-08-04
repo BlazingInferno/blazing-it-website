@@ -15,7 +15,7 @@ import {
 } from '../lib/supabase';
 
 export default function Admin() {
-  const { user, logout, isLoading, isAuthenticated } = useAuth0();
+  const { user, logout } = useAuth0();
 
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [showForm, setShowForm] = useState(false);
@@ -195,11 +195,9 @@ export default function Admin() {
 
   // Load data on component mount
   useEffect(() => {
-    if (user) {
-      loadPosts();
-      loadImages();
-    }
-  }, [user]);
+    loadPosts();
+    loadImages();
+  }, []);
 
   // Check if environment variables are configured
   if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY) {
@@ -217,23 +215,6 @@ export default function Admin() {
             <p className="text-sm text-red-600">
               Click "Connect to Supabase" in the top right corner to set up your database.
             </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // Show loading while Auth0 is initializing
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="max-w-md w-full text-center">
-          <div className="bg-white rounded-lg shadow-md p-8">
-            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-            </div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">Loading...</h1>
-            <p className="text-gray-600">Authenticating with Auth0...</p>
           </div>
         </div>
       </div>

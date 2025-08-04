@@ -1,6 +1,5 @@
 import React from 'react';
-import { useEffect } from 'react';
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -20,34 +19,18 @@ import Leeds from './pages/Leeds';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
 function App() {
-  const { isAuthenticated, user, isLoading, handleRedirectCallback } = useAuth0();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const { isLoading } = useAuth0();
 
-  useEffect(() => {
-    // Handle Auth0 redirect callback
-    const handleAuth0Redirect = async () => {
-      const urlParams = new URLSearchParams(location.search);
-      const hasAuthCode = urlParams.has('code') && urlParams.has('state');
-      
-      if (hasAuthCode && !isLoading) {
-        try {
-          const result = await handleRedirectCallback();
-          
-          // Navigate to intended destination or admin page
-          const returnTo = result?.appState?.returnTo || '/posts';
-          navigate(returnTo, { replace: true });
-        } catch (error) {
-          console.error('Auth0 callback error:', error);
-          navigate('/', { replace: true });
-        }
-      }
-    };
-    
-    if (isAuthenticated && !isLoading) {
-      handleAuth0Redirect();
-    }
-  }, [isAuthenticated, isLoading, user, location.search, navigate, handleRedirectCallback]);
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">

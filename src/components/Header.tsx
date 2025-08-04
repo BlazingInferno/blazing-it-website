@@ -90,6 +90,14 @@ function Header() {
                 >
                   Contact
                 </Link>
+                <Link
+                  to="/projects"
+                  className={`px-3 py-2 text-sm font-medium transition-colors ${
+                    isActive('/projects') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+                  }`}
+                >
+                  Projects
+                </Link>
               </div>
             </div>
           </div>
@@ -200,6 +208,15 @@ function Header() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Contact
+              </Link>
+              <Link
+                to="/projects"
+                className={`block px-3 py-2 text-base font-medium w-full text-left ${
+                  isActive('/projects') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Projects
               </Link>
 
               {/* START: Phone number for mobile view */}
