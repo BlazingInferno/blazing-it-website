@@ -8,11 +8,6 @@ import './index.css';
 const domain = import.meta.env.VITE_AUTH0_DOMAIN;
 const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
 
-// Debug Auth0 configuration
-console.log('Auth0 Domain:', domain);
-console.log('Auth0 Client ID:', clientId);
-console.log('Current URL:', window.location.href);
-
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     {domain && clientId ? (

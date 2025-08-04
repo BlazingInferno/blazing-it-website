@@ -34,9 +34,6 @@ export default function Admin() {
     published: false
   });
 
-  // Debug authentication state
-  console.log('Admin component - isAuthenticated:', isAuthenticated, 'user:', user);
-
   // Generate slug from title
   const generateSlug = (title: string) => {
     return title

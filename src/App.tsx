@@ -25,22 +25,17 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
-    console.log('App - Auth0 state:', { isAuthenticated, isLoading, user: user?.email });
-    
     // Handle Auth0 redirect callback
     const handleAuth0Redirect = async () => {
       const urlParams = new URLSearchParams(location.search);
       const hasAuthCode = urlParams.has('code') && urlParams.has('state');
       
       if (hasAuthCode && !isLoading) {
-        console.log('Auth0 callback detected, processing...');
         try {
           const result = await handleRedirectCallback();
-          console.log('Auth0 callback result:', result);
           
           // Navigate to intended destination or admin page
           const returnTo = result?.appState?.returnTo || '/posts';
-          console.log('Navigating to:', returnTo);
           navigate(returnTo, { replace: true });
         } catch (error) {
           console.error('Auth0 callback error:', error);

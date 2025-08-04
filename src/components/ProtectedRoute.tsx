@@ -12,13 +12,6 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ component: Compo
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    console.log('ProtectedRoute - isAuthenticated:', isAuthenticated);
-    console.log('ProtectedRoute - isLoading:', isLoading);
-    console.log('ProtectedRoute - current path:', location.pathname);
-    console.log('ProtectedRoute - error:', error);
-  }, [isAuthenticated, isLoading, location.pathname, error]);
-
   // Show loading while Auth0 is initializing
   if (isLoading) {
     return (
