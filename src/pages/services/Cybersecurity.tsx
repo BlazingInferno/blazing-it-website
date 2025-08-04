@@ -1,9 +1,16 @@
 import React from 'react';
 import { Shield, Lock, Eye, AlertTriangle, CheckCircle, Users } from 'lucide-react';
+import SEOHead from '../../components/SEOHead';
 
 function Cybersecurity() {
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead
+        title="Cybersecurity Services - Protect Your Business"
+        description="Comprehensive cybersecurity solutions to protect your business from cyber threats. Network security, threat monitoring, vulnerability assessments, and compliance services."
+        keywords="cybersecurity services, network security, threat monitoring, vulnerability assessment, data protection, GDPR compliance, cyber security consulting"
+        url="https://blazingit.co.uk/services/cybersecurity"
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-orange-50 to-red-100 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

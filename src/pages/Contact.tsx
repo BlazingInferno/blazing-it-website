@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import emailjs from '@emailjs/browser';
+import SEOHead from '../components/SEOHead';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -114,6 +115,12 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead
+        title="Contact Us - Get Your Free IT Consultation"
+        description="Ready to transform your business with expert IT solutions? Contact Blazing IT Limited for a free consultation. Call 01918 202 449 or email info@blazingit.co.uk"
+        keywords="contact IT support, free IT consultation, IT services quote, Leeds IT company contact, Yorkshire technology support"
+        url="https://blazingit.co.uk/contact"
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-50 to-indigo-100 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

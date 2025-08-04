@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, User, ArrowRight, Clock, Tag, MessageCircle } from 'lucide-react';
 import { getPublishedBlogPosts, BlogPost } from '../lib/supabase';
+import SEOHead from '../components/SEOHead';
 
 export default function Projects() {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
@@ -74,6 +75,12 @@ export default function Projects() {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead
+        title="Our Projects - IT Case Studies & Success Stories"
+        description="Explore our latest IT projects, case studies, and technical insights. Learn how we've helped businesses transform through technology solutions and digital innovation."
+        keywords="IT projects, case studies, technology success stories, digital transformation, IT consulting examples, business technology solutions"
+        url="https://blazingit.co.uk/projects"
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-50 to-indigo-100 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

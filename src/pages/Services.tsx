@@ -1,10 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Code, Shield, Zap, Users, HardDrive, Network } from 'lucide-react';
+import SEOHead from '../components/SEOHead';
 
 export default function Services() {
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead
+        title="IT Services - Comprehensive Technology Solutions"
+        description="Explore our comprehensive IT services including cybersecurity, cloud solutions, data backup, and IT consulting. Professional technology solutions for businesses of all sizes."
+        keywords="IT services, cybersecurity services, cloud migration, data backup solutions, IT consulting, managed IT services, technology solutions"
+        url="https://blazingit.co.uk/services"
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-50 to-indigo-100 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

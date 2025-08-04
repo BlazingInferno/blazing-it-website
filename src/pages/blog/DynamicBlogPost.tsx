@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Calendar, User, Clock, Tag, ArrowLeft, MessageCircle, Send } from 'lucide-react';
 import { getBlogPostBySlug, getCommentsBySlug, createComment, BlogPost, BlogComment } from '../../lib/supabase';
+import SEOHead from '../../components/SEOHead';
 
 export default function DynamicBlogPost() {
   const { slug } = useParams<{ slug: string }>();
@@ -100,6 +101,18 @@ export default function DynamicBlogPost() {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead
+        title={post.title}
+        description={post.excerpt}
+        keywords={`${post.tags.join(', ')}, IT solutions, technology consulting, digital transformation`}
+        url={`https://blazingit.co.uk/blog/${post.slug}`}
+        type="article"
+        article={{
+          author: post.author,
+          publishedTime: new Date(post.date).toISOString(),
+          tags: post.tags
+        }}
+      />
       {/* Header */}
       <section className="bg-gradient-to-br from-blue-50 to-indigo-100 py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

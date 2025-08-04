@@ -1,10 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Code, Shield, Zap, Users, CheckCircle, ArrowRight, MapPin, Building, Phone } from 'lucide-react';
+import SEOHead from '../components/SEOHead';
 
 export default function Leeds() {
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead
+        title="IT Services in Leeds - Local Technology Support"
+        description="Professional IT services in Leeds and Yorkshire. Local IT support, cybersecurity, cloud solutions, and consulting for businesses across all Leeds districts and surrounding areas."
+        keywords="IT services Leeds, Leeds IT support, Yorkshire technology services, local IT company Leeds, IT consulting Leeds, cybersecurity Leeds"
+        url="https://blazingit.co.uk/leeds"
+      />
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-blue-950 via-blue-900 to-indigo-950 text-white overflow-hidden">
         <div className="absolute inset-0 bg-black opacity-20"></div>

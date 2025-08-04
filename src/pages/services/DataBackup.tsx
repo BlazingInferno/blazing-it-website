@@ -1,10 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Shield, HardDrive, Clock, RefreshCw, CheckCircle, AlertTriangle } from 'lucide-react';
+import SEOHead from '../../components/SEOHead';
 
 function DataBackup() {
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead
+        title="Data Backup & Recovery - Protect Your Critical Data"
+        description="Reliable data backup and recovery solutions using the 3-2-1 strategy. Local, cloud, and hybrid backup options with disaster recovery planning for business continuity."
+        keywords="data backup, disaster recovery, cloud backup, data protection, business continuity, backup solutions, data recovery services"
+        url="https://blazingit.co.uk/services/data-backup"
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-red-50 to-orange-100 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

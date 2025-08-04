@@ -1,9 +1,16 @@
 import React from 'react';
 import { Headphones, Clock, Phone, Monitor, Wrench, Shield } from 'lucide-react';
+import SEOHead from '../../components/SEOHead';
 
 function ITSupport() {
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead
+        title="24/7 IT Support - Professional Technical Assistance"
+        description="Comprehensive 24/7 IT support services including helpdesk support, remote assistance, system maintenance, and emergency response for business continuity."
+        keywords="24/7 IT support, helpdesk services, remote IT support, technical assistance, system maintenance, IT emergency response, managed IT services"
+        url="https://blazingit.co.uk/services/it-support"
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-indigo-50 to-blue-100 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

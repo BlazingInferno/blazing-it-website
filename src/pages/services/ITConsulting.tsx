@@ -1,9 +1,16 @@
 import React from 'react';
 import { Users, Target, TrendingUp, Lightbulb, CheckCircle, BarChart } from 'lucide-react';
+import SEOHead from '../../components/SEOHead';
 
 function ITConsulting() {
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead
+        title="IT Consulting - Strategic Technology Planning"
+        description="Strategic IT consulting to optimize your digital transformation. Technology roadmaps, digital strategy, process optimization, and innovation consulting for business growth."
+        keywords="IT consulting, digital transformation, technology strategy, IT roadmap, business process optimization, technology planning, digital innovation"
+        url="https://blazingit.co.uk/services/it-consulting"
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-purple-50 to-indigo-100 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

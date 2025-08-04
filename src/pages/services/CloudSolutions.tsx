@@ -1,9 +1,16 @@
 import React from 'react';
 import { Cloud, Server, Zap, Shield, TrendingUp, Globe } from 'lucide-react';
+import SEOHead from '../../components/SEOHead';
 
 function CloudSolutions() {
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead
+        title="Cloud Solutions - Scalable Infrastructure & Migration"
+        description="Expert cloud migration and infrastructure services. AWS, Azure, and Google Cloud solutions to enhance business agility and reduce costs with enterprise-grade reliability."
+        keywords="cloud solutions, cloud migration, AWS services, Microsoft Azure, Google Cloud Platform, cloud infrastructure, scalable hosting"
+        url="https://blazingit.co.uk/services/cloud-solutions"
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-green-50 to-blue-100 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
