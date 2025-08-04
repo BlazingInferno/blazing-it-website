@@ -43,8 +43,9 @@ function App() {
           <Route path="/services/it-support" element={<ITSupport />} />
           <Route path="/projects" element={<Projects />} />
           
-          {/* Admin route - protected with Auth0 */}
+          {/* Admin routes - protected with Auth0 */}
           <Route path="/login" element={<ProtectedRoute component={Admin} />} />
+          <Route path="/admin" element={<ProtectedRoute component={Admin} />} />
           
           <Route path="/blog/:slug" element={<DynamicBlogPost />} />
           <Route path="/contact" element={<Contact />} />
