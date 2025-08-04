@@ -40,7 +40,7 @@ function Cybersecurity() {
             <div>
               <img
                 src="https://images.pexels.com/photos/5380664/pexels-photo-5380664.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="Cybersecurity protection and digital security"
+                alt="Cybersecurity expert monitoring network security threats and implementing digital protection solutions"
                 className="rounded-2xl shadow-2xl w-full h-96 object-cover"
               />
             </div>

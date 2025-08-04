@@ -40,7 +40,7 @@ function ITSupport() {
             <div>
               <img
                 src="https://images.pexels.com/photos/7688336/pexels-photo-7688336.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="IT support technician providing remote assistance"
+                alt="IT support technician providing 24/7 remote assistance and helpdesk services for business technology"
                 className="rounded-2xl shadow-2xl w-full h-96 object-cover"
               />
             </div>

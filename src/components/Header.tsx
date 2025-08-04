@@ -23,7 +23,7 @@ function Header() {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex-shrink-0">
-              <img src="/unnamed.png" alt="Blazing IT Logo" className="h-16 w-16 hover:opacity-80 transition-opacity" />
+              <img src="/unnamed.png" alt="Blazing IT Limited logo - Yorkshire IT support cybersecurity and cloud solutions" className="h-16 w-16 hover:opacity-80 transition-opacity" />
             </Link>
             {/* Desktop Navigation */}
             <div className="hidden md:block">

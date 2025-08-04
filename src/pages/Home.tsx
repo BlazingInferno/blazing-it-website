@@ -53,7 +53,7 @@ export default function Home() {
               <div className="relative z-10">
                 <img
                   src="https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&w=800"
-                  alt="Professional business team working with technology and digital solutions"
+                  alt="Leeds IT support team providing cybersecurity and cloud solutions for Yorkshire businesses"
                   className="rounded-2xl shadow-2xl"
                 />
               </div>
@@ -183,7 +183,7 @@ export default function Home() {
             <div>
               <img
                 src="https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="Professional business team analyzing data and technology solutions"
+                alt="IT consulting experts analyzing cybersecurity data and cloud infrastructure for business transformation"
                 className="rounded-2xl shadow-xl"
               />
             </div>

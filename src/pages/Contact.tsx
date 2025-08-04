@@ -307,7 +307,7 @@ export default function Contact() {
               <h3 className="text-xl font-semibold text-gray-900 mb-4">Email Us</h3>
               <p className="text-gray-600 mb-4">Send us an email and we'll respond within 24 hours</p>
               <a href="mailto:info@blazingit.com" className="text-blue-700 font-medium hover:text-blue-800">
-                info@blazingit.com
+                info@blazingit.co.uk
               </a>
             </div>
 

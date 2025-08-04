@@ -40,7 +40,7 @@ function CloudSolutions() {
             <div>
               <img
                 src="https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="Cloud computing infrastructure and network visualization"
+                alt="Cloud computing infrastructure showing AWS Azure Google Cloud migration and scalable hosting solutions"
                 className="rounded-2xl shadow-2xl w-full h-96 object-cover"
               />
             </div>

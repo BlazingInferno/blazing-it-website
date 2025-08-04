@@ -41,7 +41,7 @@ function DataBackup() {
             <div>
               <img
                 src="https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="Server room with data backup infrastructure"
+                alt="Data backup server room infrastructure with disaster recovery systems and business continuity solutions"
                 className="rounded-2xl shadow-2xl w-full h-96 object-cover"
               />
             </div>

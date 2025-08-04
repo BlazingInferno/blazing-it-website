@@ -41,7 +41,7 @@ export default function Services() {
               <Link to="/services/cybersecurity" className="block">
               <img
                 src="https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg?auto=compress&cs=tinysrgb&w=400"
-                alt="Cybersecurity shield protection"
+                alt="Cybersecurity protection software with shield icon for business data security and threat monitoring"
                 className="w-full h-48 object-cover rounded-lg mb-6"
               />
               <div className="w-16 h-16 bg-orange-100 rounded-lg flex items-center justify-center mb-6">
@@ -61,7 +61,7 @@ export default function Services() {
               <Link to="/services/cloud-solutions" className="block">
               <img
                 src="https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=400"
-                alt="Cloud computing network visualization"
+                alt="Cloud computing network infrastructure visualization showing scalable IT solutions and data migration"
                 className="w-full h-48 object-cover rounded-lg mb-6"
               />
               <div className="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center mb-6">
@@ -80,7 +80,7 @@ export default function Services() {
               <Link to="/services/data-backup" className="block">
               <img
                 src="https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=400"
-                alt="Server room with data backup infrastructure"
+                alt="Server room ethernet cables and data backup infrastructure for business continuity and disaster recovery"
                 className="w-full h-48 object-cover rounded-lg mb-6"
               />
               <div className="w-16 h-16 bg-red-100 rounded-lg flex items-center justify-center mb-6">

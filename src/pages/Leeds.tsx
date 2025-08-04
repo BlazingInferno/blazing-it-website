@@ -187,7 +187,7 @@ export default function Leeds() {
             <div>
               <img
                 src="https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="Leeds business professionals working with technology"
+                alt="Leeds business professionals working with cybersecurity cloud solutions and IT support technology"
                 className="rounded-2xl shadow-xl"
               />
             </div>
