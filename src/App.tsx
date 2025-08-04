@@ -13,7 +13,6 @@ import DataBackup from './pages/services/DataBackup';
 import ITSupport from './pages/services/ITSupport';
 import Projects from './pages/Projects';
 import Admin from './pages/Admin';
-import GoogleWorkspaceToMicrosoft365 from './pages/blog/GoogleWorkspaceToMicrosoft365';
 import DynamicBlogPost from './pages/blog/DynamicBlogPost';
 import Leeds from './pages/Leeds';
 import { ProtectedRoute } from './components/ProtectedRoute';
@@ -49,7 +48,6 @@ function App() {
           {/* Admin route - protected with Auth0 */}
           <Route path="/login" element={<ProtectedRoute component={Admin} />} />
           
-          <Route path="/blog/google-workspace-to-microsoft-365" element={<GoogleWorkspaceToMicrosoft365 />} />
           <Route path="/blog/:slug" element={<DynamicBlogPost />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/leeds" element={<Leeds />} />
