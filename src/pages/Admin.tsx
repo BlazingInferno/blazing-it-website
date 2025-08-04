@@ -15,7 +15,7 @@ import {
 } from '../lib/supabase';
 
 export default function Admin() {
-  const { user, logout, isLoading } = useAuth0();
+  const { user, logout, isLoading, isAuthenticated } = useAuth0();
 
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [showForm, setShowForm] = useState(false);
@@ -33,6 +33,9 @@ export default function Admin() {
     tags: '',
     published: false
   });
+
+  // Debug authentication state
+  console.log('Admin component - isAuthenticated:', isAuthenticated, 'user:', user);
 
   // Generate slug from title
   const generateSlug = (title: string) => {
