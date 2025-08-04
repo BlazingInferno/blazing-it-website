@@ -3,7 +3,9 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export const supabase = supabaseUrl && supabaseAnonKey 
+  ? createClient(supabaseUrl, supabaseAnonKey)
+  : null
 
 export interface BlogPost {
   id: string;
@@ -30,6 +32,8 @@ export interface UploadedImage {
 
 // Blog post functions
 export const getBlogPosts = async () => {
+  if (!supabase) throw new Error('Supabase not configured');
+  
   const { data, error } = await supabase
     .from('blog_posts')
     .select('*')
@@ -40,6 +44,8 @@ export const getBlogPosts = async () => {
 };
 
 export const getPublishedBlogPosts = async () => {
+  if (!supabase) throw new Error('Supabase not configured');
+  
   const { data, error } = await supabase
     .from('blog_posts')
     .select('*')
@@ -51,6 +57,8 @@ export const getPublishedBlogPosts = async () => {
 };
 
 export const getBlogPostBySlug = async (slug: string) => {
+  if (!supabase) throw new Error('Supabase not configured');
+  
   const { data, error } = await supabase
     .from('blog_posts')
     .select('*')
@@ -63,6 +71,8 @@ export const getBlogPostBySlug = async (slug: string) => {
 };
 
 export const createBlogPost = async (post: Omit<BlogPost, 'id' | 'created_at' | 'updated_at'>) => {
+  if (!supabase) throw new Error('Supabase not configured');
+  
   const { data, error } = await supabase
     .from('blog_posts')
     .insert([post])
@@ -74,6 +84,8 @@ export const createBlogPost = async (post: Omit<BlogPost, 'id' | 'created_at' | 
 };
 
 export const updateBlogPost = async (id: string, post: Partial<BlogPost>) => {
+  if (!supabase) throw new Error('Supabase not configured');
+  
   const { data, error } = await supabase
     .from('blog_posts')
     .update(post)
@@ -86,6 +98,8 @@ export const updateBlogPost = async (id: string, post: Partial<BlogPost>) => {
 };
 
 export const deleteBlogPost = async (id: string) => {
+  if (!supabase) throw new Error('Supabase not configured');
+  
   const { error } = await supabase
     .from('blog_posts')
     .delete()
@@ -96,6 +110,8 @@ export const deleteBlogPost = async (id: string) => {
 
 // Image functions
 export const getImages = async () => {
+  if (!supabase) throw new Error('Supabase not configured');
+  
   const { data, error } = await supabase
     .from('uploaded_images')
     .select('*')
@@ -106,6 +122,8 @@ export const getImages = async () => {
 };
 
 export const uploadImage = async (file: File) => {
+  if (!supabase) throw new Error('Supabase not configured');
+  
   const fileExt = file.name.split('.').pop();
   const fileName = `${Math.random()}.${fileExt}`;
   const filePath = `images/${fileName}`;
@@ -137,6 +155,8 @@ export const uploadImage = async (file: File) => {
 };
 
 export const deleteImage = async (id: string, url: string) => {
+  if (!supabase) throw new Error('Supabase not configured');
+  
   // Extract file path from URL
   const urlParts = url.split('/');
   const filePath = `images/${urlParts[urlParts.length - 1]}`;
@@ -156,9 +176,3 @@ export const deleteImage = async (id: string, url: string) => {
 
   if (error) throw error;
 };
-
-export { getBlogPosts, createBlogPost, updateBlogPost, deleteBlogPost, getImages, uploadImage, deleteImage }
-
-export { getPublishedBlogPosts }
-
-export { getBlogPostBySlug }
