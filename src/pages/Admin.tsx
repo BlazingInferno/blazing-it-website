@@ -271,10 +271,17 @@ export default function Admin() {
             </div>
             <h1 className="text-2xl font-bold text-red-900 mb-2">Supabase Configuration Missing</h1>
             <p className="text-red-700 mb-4">
-              Please configure your Supabase environment variables and connect to Supabase.
+              Please set up your Supabase environment variables:
             </p>
+            <div className="text-sm text-red-600 text-left bg-red-50 p-4 rounded mb-4">
+              <p className="font-semibold mb-2">Required environment variables:</p>
+              <ul className="list-disc list-inside space-y-1">
+                <li>VITE_SUPABASE_URL</li>
+                <li>VITE_SUPABASE_ANON_KEY</li>
+              </ul>
+            </div>
             <p className="text-sm text-red-600">
-              Click "Connect to Supabase" in the top right corner to set up your database.
+              Add these to your .env file or click "Connect to Supabase" in the top right corner.
             </p>
           </div>
         </div>

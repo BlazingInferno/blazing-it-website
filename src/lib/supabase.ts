@@ -8,8 +8,23 @@ if (supabaseAnonKey && supabaseAnonKey.includes('service_role')) {
   throw new Error('🚨 SECURITY WARNING: You are using the service_role key in the browser! Please use the anon key instead.');
 }
 
+// Validate environment variables
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.warn('⚠️ Supabase environment variables are missing. Database features will be disabled.');
+}
+
 export const supabase = supabaseUrl && supabaseAnonKey 
-  ? createClient(supabaseUrl, supabaseAnonKey)
+  ? createClient(supabaseUrl, supabaseAnonKey, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+      },
+      global: {
+        headers: {
+          'apikey': supabaseAnonKey,
+        },
+      },
+    })
   : null;
 
 // Error types for better error handling
