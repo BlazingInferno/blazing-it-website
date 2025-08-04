@@ -1,4 +1,6 @@
 import React from 'react';
+import { useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 
 interface ProtectedRouteProps {
@@ -7,6 +9,15 @@ interface ProtectedRouteProps {
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ component: Component }) => {
   const { isAuthenticated, isLoading, loginWithRedirect, error } = useAuth0();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log('ProtectedRoute - isAuthenticated:', isAuthenticated);
+    console.log('ProtectedRoute - isLoading:', isLoading);
+    console.log('ProtectedRoute - current path:', location.pathname);
+    console.log('ProtectedRoute - error:', error);
+  }, [isAuthenticated, isLoading, location.pathname, error]);
 
   // Show loading while Auth0 is initializing
   if (isLoading) {
@@ -49,7 +60,9 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ component: Compo
             <h1 className="text-2xl font-bold text-gray-900 mb-4">Admin Access Required</h1>
             <p className="text-gray-600 mb-6">You need to log in to access the admin dashboard.</p>
             <button
-              onClick={() => loginWithRedirect()}
+              onClick={() => loginWithRedirect({
+                appState: { returnTo: location.pathname }
+              })}
               className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
             >
               Log In with Auth0

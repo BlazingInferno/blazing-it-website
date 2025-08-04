@@ -1,5 +1,7 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -18,6 +20,12 @@ import Leeds from './pages/Leeds';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
 function App() {
+  const { isAuthenticated, user, isLoading } = useAuth0();
+
+  useEffect(() => {
+    console.log('App - Auth0 state:', { isAuthenticated, isLoading, user: user?.email });
+  }, [isAuthenticated, isLoading, user]);
+
   return (
     <div className="min-h-screen bg-white">
       <Header />

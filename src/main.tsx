@@ -11,6 +11,7 @@ const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
 // Debug Auth0 configuration
 console.log('Auth0 Domain:', domain);
 console.log('Auth0 Client ID:', clientId);
+console.log('Current URL:', window.location.href);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -19,8 +20,11 @@ createRoot(document.getElementById('root')!).render(
         domain={domain}
         clientId={clientId}
         authorizationParams={{
-          redirect_uri: window.location.origin
+          redirect_uri: window.location.origin,
+          scope: "openid profile email"
         }}
+        useRefreshTokens={true}
+        cacheLocation="localstorage"
       >
         <BrowserRouter>
           <App />
