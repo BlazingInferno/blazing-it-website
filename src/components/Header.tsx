@@ -28,7 +28,8 @@ function Header() {
             
             {/* Mobile contact info - next to logo */}
             <div className="md:hidden flex-1 flex justify-between items-center ml-4 mr-4">
-              <a href="mailto:info@blazingit.co.uk" className="flex items-center text-xs text-gray-600 hover:text-blue-600">
+            <div className="md:hidden ml-4 mr-4">
+              <a href="mailto:info@blazingit.co.uk" className="flex items-center text-xs text-gray-600 hover:text-blue-600 mb-1">
                 <Mail className="h-3 w-3 mr-1 flex-shrink-0" />
                 <span className="truncate">info@blazingit.co.uk</span>
               </a>
