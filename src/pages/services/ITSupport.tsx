@@ -240,12 +240,6 @@ function ITSupport() {
             Our expert technicians are standing by to help resolve your technical issues quickly and efficiently.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/contact"
-              className="bg-white text-indigo-600 px-8 py-3 rounded-lg text-lg font-medium hover:bg-gray-100 transition-colors"
-            >
-              Start Live Chat
-            </Link>
             <a
               href="tel:01918202449"
               className="border-2 border-white text-white px-8 py-3 rounded-lg text-lg font-medium hover:bg-white hover:text-indigo-600 transition-colors"
