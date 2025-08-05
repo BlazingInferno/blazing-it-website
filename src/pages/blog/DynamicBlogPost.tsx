@@ -109,10 +109,10 @@ export default function DynamicBlogPost() {
               )}
             </div>
             <Link
-              to="/projects"
+              to="/articles"
               className="bg-blue-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-800 transition-colors"
             >
-              Back to Projects
+              Back to Articles
             </Link>
           </div>
         </div>

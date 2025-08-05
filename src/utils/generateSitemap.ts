@@ -13,7 +13,7 @@ export const generateDynamicSitemap = async (): Promise<string> => {
     { url: '/services/data-backup', priority: '0.8', changefreq: 'monthly' },
     { url: '/services/it-support', priority: '0.8', changefreq: 'monthly' },
     { url: '/contact', priority: '0.7', changefreq: 'monthly' },
-    { url: '/projects', priority: '0.7', changefreq: 'weekly' },
+    { url: '/articles', priority: '0.7', changefreq: 'weekly' },
     { url: '/leeds', priority: '0.6', changefreq: 'monthly' }
   ];
 
