@@ -35,32 +35,6 @@ export const supabaseAdmin = supabaseUrl && supabaseServiceKey
     })
   : null;
 
-// Function to create a temporary auth session for admin operations
-export const createAdminSession = async (userEmail: string) => {
-  if (!supabase) return null;
-  
-  try {
-    // Sign in anonymously but with a custom user identifier
-    const { data, error } = await supabase.auth.signInAnonymously({
-      options: {
-        data: {
-          email: userEmail,
-          role: 'admin'
-        }
-      }
-    });
-    
-    if (error) {
-      console.error('Error creating admin session:', error);
-      return null;
-    }
-    
-    return data;
-  } catch (error) {
-    console.error('Error in createAdminSession:', error);
-    return null;
-  }
-};
 // Error types for better error handling
 export enum DatabaseError {
   CONNECTION_FAILED = 'CONNECTION_FAILED',
@@ -231,12 +205,6 @@ export const createBlogPost = async (postData: Omit<BlogPost, 'id' | 'created_at
   if (!supabase) return null;
   
   try {
-    // Try to create an admin session if user email is provided
-    if (userEmail) {
-      const adminSession = await createAdminSession(userEmail);
-      console.log('Admin session created:', adminSession ? 'Success' : 'Failed');
-    }
-    
     // Clean and validate the post data
     const cleanPostData = {
       title: postData.title?.trim() || '',
@@ -267,12 +235,9 @@ export const createBlogPost = async (postData: Omit<BlogPost, 'id' | 'created_at
       .select()
       .single();
     
-    console.log('Supabase response:', { data, error });
-    
     if (error) {
       const { type, message } = handleDatabaseError(error);
       console.error(`Database error (${type}):`, message);
-      console.error('Full Supabase error details:', error);
       throw new Error(message);
     }
     
@@ -280,7 +245,6 @@ export const createBlogPost = async (postData: Omit<BlogPost, 'id' | 'created_at
   } catch (error) {
     const { message } = handleDatabaseError(error);
     console.error('Error creating blog post:', message);
-    console.error('Full error details:', error);
     throw error;
   }
 };
@@ -290,12 +254,6 @@ export const updateBlogPost = async (id: string, postData: Partial<BlogPost>, us
   if (!supabase) return null;
   
   try {
-    // Try to create an admin session if user email is provided
-    if (userEmail) {
-      const adminSession = await createAdminSession(userEmail);
-      console.log('Admin session created for update:', adminSession ? 'Success' : 'Failed');
-    }
-    
     // Clean the update data
     const cleanUpdateData: any = {};
     
@@ -319,7 +277,6 @@ export const updateBlogPost = async (id: string, postData: Partial<BlogPost>, us
     if (error) {
       const { type, message } = handleDatabaseError(error);
       console.error(`Database error (${type}):`, message);
-      console.error('Full error details:', error);
       throw new Error(message);
     }
     
@@ -327,7 +284,6 @@ export const updateBlogPost = async (id: string, postData: Partial<BlogPost>, us
   } catch (error) {
     const { message } = handleDatabaseError(error);
     console.error('Error updating blog post:', message);
-    console.error('Full error details:', error);
     throw error;
   }
 };

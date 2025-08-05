@@ -99,8 +99,6 @@ export default function Admin() {
     setError(null);
 
     try {
-      console.log('Form data being submitted:', formData);
-      
       const slug = formData.slug || generateSlug(formData.title);
       const tags = formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
       
@@ -120,8 +118,6 @@ export default function Admin() {
         published: formData.published
       };
 
-      console.log('Processed post data:', postData);
-      
       if (editingPost) {
         await updateBlogPost(editingPost.id, postData, user?.email);
       } else {
