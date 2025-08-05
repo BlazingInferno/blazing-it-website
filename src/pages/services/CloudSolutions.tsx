@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Cloud, Server, Zap, Shield, TrendingUp, Globe, X } from 'lucide-react';
 import SEOHead from '../../components/SEOHead';
 
