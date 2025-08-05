@@ -1,9 +1,43 @@
 import React from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Headphones, Clock, Phone, Monitor, Wrench, Shield } from 'lucide-react';
+import { Headphones, Clock, Phone, Monitor, Wrench, Shield, X } from 'lucide-react';
 import SEOHead from '../../components/SEOHead';
 
 function ITSupport() {
+  const [showConsultationModal, setShowConsultationModal] = useState(false);
+  const [consultationForm, setConsultationForm] = useState({
+    companyName: '',
+    contactName: '',
+    email: '',
+    phone: '',
+    employees: '',
+    currentChallenges: '',
+    preferredCallTime: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleConsultationSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    // Simulate form submission
+    setTimeout(() => {
+      alert('Thank you! We will contact you within 24 hours to schedule your free consultation.');
+      setShowConsultationModal(false);
+      setConsultationForm({
+        companyName: '',
+        contactName: '',
+        email: '',
+        phone: '',
+        employees: '',
+        currentChallenges: '',
+        preferredCallTime: ''
+      });
+      setIsSubmitting(false);
+    }, 1000);
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <SEOHead
@@ -30,11 +64,11 @@ function ITSupport() {
                 From helpdesk support to system maintenance, we're here when you need us most.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <button className="bg-indigo-600 text-white px-8 py-3 rounded-lg text-lg font-medium hover:bg-indigo-700 transition-colors">
-                  Get Support Now
-                </button>
-                <button className="border-2 border-indigo-600 text-indigo-600 px-8 py-3 rounded-lg text-lg font-medium hover:bg-indigo-600 hover:text-white transition-colors">
-                  Call: +44 113 123 4567
+                <button 
+                  onClick={() => setShowConsultationModal(true)}
+                  className="bg-indigo-600 text-white px-8 py-3 rounded-lg text-lg font-medium hover:bg-indigo-700 transition-colors"
+                >
+                  Get a Free 30 minute IT Consultation
                 </button>
               </div>
             </div>
@@ -48,6 +82,159 @@ function ITSupport() {
           </div>
         </div>
       </section>
+
+      {/* Consultation Modal */}
+      {showConsultationModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-gray-900">Free 30 Minute IT Consultation</h2>
+              <button
+                onClick={() => setShowConsultationModal(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+            
+            <p className="text-gray-600 mb-6">
+              Get expert advice on your IT challenges. Fill out the form below and we'll contact you within 24 hours to schedule your free consultation.
+            </p>
+            
+            <form onSubmit={handleConsultationSubmit} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="companyName" className="block text-sm font-medium text-gray-700 mb-1">
+                    Company Name *
+                  </label>
+                  <input
+                    type="text"
+                    id="companyName"
+                    required
+                    value={consultationForm.companyName}
+                    onChange={(e) => setConsultationForm({...consultationForm, companyName: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="Your company name"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="contactName" className="block text-sm font-medium text-gray-700 mb-1">
+                    Contact Name *
+                  </label>
+                  <input
+                    type="text"
+                    id="contactName"
+                    required
+                    value={consultationForm.contactName}
+                    onChange={(e) => setConsultationForm({...consultationForm, contactName: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="Your name"
+                  />
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                    Email Address *
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    required
+                    value={consultationForm.email}
+                    onChange={(e) => setConsultationForm({...consultationForm, email: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="your@email.com"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                    Phone Number *
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    required
+                    value={consultationForm.phone}
+                    onChange={(e) => setConsultationForm({...consultationForm, phone: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="+44 113 123 4567"
+                  />
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="employees" className="block text-sm font-medium text-gray-700 mb-1">
+                    Number of Employees
+                  </label>
+                  <select
+                    id="employees"
+                    value={consultationForm.employees}
+                    onChange={(e) => setConsultationForm({...consultationForm, employees: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  >
+                    <option value="">Select range</option>
+                    <option value="1-10">1-10 employees</option>
+                    <option value="11-50">11-50 employees</option>
+                    <option value="51-100">51-100 employees</option>
+                    <option value="100+">100+ employees</option>
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="preferredCallTime" className="block text-sm font-medium text-gray-700 mb-1">
+                    Preferred Call Time
+                  </label>
+                  <select
+                    id="preferredCallTime"
+                    value={consultationForm.preferredCallTime}
+                    onChange={(e) => setConsultationForm({...consultationForm, preferredCallTime: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  >
+                    <option value="">Select time</option>
+                    <option value="morning">Morning (9AM-12PM)</option>
+                    <option value="afternoon">Afternoon (12PM-5PM)</option>
+                    <option value="evening">Evening (5PM-7PM)</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div>
+                <label htmlFor="currentChallenges" className="block text-sm font-medium text-gray-700 mb-1">
+                  Current IT Challenges
+                </label>
+                <textarea
+                  id="currentChallenges"
+                  rows={4}
+                  value={consultationForm.currentChallenges}
+                  onChange={(e) => setConsultationForm({...consultationForm, currentChallenges: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  placeholder="Tell us about your current IT challenges, goals, or specific areas where you need help..."
+                ></textarea>
+              </div>
+              
+              <div className="flex space-x-4 pt-4">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="flex-1 bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-indigo-700 transition-colors disabled:opacity-50"
+                >
+                  {isSubmitting ? 'Submitting...' : 'Request Free Consultation'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowConsultationModal(false)}
+                  disabled={isSubmitting}
+                  className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* Support Services */}
       <section className="py-20 bg-white">
