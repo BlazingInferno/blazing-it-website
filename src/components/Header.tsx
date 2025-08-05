@@ -164,11 +164,11 @@ function Header() {
                 <button
                   onClick={() => setIsServicesOpen(!isServicesOpen)}
                   className={`block px-3 py-2 text-base font-medium w-full text-left ${
-                    isActive('/articles') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+                    isActive('/services') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
                   }`}
                 >
                   Services
-                  Articles
+                </button>
                 {isServicesOpen && (
                   <div className="pl-6 space-y-1">
                     <Link
@@ -206,15 +206,6 @@ function Header() {
                 )}
               </div>
               <Link
-                to="/projects"
-                className={`block px-3 py-2 text-base font-medium w-full text-left ${
-                  isActive('/projects') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
-                }`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Projects
-              </Link>
-              <Link
                 to="/contact"
                 className={`block px-3 py-2 text-base font-medium w-full text-left ${
                   isActive('/contact') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
@@ -222,6 +213,15 @@ function Header() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Contact
+              </Link>
+              <Link
+                to="/articles"
+                className={`block px-3 py-2 text-base font-medium w-full text-left ${
+                  isActive('/articles') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Articles
               </Link>
             </div>
           </div>
