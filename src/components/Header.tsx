@@ -220,3 +220,12 @@ function Header() {
               >
                 Contact
               </Link>
+            </div>
+          </div>
+        </div>
+      )}
+    </nav>
+  );
+}
+
+export default Header;
