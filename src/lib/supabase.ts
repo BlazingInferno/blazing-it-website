@@ -18,10 +18,12 @@ export const supabase = supabaseUrl && supabaseAnonKey
       auth: {
         persistSession: true,
         autoRefreshToken: true,
+        detectSessionInUrl: false,
       },
       global: {
         headers: {
           'apikey': supabaseAnonKey,
+          'Authorization': `Bearer ${supabaseAnonKey}`,
         },
       },
     })
@@ -197,6 +199,11 @@ export const createBlogPost = async (postData: Omit<BlogPost, 'id' | 'created_at
   if (!supabase) return null;
   
   try {
+    // Log the current session for debugging
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+    console.log('Current Supabase session:', session ? 'Authenticated' : 'Not authenticated');
+    console.log('Session error:', sessionError);
+    
     // Clean and validate the post data
     const cleanPostData = {
       title: postData.title?.trim() || '',
@@ -219,16 +226,20 @@ export const createBlogPost = async (postData: Omit<BlogPost, 'id' | 'created_at
       throw new Error('Missing required fields: title, slug, excerpt, and content are required.');
     }
 
+    console.log('Attempting to create blog post with data:', cleanPostData);
+    
     const { data, error } = await supabase
       .from('blog_posts')
       .insert([cleanPostData])
       .select()
       .single();
     
+    console.log('Supabase response:', { data, error });
+    
     if (error) {
       const { type, message } = handleDatabaseError(error);
       console.error(`Database error (${type}):`, message);
-      console.error('Full error details:', error);
+      console.error('Full Supabase error details:', error);
       throw new Error(message);
     }
     
