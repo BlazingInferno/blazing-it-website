@@ -197,12 +197,6 @@ export const createBlogPost = async (postData: Omit<BlogPost, 'id' | 'created_at
   if (!supabase) return null;
   
   try {
-    // Ensure we have a valid session for authenticated operations
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
-      throw new Error('Authentication required. Please log in to create blog posts.');
-    }
-
     // Clean and validate the post data
     const cleanPostData = {
       title: postData.title?.trim() || '',
@@ -252,12 +246,6 @@ export const updateBlogPost = async (id: string, postData: Partial<BlogPost>): P
   if (!supabase) return null;
   
   try {
-    // Ensure we have a valid session for authenticated operations
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
-      throw new Error('Authentication required. Please log in to update blog posts.');
-    }
-
     // Clean the update data
     const cleanUpdateData: any = {};
     
