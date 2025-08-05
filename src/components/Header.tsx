@@ -161,13 +161,20 @@ function Header() {
                 Home
               </Link>
               <div>
-                <button
+                <Link
                   to="/blog"
                   className={`block px-3 py-2 text-base font-medium w-full text-left ${
                     isActive('/blog') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
                   }`}
+                  onClick={() => setIsMenuOpen(false)}
                 >
                   Blog
+                </Link>
+                <button
+                  onClick={() => setIsServicesOpen(!isServicesOpen)}
+                  className="block px-3 py-2 text-base font-medium w-full text-left text-gray-700 hover:text-blue-600"
+                >
+                  Services {isServicesOpen ? '▼' : '▶'}
                 </button>
                 {isServicesOpen && (
                   <div className="pl-6 space-y-1">
