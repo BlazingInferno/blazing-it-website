@@ -390,19 +390,6 @@ export default function Home() {
               </div>
             </div>
             
-            <div className="relative">
-              <div className="relative z-10">
-                <img
-                  src="https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&w=800"
-                  alt="Leeds IT support team providing cybersecurity and cloud solutions for Yorkshire businesses"
-                  className="rounded-2xl shadow-2xl"
-                />
-              </div>
-              <div className="absolute -top-4 -right-4 w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl opacity-20"></div>
-            </div>
-          </div>
         </div>
-      </section>
-    </div>
   );
 }
