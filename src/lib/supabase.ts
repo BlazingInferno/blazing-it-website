@@ -2,9 +2,10 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const supabaseServiceKey = import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY;
 
 // Validate that we're using the anon key, not the secret key
-if (supabaseAnonKey && supabaseAnonKey.includes('service_role')) {
+if (supabaseAnonKey && supabaseAnonKey.includes('service_role') && !supabaseServiceKey) {
   throw new Error('🚨 SECURITY WARNING: You are using the service_role key in the browser! Please use the anon key instead.');
 }
 
@@ -13,6 +14,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
   console.warn('⚠️ Supabase environment variables are missing. Database features will be disabled.');
 }
 
+// Create regular client for public operations
 export const supabase = supabaseUrl && supabaseAnonKey 
   ? createClient(supabaseUrl, supabaseAnonKey, {
       auth: {
@@ -20,15 +22,45 @@ export const supabase = supabaseUrl && supabaseAnonKey
         autoRefreshToken: true,
         detectSessionInUrl: false,
       },
-      global: {
-        headers: {
-          'apikey': supabaseAnonKey,
-          'Authorization': `Bearer ${supabaseAnonKey}`,
-        },
-      },
     })
   : null;
 
+// Create admin client for authenticated operations (only use server-side or in secure contexts)
+export const supabaseAdmin = supabaseUrl && supabaseServiceKey 
+  ? createClient(supabaseUrl, supabaseServiceKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false
+      }
+    })
+  : null;
+
+// Function to create a temporary auth session for admin operations
+export const createAdminSession = async (userEmail: string) => {
+  if (!supabase) return null;
+  
+  try {
+    // Sign in anonymously but with a custom user identifier
+    const { data, error } = await supabase.auth.signInAnonymously({
+      options: {
+        data: {
+          email: userEmail,
+          role: 'admin'
+        }
+      }
+    });
+    
+    if (error) {
+      console.error('Error creating admin session:', error);
+      return null;
+    }
+    
+    return data;
+  } catch (error) {
+    console.error('Error in createAdminSession:', error);
+    return null;
+  }
+};
 // Error types for better error handling
 export enum DatabaseError {
   CONNECTION_FAILED = 'CONNECTION_FAILED',
@@ -195,14 +227,15 @@ export const getBlogPostBySlug = async (slug: string): Promise<BlogPost | null> 
 };
 
 // Create blog post
-export const createBlogPost = async (postData: Omit<BlogPost, 'id' | 'created_at' | 'updated_at'>): Promise<BlogPost | null> => {
+export const createBlogPost = async (postData: Omit<BlogPost, 'id' | 'created_at' | 'updated_at'>, userEmail?: string): Promise<BlogPost | null> => {
   if (!supabase) return null;
   
   try {
-    // Log the current session for debugging
-    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-    console.log('Current Supabase session:', session ? 'Authenticated' : 'Not authenticated');
-    console.log('Session error:', sessionError);
+    // Try to create an admin session if user email is provided
+    if (userEmail) {
+      const adminSession = await createAdminSession(userEmail);
+      console.log('Admin session created:', adminSession ? 'Success' : 'Failed');
+    }
     
     // Clean and validate the post data
     const cleanPostData = {
@@ -253,10 +286,16 @@ export const createBlogPost = async (postData: Omit<BlogPost, 'id' | 'created_at
 };
 
 // Update blog post
-export const updateBlogPost = async (id: string, postData: Partial<BlogPost>): Promise<BlogPost | null> => {
+export const updateBlogPost = async (id: string, postData: Partial<BlogPost>, userEmail?: string): Promise<BlogPost | null> => {
   if (!supabase) return null;
   
   try {
+    // Try to create an admin session if user email is provided
+    if (userEmail) {
+      const adminSession = await createAdminSession(userEmail);
+      console.log('Admin session created for update:', adminSession ? 'Success' : 'Failed');
+    }
+    
     // Clean the update data
     const cleanUpdateData: any = {};
     

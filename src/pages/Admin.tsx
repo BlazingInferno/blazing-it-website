@@ -123,9 +123,9 @@ export default function Admin() {
       console.log('Processed post data:', postData);
       
       if (editingPost) {
-        await updateBlogPost(editingPost.id, postData);
+        await updateBlogPost(editingPost.id, postData, user?.email);
       } else {
-        await createBlogPost(postData);
+        await createBlogPost(postData, user?.email);
       }
 
       // Reset form
