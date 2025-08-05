@@ -19,24 +19,8 @@ function Header() {
 
   return (
     <nav className="bg-white shadow-sm">
-      {/* Mobile Contact Bar */}
-      <div className="md:hidden bg-blue-50 border-b border-blue-100">
-        <div className="max-w-7xl mx-auto px-4 py-2">
-          <div className="flex items-center justify-center space-x-6 text-sm">
-            <a href="mailto:info@blazingit.co.uk" className="flex items-center text-blue-700 hover:text-blue-900">
-              <Mail className="h-4 w-4 mr-1" />
-              <span className="font-medium">info@blazingit.co.uk</span>
-            </a>
-            <a href="tel:01918202449" className="flex items-center text-blue-700 hover:text-blue-900">
-              <Phone className="h-4 w-4 mr-1" />
-              <span className="font-medium">01918 202 449</span>
-            </a>
-          </div>
-        </div>
-      </div>
-      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20 md:h-16">
           <div className="flex items-center">
             <Link to="/" className="flex-shrink-0">
               <img src="/unnamed.png" alt="Blazing IT Limited logo - Yorkshire IT support cybersecurity and cloud solutions" className="h-16 w-16 hover:opacity-80 transition-opacity" />
@@ -118,7 +102,7 @@ function Header() {
             </div>
           </div>
 
-          {/* START: Phone number for desktop view */}
+          {/* Contact info - desktop and mobile */}
           <div className="hidden md:flex items-center space-x-6">
             <div className="flex items-center">
               <Mail className="h-4 w-4 text-gray-600 mr-2" />
@@ -133,7 +117,18 @@ function Header() {
             </a>
             </div>
           </div>
-          {/* END: Phone number for desktop view */}
+          
+          {/* Mobile contact info */}
+          <div className="md:hidden flex flex-col items-end space-y-1">
+            <a href="mailto:info@blazingit.co.uk" className="flex items-center text-xs text-gray-600 hover:text-blue-600">
+              <Mail className="h-3 w-3 mr-1" />
+              <span>info@blazingit.co.uk</span>
+            </a>
+            <a href="tel:01918202449" className="flex items-center text-xs text-gray-600 hover:text-blue-600">
+              <Phone className="h-3 w-3 mr-1" />
+              <span>01918 202 449</span>
+            </a>
+          </div>
 
           {/* Mobile menu button */}
           <div className="-mr-2 flex md:hidden">
@@ -225,12 +220,3 @@ function Header() {
               >
                 Contact
               </Link>
-            </div>
-          </div>
-        </div>
-      )}
-    </nav>
-  );
-}
-
-export default Header;
