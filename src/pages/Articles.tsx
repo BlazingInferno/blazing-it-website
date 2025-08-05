@@ -12,6 +12,13 @@ export default function Articles() {
 
   useEffect(() => {
     const loadPosts = async () => {
+      // Check if Supabase is configured
+      if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY) {
+        setError('Blog functionality requires Supabase configuration. This works in production but not in local development.');
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
         setError(null);
@@ -19,7 +26,7 @@ export default function Articles() {
         setBlogPosts(posts || []);
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Failed to load blog posts';
-        setError(`Unable to load projects: ${errorMessage}`);
+        setError(`Unable to load blog posts: ${errorMessage}`);
         console.error('Error loading posts:', err);
       } finally {
         setLoading(false);
@@ -67,21 +74,30 @@ export default function Articles() {
         </section>
         <section className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div className="bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-lg max-w-2xl mx-auto">
+            <div className="bg-blue-100 border border-blue-400 text-blue-700 px-6 py-4 rounded-lg max-w-2xl mx-auto">
               <div className="flex items-center mb-2">
-                <div className="text-red-600 mr-2">⚠️</div>
-                <strong className="font-medium">Unable to Load Blog Posts</strong>
+                <div className="text-blue-600 mr-2">ℹ️</div>
+                <strong className="font-medium">Blog Configuration</strong>
               </div>
               <p className="mb-3">{error}</p>
-              <div className="text-sm">
-                <p>This might be due to:</p>
-                <ul className="list-disc list-inside mt-1 text-left">
-                  <li>Network connectivity issues</li>
-                  <li>Database configuration problems</li>
-                  <li>Temporary service unavailability</li>
-                </ul>
-                <p className="mt-2">Please try refreshing the page or contact support if the issue persists.</p>
-              </div>
+              {error.includes('Supabase configuration') ? (
+                <div className="text-sm">
+                  <p>The blog functionality is available in the deployed version at:</p>
+                  <a href="https://blazingit.co.uk/blog" className="text-blue-800 underline font-medium">
+                    https://blazingit.co.uk/blog
+                  </a>
+                </div>
+              ) : (
+                <div className="text-sm">
+                  <p>This might be due to:</p>
+                  <ul className="list-disc list-inside mt-1 text-left">
+                    <li>Network connectivity issues</li>
+                    <li>Database configuration problems</li>
+                    <li>Temporary service unavailability</li>
+                  </ul>
+                  <p className="mt-2">Please try refreshing the page or contact support if the issue persists.</p>
+                </div>
+              )}
             </div>
           </div>
         </section>

@@ -21,6 +21,13 @@ export default function DynamicBlogPost() {
     const loadPost = async () => {
       if (!slug) return;
       
+      // Check if Supabase is configured
+      if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY) {
+        setError('Blog functionality requires Supabase configuration. This works in production but not in local development.');
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
         setError(null);
@@ -86,18 +93,25 @@ export default function DynamicBlogPost() {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center max-w-2xl mx-auto px-4">
-          <div className="bg-red-100 border border-red-400 text-red-700 px-6 py-8 rounded-lg">
+          <div className={`px-6 py-8 rounded-lg ${
+            error?.includes('Supabase configuration') 
+              ? 'bg-blue-100 border border-blue-400 text-blue-700' 
+              : 'bg-red-100 border border-red-400 text-red-700'
+          }`}>
             <h1 className="text-2xl font-bold text-red-900 mb-4">
-              {error === 'Post not found' ? 'Post Not Found' : 'Error Loading Post'}
+              {error === 'Post not found' ? 'Post Not Found' : 
+               error?.includes('Supabase configuration') ? 'Blog Configuration' : 'Error Loading Post'}
             </h1>
             <div className="mb-6">
               <p className="mb-3">
                 {error === 'Post not found' 
                   ? "The blog post you're looking for doesn't exist or hasn't been published yet."
+                  : error?.includes('Supabase configuration')
+                  ? "Blog functionality is available in the deployed version. Visit the live site to view blog posts."
                   : `There was an error loading the post: ${error}`
                 }
               </p>
-              {error !== 'Post not found' && (
+              {error !== 'Post not found' && !error?.includes('Supabase configuration') && (
                 <div className="text-sm">
                   <p>This might be due to:</p>
                   <ul className="list-disc list-inside mt-1 text-left">
@@ -105,6 +119,14 @@ export default function DynamicBlogPost() {
                     <li>Database configuration problems</li>
                     <li>Temporary service unavailability</li>
                   </ul>
+                </div>
+              )}
+              {error?.includes('Supabase configuration') && (
+                <div className="text-sm">
+                  <p>Visit the live site to access the blog:</p>
+                  <a href="https://blazingit.co.uk/blog" className="text-blue-800 underline font-medium">
+                    https://blazingit.co.uk/blog
+                  </a>
                 </div>
               )}
             </div>
