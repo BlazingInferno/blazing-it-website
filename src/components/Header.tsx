@@ -19,6 +19,22 @@ function Header() {
 
   return (
     <nav className="bg-white shadow-sm">
+      {/* Mobile Contact Bar */}
+      <div className="md:hidden bg-blue-50 border-b border-blue-100">
+        <div className="max-w-7xl mx-auto px-4 py-2">
+          <div className="flex items-center justify-center space-x-6 text-sm">
+            <a href="mailto:info@blazingit.co.uk" className="flex items-center text-blue-700 hover:text-blue-900">
+              <Mail className="h-4 w-4 mr-1" />
+              <span className="font-medium">info@blazingit.co.uk</span>
+            </a>
+            <a href="tel:01918202449" className="flex items-center text-blue-700 hover:text-blue-900">
+              <Phone className="h-4 w-4 mr-1" />
+              <span className="font-medium">01918 202 449</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
@@ -209,22 +225,6 @@ function Header() {
               >
                 Contact
               </Link>
-
-              {/* Contact Information for mobile view */}
-              <div className="border-t border-gray-200 mt-4 pt-4 bg-blue-50 -mx-2 px-4 py-3 rounded-lg">
-                <div className="text-sm font-semibold text-blue-900 mb-3">Contact Us</div>
-                <div className="space-y-3">
-                  <a href="mailto:info@blazingit.co.uk" className="flex items-center text-blue-700 hover:text-blue-900 transition-colors">
-                    <Mail className="h-5 w-5 mr-3 flex-shrink-0" />
-                    <span className="text-sm font-medium">info@blazingit.co.uk</span>
-                  </a>
-                  <a href="tel:01918202449" className="flex items-center text-blue-700 hover:text-blue-900 transition-colors">
-                    <Phone className="h-5 w-5 mr-3 flex-shrink-0" />
-                    <span className="text-sm font-medium">01918 202 449</span>
-                  </a>
-                </div>
-              </div>
-
             </div>
           </div>
         </div>
