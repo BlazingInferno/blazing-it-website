@@ -42,7 +42,7 @@ export default function Home() {
                 </Link>
                 <Link
                   to="/services"
-                  className="border-2 border-blue-700 text-blue-700 px-8 py-3 rounded-lg text-lg font-medium hover:bg-blue-700 hover:text-white transition-colors"
+                  className="bg-blue-100 text-blue-700 px-8 py-3 rounded-lg text-lg font-medium hover:bg-blue-200 transition-colors border border-blue-300"
                 >
                   Our Services
                 </Link>
@@ -383,7 +383,7 @@ export default function Home() {
             </Link>
             <Link
               to="/services"
-                  className="border-2 border-blue-700 text-blue-700 px-8 py-3 rounded-lg text-lg font-medium hover:bg-blue-700 hover:text-white transition-colors"
+                  className="bg-blue-100 text-blue-700 px-8 py-3 rounded-lg text-lg font-medium hover:bg-blue-200 transition-colors border border-blue-300"
                 >
                   View Our Services
                 </Link>

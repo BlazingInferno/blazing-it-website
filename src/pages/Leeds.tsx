@@ -46,7 +46,7 @@ export default function Leeds() {
                 </Link>
                 <Link
                   to="/services"
-                  className="border-2 border-blue-700 text-blue-700 px-8 py-3 rounded-lg text-lg font-medium hover:bg-blue-700 hover:text-white transition-colors"
+                  className="bg-blue-100 text-blue-700 px-8 py-3 rounded-lg text-lg font-medium hover:bg-blue-200 transition-colors border border-blue-300"
                 >
                   Our Services
                 </Link>
@@ -178,7 +178,7 @@ export default function Leeds() {
               
               <Link 
                 to="/contact" 
-                className="inline-flex items-center bg-blue-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-800 transition-colors"
+                className="bg-white bg-opacity-20 text-white px-8 py-3 rounded-lg text-lg font-medium hover:bg-white hover:text-blue-700 transition-colors border border-white border-opacity-50"
               >
                 Contact Our Team <ArrowRight className="h-4 w-4 ml-2" />
               </Link>
