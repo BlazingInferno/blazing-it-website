@@ -35,17 +35,17 @@ export default function Articles() {
         <section className="bg-gradient-to-br from-blue-50 to-indigo-100 py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-              Our Projects
+              Our Blog
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Loading our latest projects and case studies...
+              Loading our latest blog posts and case studies...
             </p>
           </div>
         </section>
         <section className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading projects...</p>
+            <p className="text-gray-600">Loading blog posts...</p>
           </div>
         </section>
       </div>
@@ -58,10 +58,10 @@ export default function Articles() {
         <section className="bg-gradient-to-br from-blue-50 to-indigo-100 py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-              Our Projects
+              Our Blog
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Insights, case studies, and technical articles from our IT experts.
+              Insights, case studies, and technical blog posts from our IT experts.
             </p>
           </div>
         </section>
@@ -70,7 +70,7 @@ export default function Articles() {
             <div className="bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-lg max-w-2xl mx-auto">
               <div className="flex items-center mb-2">
                 <div className="text-red-600 mr-2">⚠️</div>
-                <strong className="font-medium">Unable to Load Articles</strong>
+                <strong className="font-medium">Unable to Load Blog Posts</strong>
               </div>
               <p className="mb-3">{error}</p>
               <div className="text-sm">
@@ -92,19 +92,19 @@ export default function Articles() {
   return (
     <div className="min-h-screen bg-white">
       <SEOHead
-        title="Our Articles - IT Case Studies & Success Stories"
-        description="Explore our latest IT articles, case studies, and technical insights. Learn how we've helped businesses transform through technology solutions and digital innovation."
-        keywords="IT articles, case studies, technology success stories, digital transformation, IT consulting examples, business technology solutions"
-        url="https://blazingit.co.uk/articles"
+        title="Our Blog - IT Case Studies & Success Stories"
+        description="Explore our latest IT blog posts, case studies, and technical insights. Learn how we've helped businesses transform through technology solutions and digital innovation."
+        keywords="IT blog, case studies, technology success stories, digital transformation, IT consulting examples, business technology solutions"
+        url="https://blazingit.co.uk/blog"
       />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-50 to-indigo-100 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            Our Articles
+            Our Blog
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Insights, case studies, and technical articles from our IT experts. Learn about our latest articles, 
+            Insights, case studies, and technical blog posts from our IT experts. Learn about our latest posts, 
             best practices, and industry trends that drive successful digital transformation.
           </p>
         </div>
@@ -159,7 +159,7 @@ export default function Articles() {
                           to={`/blog/${post.slug}`}
                           className="inline-flex items-center text-blue-600 font-medium hover:text-blue-800 transition-colors"
                         >
-                          Read Full Article
+                          Read Full Post
                           <ArrowRight className="h-4 w-4 ml-2" />
                         </Link>
                       </div>
@@ -174,7 +174,7 @@ export default function Articles() {
               <div className="sticky top-8">
                 {/* Recent Posts */}
                 <div className="bg-gray-50 rounded-xl p-6 mb-8">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">Recent Articles</h3>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-4">Recent Posts</h3>
                   <div className="space-y-4">
                     {blogPosts.slice(0, 3).map((post) => (
                       <div key={post.id} className="border-l-4 border-blue-600 pl-4">
@@ -185,7 +185,7 @@ export default function Articles() {
                       </div>
                     ))}
                     {blogPosts.length === 0 && (
-                      <p className="text-gray-500 text-sm">No published articles yet.</p>
+                      <p className="text-gray-500 text-sm">No published posts yet.</p>
                     )}
                   </div>
                 </div>
@@ -194,7 +194,7 @@ export default function Articles() {
                 <div className="bg-blue-700 rounded-xl p-6 text-white">
                   <h3 className="text-xl font-semibold mb-4">Need Similar Solutions?</h3>
                   <p className="text-blue-100 mb-4">
-                    Get expert consultation for your IT articles and digital transformation needs.
+                    Get expert consultation for your IT projects and digital transformation needs.
                   </p>
                   <Link
                     to="/contact"

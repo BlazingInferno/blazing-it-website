@@ -14,7 +14,7 @@ const handler: Handler = async (event, context) => {
     { url: '/services/data-backup', priority: '0.8', changefreq: 'monthly' },
     { url: '/services/it-support', priority: '0.8', changefreq: 'monthly' },
     { url: '/contact', priority: '0.7', changefreq: 'monthly' },
-    { url: '/articles', priority: '0.7', changefreq: 'weekly' },
+    { url: '/blog', priority: '0.7', changefreq: 'weekly' },
     { url: '/leeds', priority: '0.6', changefreq: 'monthly' }
   ];
 

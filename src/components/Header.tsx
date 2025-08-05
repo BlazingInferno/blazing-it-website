@@ -98,20 +98,12 @@ function Header() {
                   </div>
                 </div>
                 <Link
-                  to="/contact"
+                  to="/blog"
                   className={`px-3 py-2 text-sm font-medium transition-colors ${
-                    isActive('/contact') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+                    isActive('/blog') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
                   }`}
                 >
-                  Contact
-                </Link>
-                <Link
-                  to="/articles"
-                  className={`px-3 py-2 text-sm font-medium transition-colors ${
-                    isActive('/articles') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
-                  }`}
-                >
-                  Articles
+                  Blog
                 </Link>
               </div>
             </div>
@@ -119,6 +111,14 @@ function Header() {
 
           {/* Contact info - desktop and mobile */}
           <div className="hidden md:flex items-center space-x-6">
+            <Link
+              to="/contact"
+              className={`px-3 py-2 text-sm font-medium transition-colors ${
+                isActive('/contact') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+              }`}
+            >
+              Contact
+            </Link>
             <div className="flex items-center">
               <Mail className="h-4 w-4 text-gray-600 mr-2" />
               <a href="mailto:info@blazingit.co.uk" className="text-sm font-medium text-gray-700 hover:text-blue-600">
@@ -162,12 +162,12 @@ function Header() {
               </Link>
               <div>
                 <button
-                  onClick={() => setIsServicesOpen(!isServicesOpen)}
+                  to="/blog"
                   className={`block px-3 py-2 text-base font-medium w-full text-left ${
-                    isActive('/services') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+                    isActive('/blog') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
                   }`}
                 >
-                  Services
+                  Blog
                 </button>
                 {isServicesOpen && (
                   <div className="pl-6 space-y-1">

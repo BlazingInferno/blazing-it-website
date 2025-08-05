@@ -52,7 +52,7 @@ function App() {
           <Route path="/services/cloud-solutions" element={<CloudSolutions />} />
           <Route path="/services/data-backup" element={<DataBackup />} />
           <Route path="/services/it-support" element={<ITSupport />} />
-          <Route path="/articles" element={<Articles />} />
+          <Route path="/blog" element={<Articles />} />
           
           {/* Admin routes - protected with Auth0 */}
           <Route path="/login" element={<ProtectedAdmin />} />
