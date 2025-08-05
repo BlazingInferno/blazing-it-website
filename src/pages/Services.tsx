@@ -131,6 +131,3 @@ export default function Services() {
           </Link>
         </div>
       </section>
-    </div>
-  );
-}
