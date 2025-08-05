@@ -20,11 +20,24 @@ function Header() {
   return (
     <nav className="bg-white shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20 md:h-16">
-          <div className="flex items-center">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center flex-1 md:flex-initial">
             <Link to="/" className="flex-shrink-0">
               <img src="/unnamed.png" alt="Blazing IT Limited logo - Yorkshire IT support cybersecurity and cloud solutions" className="h-16 w-16 hover:opacity-80 transition-opacity" />
             </Link>
+            
+            {/* Mobile contact info - next to logo */}
+            <div className="md:hidden flex-1 flex justify-between items-center ml-4 mr-4">
+              <a href="mailto:info@blazingit.co.uk" className="flex items-center text-xs text-gray-600 hover:text-blue-600">
+                <Mail className="h-3 w-3 mr-1 flex-shrink-0" />
+                <span className="truncate">info@blazingit.co.uk</span>
+              </a>
+              <a href="tel:01918202449" className="flex items-center text-xs text-gray-600 hover:text-blue-600">
+                <Phone className="h-3 w-3 mr-1 flex-shrink-0" />
+                <span>01918 202 449</span>
+              </a>
+            </div>
+            
             {/* Desktop Navigation */}
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-8">
@@ -118,18 +131,6 @@ function Header() {
             </div>
           </div>
           
-          {/* Mobile contact info */}
-          <div className="md:hidden flex flex-col items-end space-y-1">
-            <a href="mailto:info@blazingit.co.uk" className="flex items-center text-xs text-gray-600 hover:text-blue-600">
-              <Mail className="h-3 w-3 mr-1" />
-              <span>info@blazingit.co.uk</span>
-            </a>
-            <a href="tel:01918202449" className="flex items-center text-xs text-gray-600 hover:text-blue-600">
-              <Phone className="h-3 w-3 mr-1" />
-              <span>01918 202 449</span>
-            </a>
-          </div>
-
           {/* Mobile menu button */}
           <div className="-mr-2 flex md:hidden">
             <button
