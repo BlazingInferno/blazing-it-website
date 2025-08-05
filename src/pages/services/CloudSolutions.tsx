@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Cloud, Server, Zap, Shield, TrendingUp, Globe, X } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 import SEOHead from '../../components/SEOHead';
 
 function CloudSolutions() {
@@ -19,8 +20,25 @@ function CloudSolutions() {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      // Use environment variables for EmailJS credentials
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+      const templateParams = {
+        from_name: consultationForm.contactName,
+        from_email: consultationForm.email,
+        phone: consultationForm.phone,
+        company_name: consultationForm.companyName,
+        preferred_call_time: consultationForm.preferredCallTime,
+        service_interest: 'Cloud Solutions - Free Cloud Assessment',
+        message: `Company: ${consultationForm.companyName}\nContact: ${consultationForm.contactName}\nPhone: ${consultationForm.phone}\nPreferred Call Time: ${consultationForm.preferredCallTime}\n\nRequesting a free cloud assessment.`,
+        to_name: 'Blazing IT Limited',
+      };
+
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      
       alert('Thank you! We will contact you within 24 hours to schedule your free cloud assessment.');
       setShowConsultationModal(false);
       setConsultationForm({
@@ -30,8 +48,12 @@ function CloudSolutions() {
         phone: '',
         preferredCallTime: ''
       });
+    } catch (error) {
+      console.error('EmailJS error:', error);
+      alert('Sorry, there was an error sending your request. Please try again or contact us directly.');
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
 
   return (
