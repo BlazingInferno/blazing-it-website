@@ -210,22 +210,20 @@ function Header() {
                 Contact
               </Link>
 
-              {/* START: Phone number for mobile view */}
-              <div className="border-t border-gray-200 my-2 pt-4">
-                 <div className="flex items-center px-3 mb-3">
-                    <Mail className="h-5 w-5 text-gray-600 mr-3" />
-                    <a href="mailto:info@blazingit.co.uk" className="text-base font-medium text-gray-700 hover:text-blue-600">
-                        info@blazingit.co.uk
-                    </a>
-                 </div>
-                 <div className="flex items-center px-3">
-                    <Phone className="h-5 w-5 text-gray-600 mr-3" />
-                    <a href="tel:01918202449" className="text-base font-medium text-gray-700 hover:text-blue-600">
-                        01918 202 449
-                    </a>
-                 </div>
+              {/* Contact Information for mobile view */}
+              <div className="border-t border-gray-200 mt-4 pt-4 bg-blue-50 -mx-2 px-4 py-3 rounded-lg">
+                <div className="text-sm font-semibold text-blue-900 mb-3">Contact Us</div>
+                <div className="space-y-3">
+                  <a href="mailto:info@blazingit.co.uk" className="flex items-center text-blue-700 hover:text-blue-900 transition-colors">
+                    <Mail className="h-5 w-5 mr-3 flex-shrink-0" />
+                    <span className="text-sm font-medium">info@blazingit.co.uk</span>
+                  </a>
+                  <a href="tel:01918202449" className="flex items-center text-blue-700 hover:text-blue-900 transition-colors">
+                    <Phone className="h-5 w-5 mr-3 flex-shrink-0" />
+                    <span className="text-sm font-medium">01918 202 449</span>
+                  </a>
+                </div>
               </div>
-              {/* END: Phone number for mobile view */}
 
             </div>
           </div>
