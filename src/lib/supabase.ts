@@ -51,7 +51,7 @@ export const handleDatabaseError = (error: any): { type: DatabaseError; message:
   }
 
   // Authentication errors
-  if (error.code === 'PGRST301' || error.message?.includes('JWT')) {
+  if (error.code === 'PGRST301' || error.message?.includes('JWT') || error.message?.includes('Authentication required') || error.status === 401) {
     return { 
       type: DatabaseError.UNAUTHORIZED, 
       message: 'Authentication failed. Please log in again.' 
@@ -67,10 +67,10 @@ export const handleDatabaseError = (error: any): { type: DatabaseError; message:
   }
 
   // Validation errors
-  if (error.code?.startsWith('23') || error.message?.includes('violates')) {
+  if (error.code?.startsWith('23') || error.message?.includes('violates') || error.message?.includes('Missing required fields') || error.code === '42703') {
     return { 
       type: DatabaseError.VALIDATION_ERROR, 
-      message: 'Invalid data provided. Please check your input.' 
+      message: error.message?.includes('Missing required fields') ? error.message : 'Invalid data provided. Please check your input.' 
     };
   }
 
@@ -197,15 +197,44 @@ export const createBlogPost = async (postData: Omit<BlogPost, 'id' | 'created_at
   if (!supabase) return null;
   
   try {
+    // Ensure we have a valid session for authenticated operations
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      throw new Error('Authentication required. Please log in to create blog posts.');
+    }
+
+    // Clean and validate the post data
+    const cleanPostData = {
+      title: postData.title?.trim() || '',
+      slug: postData.slug?.trim() || '',
+      excerpt: postData.excerpt?.trim() || '',
+      content: postData.content?.trim() || '',
+      author: postData.author?.trim() || 'Blazing IT Team',
+      date: postData.date || new Date().toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      }),
+      read_time: postData.read_time || '5 min read',
+      tags: Array.isArray(postData.tags) ? postData.tags : [],
+      published: Boolean(postData.published)
+    };
+
+    // Validate required fields
+    if (!cleanPostData.title || !cleanPostData.slug || !cleanPostData.excerpt || !cleanPostData.content) {
+      throw new Error('Missing required fields: title, slug, excerpt, and content are required.');
+    }
+
     const { data, error } = await supabase
       .from('blog_posts')
-      .insert([postData])
+      .insert([cleanPostData])
       .select()
       .single();
     
     if (error) {
       const { type, message } = handleDatabaseError(error);
       console.error(`Database error (${type}):`, message);
+      console.error('Full error details:', error);
       throw new Error(message);
     }
     
@@ -213,6 +242,7 @@ export const createBlogPost = async (postData: Omit<BlogPost, 'id' | 'created_at
   } catch (error) {
     const { message } = handleDatabaseError(error);
     console.error('Error creating blog post:', message);
+    console.error('Full error details:', error);
     throw error;
   }
 };
@@ -222,9 +252,28 @@ export const updateBlogPost = async (id: string, postData: Partial<BlogPost>): P
   if (!supabase) return null;
   
   try {
+    // Ensure we have a valid session for authenticated operations
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      throw new Error('Authentication required. Please log in to update blog posts.');
+    }
+
+    // Clean the update data
+    const cleanUpdateData: any = {};
+    
+    if (postData.title !== undefined) cleanUpdateData.title = postData.title?.trim() || '';
+    if (postData.slug !== undefined) cleanUpdateData.slug = postData.slug?.trim() || '';
+    if (postData.excerpt !== undefined) cleanUpdateData.excerpt = postData.excerpt?.trim() || '';
+    if (postData.content !== undefined) cleanUpdateData.content = postData.content?.trim() || '';
+    if (postData.author !== undefined) cleanUpdateData.author = postData.author?.trim() || 'Blazing IT Team';
+    if (postData.date !== undefined) cleanUpdateData.date = postData.date;
+    if (postData.read_time !== undefined) cleanUpdateData.read_time = postData.read_time;
+    if (postData.tags !== undefined) cleanUpdateData.tags = Array.isArray(postData.tags) ? postData.tags : [];
+    if (postData.published !== undefined) cleanUpdateData.published = Boolean(postData.published);
+
     const { data, error } = await supabase
       .from('blog_posts')
-      .update(postData)
+      .update(cleanUpdateData)
       .eq('id', id)
       .select()
       .single();
@@ -232,6 +281,7 @@ export const updateBlogPost = async (id: string, postData: Partial<BlogPost>): P
     if (error) {
       const { type, message } = handleDatabaseError(error);
       console.error(`Database error (${type}):`, message);
+      console.error('Full error details:', error);
       throw new Error(message);
     }
     
@@ -239,6 +289,7 @@ export const updateBlogPost = async (id: string, postData: Partial<BlogPost>): P
   } catch (error) {
     const { message } = handleDatabaseError(error);
     console.error('Error updating blog post:', message);
+    console.error('Full error details:', error);
     throw error;
   }
 };
