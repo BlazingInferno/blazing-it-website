@@ -38,6 +38,7 @@ function Header() {
                 <span>01918 202 449</span>
               </a>
             </div>
+            </div>
             
             {/* Desktop Navigation */}
             <div className="hidden md:block">
