@@ -39,16 +39,16 @@ export default function Leeds() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Link
-                  to="/services"
+                  to="/contact"
                   className="bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-medium hover:bg-blue-800 transition-colors shadow-lg hover:shadow-xl"
                 >
-                  Our Services
+                  Get Started
                 </Link>
                 <Link
-                  to="/contact"
+                  to="/services"
                   className="border-2 border-blue-700 text-blue-700 px-8 py-3 rounded-lg text-lg font-medium hover:bg-blue-700 hover:text-white transition-colors"
                 >
-                  Get Quote
+                  Our Services
                 </Link>
               </div>
             </div>
