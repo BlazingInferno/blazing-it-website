@@ -221,7 +221,7 @@ function CloudSolutions() {
             </div>
 
             <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
-              <img src="/unnamed-removebg-preview copy.png" alt="Blazing IT Logo" className="h-12 w-12 mb-6" />
+              <Zap className="h-12 w-12 text-blue-600 mb-6" />
               <h3 className="text-xl font-semibold text-gray-900 mb-4">Auto Scaling</h3>
               <p className="text-gray-600 leading-relaxed">
                 Automatically scale your resources up or down based on demand to optimize performance and costs.
