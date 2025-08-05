@@ -139,9 +139,12 @@ function ITSupport() {
                 <li>• Business hours coverage</li>
                 <li>• Remote assistance</li>
               </ul>
-              <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+              <Link
+                to="/contact"
+                className="block w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors text-center"
+              >
                 Contact for Pricing
-              </button>
+              </Link>
             </div>
 
             <div className="bg-white p-8 rounded-xl shadow-lg text-center border-2 border-indigo-600">
@@ -159,9 +162,12 @@ function ITSupport() {
                 <li>• Priority remote assistance</li>
                 <li>• Monthly system reviews</li>
               </ul>
-              <button className="w-full bg-indigo-600 text-white py-3 rounded-lg font-medium hover:bg-indigo-700 transition-colors">
-                Most Popular
-              </button>
+              <Link
+                to="/contact"
+                className="block w-full bg-indigo-600 text-white py-3 rounded-lg font-medium hover:bg-indigo-700 transition-colors text-center"
+              >
+                Get Pro Support
+              </Link>
             </div>
 
             <div className="bg-white p-8 rounded-xl shadow-lg text-center">
@@ -179,9 +185,12 @@ function ITSupport() {
                 <li>• On-site support included</li>
                 <li>• Proactive monitoring</li>
               </ul>
-              <button className="w-full bg-purple-600 text-white py-3 rounded-lg font-medium hover:bg-purple-700 transition-colors">
+              <Link
+                to="/contact"
+                className="block w-full bg-purple-600 text-white py-3 rounded-lg font-medium hover:bg-purple-700 transition-colors text-center"
+              >
                 Contact for Pricing
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -230,12 +239,18 @@ function ITSupport() {
             Our expert technicians are standing by to help resolve your technical issues quickly and efficiently.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-indigo-600 px-8 py-3 rounded-lg text-lg font-medium hover:bg-gray-100 transition-colors">
+            <Link
+              to="/contact"
+              className="bg-white text-indigo-600 px-8 py-3 rounded-lg text-lg font-medium hover:bg-gray-100 transition-colors"
+            >
               Start Live Chat
-            </button>
-            <button className="border-2 border-white text-white px-8 py-3 rounded-lg text-lg font-medium hover:bg-white hover:text-indigo-600 transition-colors">
-              Call: +44 113 123 4567
-            </button>
+            </Link>
+            <a
+              href="tel:01918202449"
+              className="border-2 border-white text-white px-8 py-3 rounded-lg text-lg font-medium hover:bg-white hover:text-indigo-600 transition-colors"
+            >
+              Call: 01918 202 449
+            </a>
           </div>
         </div>
       </section>
