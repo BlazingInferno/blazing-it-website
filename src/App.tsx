@@ -10,7 +10,7 @@ import Cybersecurity from './pages/services/Cybersecurity';
 import CloudSolutions from './pages/services/CloudSolutions';
 import DataBackup from './pages/services/DataBackup';
 import ITSupport from './pages/services/ITSupport';
-import Projects from './pages/Projects';
+import Articles from './pages/Articles';
 import Admin from './pages/Admin';
 import DynamicBlogPost from './pages/blog/DynamicBlogPost';
 import Leeds from './pages/Leeds';
@@ -52,7 +52,7 @@ function App() {
           <Route path="/services/cloud-solutions" element={<CloudSolutions />} />
           <Route path="/services/data-backup" element={<DataBackup />} />
           <Route path="/services/it-support" element={<ITSupport />} />
-          <Route path="/projects" element={<Projects />} />
+          <Route path="/articles" element={<Articles />} />
           
           {/* Admin routes - protected with Auth0 */}
           <Route path="/login" element={<ProtectedAdmin />} />

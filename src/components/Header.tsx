@@ -106,12 +106,12 @@ function Header() {
                   Contact
                 </Link>
                 <Link
-                  to="/projects"
+                  to="/articles"
                   className={`px-3 py-2 text-sm font-medium transition-colors ${
-                    isActive('/projects') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+                    isActive('/articles') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
                   }`}
                 >
-                  Projects
+                  Articles
                 </Link>
               </div>
             </div>
@@ -164,11 +164,11 @@ function Header() {
                 <button
                   onClick={() => setIsServicesOpen(!isServicesOpen)}
                   className={`block px-3 py-2 text-base font-medium w-full text-left ${
-                    isActive('/services') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+                    isActive('/articles') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
                   }`}
                 >
                   Services
-                </button>
+                  Articles
                 {isServicesOpen && (
                   <div className="pl-6 space-y-1">
                     <Link

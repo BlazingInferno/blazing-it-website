@@ -5,7 +5,7 @@ import { Calendar, User, ArrowRight, Clock, Tag, MessageCircle } from 'lucide-re
 import { getPublishedBlogPosts, BlogPost } from '../lib/supabase';
 import SEOHead from '../components/SEOHead';
 
-export default function Projects() {
+export default function Articles() {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -104,7 +104,7 @@ export default function Projects() {
             Our Projects
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Insights, case studies, and technical articles from our IT experts. Learn about our latest projects, 
+            Insights, case studies, and technical articles from our IT experts. Learn about our latest articles, 
             best practices, and industry trends that drive successful digital transformation.
           </p>
         </div>
