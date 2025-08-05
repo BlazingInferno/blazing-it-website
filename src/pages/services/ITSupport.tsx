@@ -11,8 +11,6 @@ function ITSupport() {
     contactName: '',
     email: '',
     phone: '',
-    employees: '',
-    currentChallenges: '',
     preferredCallTime: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -30,8 +28,6 @@ function ITSupport() {
         contactName: '',
         email: '',
         phone: '',
-        employees: '',
-        currentChallenges: '',
         preferredCallTime: ''
       });
       setIsSubmitting(false);
@@ -164,25 +160,7 @@ function ITSupport() {
                 </div>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="employees" className="block text-sm font-medium text-gray-700 mb-1">
-                    Number of Employees
-                  </label>
-                  <select
-                    id="employees"
-                    value={consultationForm.employees}
-                    onChange={(e) => setConsultationForm({...consultationForm, employees: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                  >
-                    <option value="">Select range</option>
-                    <option value="1-10">1-10 employees</option>
-                    <option value="11-50">11-50 employees</option>
-                    <option value="51-100">51-100 employees</option>
-                    <option value="100+">100+ employees</option>
-                  </select>
-                </div>
-                <div>
+              <div>
                   <label htmlFor="preferredCallTime" className="block text-sm font-medium text-gray-700 mb-1">
                     Preferred Call Time
                   </label>
@@ -197,21 +175,6 @@ function ITSupport() {
                     <option value="afternoon">Afternoon (12PM-5PM)</option>
                     <option value="evening">Evening (5PM-7PM)</option>
                   </select>
-                </div>
-              </div>
-              
-              <div>
-                <label htmlFor="currentChallenges" className="block text-sm font-medium text-gray-700 mb-1">
-                  Current IT Challenges
-                </label>
-                <textarea
-                  id="currentChallenges"
-                  rows={4}
-                  value={consultationForm.currentChallenges}
-                  onChange={(e) => setConsultationForm({...consultationForm, currentChallenges: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                  placeholder="Tell us about your current IT challenges, goals, or specific areas where you need help..."
-                ></textarea>
               </div>
               
               <div className="flex space-x-4 pt-4">
