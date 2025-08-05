@@ -127,7 +127,7 @@ export default function Services() {
           <Link
             to="/contact"
             className="inline-block bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-medium hover:bg-blue-800 transition-colors shadow-lg hover:shadow-xl"
-          >
+          />
             Get Started
           </Link>
         </div>
