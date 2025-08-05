@@ -37,6 +37,7 @@ export default function Services() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
             <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
               <Link to="/services/cybersecurity" className="block">
               <img
@@ -92,6 +93,26 @@ export default function Services() {
               </p>
               <div className="mt-6">
                 <span className="text-red-600 font-medium hover:text-red-700">Learn More →</span>
+              </div>
+              </Link>
+            </div>
+            
+            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+              <Link to="/services/it-support" className="block">
+              <img
+                src="https://images.pexels.com/photos/7688336/pexels-photo-7688336.jpeg?auto=compress&cs=tinysrgb&w=400"
+                alt="IT support technician providing 24/7 remote assistance and helpdesk services for business technology"
+                className="w-full h-48 object-cover rounded-lg mb-6"
+              />
+              <div className="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center mb-6">
+                <Users className="h-8 w-8 text-purple-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">IT Support</h3>
+              <p className="text-gray-600 leading-relaxed">
+                24/7 technical support and helpdesk services to keep your business running smoothly with expert assistance.
+              </p>
+              <div className="mt-6">
+                <span className="text-purple-600 font-medium hover:text-purple-700">Learn More →</span>
               </div>
               </Link>
             </div>
