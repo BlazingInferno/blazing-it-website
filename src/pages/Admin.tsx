@@ -39,7 +39,6 @@ export default function Admin() {
     tags: '',
     published: false
   });
-  const [contentMode, setContentMode] = useState<'text' | 'html'>('text');
 
   // Generate slug from title
   const generateSlug = (title: string) => {
@@ -103,17 +102,11 @@ export default function Admin() {
       const slug = formData.slug || generateSlug(formData.title);
       const tags = formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
       
-      // Convert text content to HTML if in text mode
-      let processedContent = formData.content;
-      if (contentMode === 'text') {
-        processedContent = convertTextToHTML(formData.content);
-      }
-      
       const postData = {
         title: formData.title,
         slug,
         excerpt: formData.excerpt,
-        content: processedContent,
+        content: formData.content,
         author: formData.author,
         date: new Date().toLocaleDateString('en-US', { 
           year: 'numeric', 
@@ -158,15 +151,11 @@ export default function Admin() {
   // Handle editing a post
   const handleEdit = (post: BlogPost) => {
     setEditingPost(post);
-    // Detect if content is HTML or plain text
-    const isHTML = /<[a-z][\s\S]*>/i.test(post.content);
-    setContentMode(isHTML ? 'html' : 'text');
-    
     setFormData({
       title: post.title,
       slug: post.slug,
       excerpt: post.excerpt,
-      content: isHTML ? post.content : convertHTMLToText(post.content),
+      content: post.content,
       author: post.author,
       tags: post.tags.join(', '),
       published: post.published
@@ -762,180 +751,14 @@ export default function Admin() {
             </h2>
             
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Title
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.title}
-                    onChange={(e) => setFormData({...formData, title: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Enter post title"
-                    disabled={loading}
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Slug (URL)
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.slug}
-                    onChange={(e) => setFormData({...formData, slug: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Auto-generated from title"
-                    disabled={loading}
-                  />
-                </div>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Excerpt
-                </label>
-                <textarea
-                  required
-                  rows={3}
-                  value={formData.excerpt}
-                  onChange={(e) => setFormData({...formData, excerpt: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Brief description of the post"
-                  disabled={loading}
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Content
-                </label>
-                <div className="flex items-center mb-2 space-x-4">
-                  <label className="flex items-center">
-                    <input
-                      type="radio"
-                      name="contentMode"
-                      value="text"
-                      checked={contentMode === 'text'}
-                      onChange={(e) => handleModeSwitch(e.target.value as 'text' | 'html')}
-                      className="mr-2"
-                    />
-                    <span className="text-sm text-gray-700">Text Mode (Recommended)</span>
-                  </label>
-                  <label className="flex items-center">
-                    <input
-                      type="radio"
-                      name="contentMode"
-                      value="html"
-                      checked={contentMode === 'html'}
-                      onChange={(e) => handleModeSwitch(e.target.value as 'text' | 'html')}
-                      className="mr-2"
-                    />
-                    <span className="text-sm text-gray-700">HTML Mode</span>
-                  </label>
-                </div>
-                
-                {/* Formatting Toolbar for Text Mode */}
-                {contentMode === 'text' && (
-                  <div className="border border-gray-300 rounded-t-lg p-2 bg-gray-50 flex flex-wrap gap-1">
-                    <button
-                      type="button"
-                      onClick={() => insertFormatting('**', '**')}
-                      className="px-3 py-1 text-sm bg-white border border-gray-300 rounded hover:bg-gray-100 font-bold"
-                      title="Bold"
-                    >
-                      B
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => insertFormatting('*', '*')}
-                      className="px-3 py-1 text-sm bg-white border border-gray-300 rounded hover:bg-gray-100 italic"
-                      title="Italic"
-                    >
-                      I
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => insertFormatting('__', '__')}
-                      className="px-3 py-1 text-sm bg-white border border-gray-300 rounded hover:bg-gray-100 underline"
-                      title="Underline"
-                    >
-                      U
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => insertFormatting('`', '`')}
-                      className="px-3 py-1 text-sm bg-white border border-gray-300 rounded hover:bg-gray-100 font-mono"
-                      title="Code"
-                    >
-                      Code
-                    </button>
-                    <div className="border-l border-gray-300 mx-1"></div>
-                    <button
-                      type="button"
-                      onClick={() => insertHeading(1)}
-                      className="px-3 py-1 text-sm bg-white border border-gray-300 rounded hover:bg-gray-100"
-                      title="Heading 1"
-                    >
-                      H1
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => insertHeading(2)}
-                      className="px-3 py-1 text-sm bg-white border border-gray-300 rounded hover:bg-gray-100"
-                      title="Heading 2"
-                    >
-                      H2
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => insertHeading(3)}
-                      className="px-3 py-1 text-sm bg-white border border-gray-300 rounded hover:bg-gray-100"
-                      title="Heading 3"
-                    >
-                      H3
-                    </button>
-                    <div className="border-l border-gray-300 mx-1"></div>
-                    <button
-                      type="button"
-                      onClick={() => insertList(false)}
-                      className="px-3 py-1 text-sm bg-white border border-gray-300 rounded hover:bg-gray-100"
-                      title="Bullet List"
-                    >
-                      • List
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => insertList(true)}
-                      className="px-3 py-1 text-sm bg-white border border-gray-300 rounded hover:bg-gray-100"
-                      title="Numbered List"
-                    >
-                      1. List
-                    </button>
-                    <div className="border-l border-gray-300 mx-1"></div>
-                    <div className="text-xs text-gray-600 px-2 py-1 flex items-center">
-                      Text mode
-                    </div>
-                  </div>
-                )}
                 
                 <textarea
-                  id="content-textarea"
                   required
                   rows={15}
                   value={formData.content}
                   onChange={(e) => setFormData({...formData, content: e.target.value})}
-                  className={`w-full px-3 py-2 border border-gray-300 ${
-                    contentMode === 'text' ? 'rounded-b-lg' : 'rounded-lg'
-                  } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm leading-relaxed ${
-                    contentMode === 'html' ? 'font-mono' : 'font-sans'
-                  }`}
-                  placeholder={contentMode === 'text' 
-                    ? "Enter your content"
-                    : "Enter HTML content"
-                  }
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm leading-relaxed font-mono"
+                  placeholder="Enter HTML content"
                   disabled={loading}
                 />
               </div>
@@ -1016,7 +839,6 @@ export default function Admin() {
           </div>
         )}
 
-Separate paragraphs with double line breaks.
         {/* Posts List */}
         <div className="bg-white rounded-lg shadow-md">
           <div className="px-6 py-4 border-b border-gray-200">
