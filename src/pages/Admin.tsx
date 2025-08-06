@@ -374,13 +374,64 @@ export default function Admin() {
   };
 
   const insertHeading = (level: number) => {
+    const textarea = document.getElementById('content-textarea') as HTMLTextAreaElement;
+    if (!textarea) return;
+    
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const selectedText = formData.content.substring(start, end) || `Heading ${level}`;
+    
+    // Find the start of the current line
+    const beforeCursor = formData.content.substring(0, start);
+    const lineStart = beforeCursor.lastIndexOf('\n') + 1;
+    const currentLine = formData.content.substring(lineStart, end);
+    
+    // Remove existing heading markers if any
+    const cleanLine = currentLine.replace(/^#+\s*/, '');
     const prefix = '#'.repeat(level) + ' ';
-    insertFormatting(prefix);
+    
+    const newText = 
+      formData.content.substring(0, lineStart) + 
+      prefix + (selectedText || cleanLine) + 
+      formData.content.substring(end);
+    
+    setFormData({...formData, content: newText});
+    
+    // Restore cursor position
+    setTimeout(() => {
+      textarea.focus();
+      const newPosition = lineStart + prefix.length + (selectedText || cleanLine).length;
+      textarea.setSelectionRange(newPosition, newPosition);
+    }, 0);
   };
 
   const insertList = (ordered: boolean = false) => {
-    const prefix = ordered ? '1. ' : '- ';
-    insertFormatting('\n' + prefix);
+    const textarea = document.getElementById('content-textarea') as HTMLTextAreaElement;
+    if (!textarea) return;
+    
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const selectedText = formData.content.substring(start, end) || 'List item';
+    
+    // Check if we're at the start of a line
+    const beforeCursor = formData.content.substring(0, start);
+    const needsNewline = beforeCursor.length > 0 && !beforeCursor.endsWith('\n');
+    
+    const prefix = (needsNewline ? '\n' : '') + (ordered ? '1. ' : '- ');
+    
+    const newText = 
+      formData.content.substring(0, start) + 
+      prefix + selectedText + 
+      formData.content.substring(end);
+    
+    setFormData({...formData, content: newText});
+    
+    // Restore cursor position
+    setTimeout(() => {
+      textarea.focus();
+      const newPosition = start + prefix.length + selectedText.length;
+      textarea.setSelectionRange(newPosition, newPosition);
+    }, 0);
   };
 
   // Load data on component mount
@@ -819,6 +870,10 @@ export default function Admin() {
                     >
                       1. List
                     </button>
+                    <div className="border-l border-gray-300 mx-1"></div>
+                    <div className="text-xs text-gray-600 px-2 py-1 flex items-center">
+                      💡 Text will be converted to HTML automatically when saved
+                    </div>
                   </div>
                 )}
                 
