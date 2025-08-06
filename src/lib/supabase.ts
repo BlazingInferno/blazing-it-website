@@ -339,29 +339,6 @@ export const uploadImage = async (file: File): Promise<UploadedImage | null> => 
   if (!supabase) return null;
   
   try {
-    // First, check if the bucket exists and create it if it doesn't
-    const { data: buckets, error: bucketsError } = await supabase.storage.listBuckets();
-    
-    if (bucketsError) {
-      console.error('Error checking buckets:', bucketsError);
-    }
-    
-    const bucketExists = buckets?.some(bucket => bucket.name === 'blog-images');
-    
-    if (!bucketExists) {
-      // Try to create the bucket
-      const { error: createBucketError } = await supabase.storage.createBucket('blog-images', {
-        public: true,
-        allowedMimeTypes: ['image/*'],
-        fileSizeLimit: 10485760 // 10MB
-      });
-      
-      if (createBucketError) {
-        console.error('Error creating bucket:', createBucketError);
-        throw new Error(`Failed to create storage bucket: ${createBucketError.message}`);
-      }
-    }
-    
     const fileName = `${Date.now()}-${file.name}`;
     
     // Upload to storage
