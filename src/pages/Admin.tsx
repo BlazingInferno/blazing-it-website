@@ -297,6 +297,7 @@ export default function Admin() {
         let formatted = paragraph
           .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold
           .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italic
+          .replace(/__(.*?)__/g, '<u>$1</u>') // Underline
           .replace(/`(.*?)`/g, '<code>$1</code>') // Inline code
           .replace(/\n/g, '<br>'); // Line breaks
         
@@ -326,6 +327,60 @@ export default function Admin() {
       })
       .replace(/<[^>]*>/g, '') // Remove any remaining HTML tags
       .trim();
+  };
+
+  // Handle mode switching with content conversion
+  const handleModeSwitch = (newMode: 'text' | 'html') => {
+    if (newMode === contentMode) return;
+    
+    let convertedContent = formData.content;
+    
+    if (newMode === 'html' && contentMode === 'text') {
+      // Convert text to HTML
+      convertedContent = convertTextToHTML(formData.content);
+    } else if (newMode === 'text' && contentMode === 'html') {
+      // Convert HTML to text
+      convertedContent = convertHTMLToText(formData.content);
+    }
+    
+    setContentMode(newMode);
+    setFormData({...formData, content: convertedContent});
+  };
+
+  // Text formatting functions
+  const insertFormatting = (before: string, after: string = '') => {
+    const textarea = document.getElementById('content-textarea') as HTMLTextAreaElement;
+    if (!textarea) return;
+    
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const selectedText = formData.content.substring(start, end);
+    
+    const newText = 
+      formData.content.substring(0, start) + 
+      before + selectedText + after + 
+      formData.content.substring(end);
+    
+    setFormData({...formData, content: newText});
+    
+    // Restore cursor position
+    setTimeout(() => {
+      textarea.focus();
+      textarea.setSelectionRange(
+        start + before.length, 
+        end + before.length
+      );
+    }, 0);
+  };
+
+  const insertHeading = (level: number) => {
+    const prefix = '#'.repeat(level) + ' ';
+    insertFormatting(prefix);
+  };
+
+  const insertList = (ordered: boolean = false) => {
+    const prefix = ordered ? '1. ' : '- ';
+    insertFormatting('\n' + prefix);
   };
 
   // Load data on component mount
@@ -669,7 +724,7 @@ export default function Admin() {
                       name="contentMode"
                       value="text"
                       checked={contentMode === 'text'}
-                      onChange={(e) => setContentMode(e.target.value as 'text' | 'html')}
+                      onChange={(e) => handleModeSwitch(e.target.value as 'text' | 'html')}
                       className="mr-2"
                     />
                     <span className="text-sm text-gray-700">Text Mode (Recommended)</span>
@@ -680,18 +735,102 @@ export default function Admin() {
                       name="contentMode"
                       value="html"
                       checked={contentMode === 'html'}
-                      onChange={(e) => setContentMode(e.target.value as 'text' | 'html')}
+                      onChange={(e) => handleModeSwitch(e.target.value as 'text' | 'html')}
                       className="mr-2"
                     />
                     <span className="text-sm text-gray-700">HTML Mode</span>
                   </label>
                 </div>
+                
+                {/* Formatting Toolbar for Text Mode */}
+                {contentMode === 'text' && (
+                  <div className="border border-gray-300 rounded-t-lg p-2 bg-gray-50 flex flex-wrap gap-1">
+                    <button
+                      type="button"
+                      onClick={() => insertFormatting('**', '**')}
+                      className="px-3 py-1 text-sm bg-white border border-gray-300 rounded hover:bg-gray-100 font-bold"
+                      title="Bold"
+                    >
+                      B
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => insertFormatting('*', '*')}
+                      className="px-3 py-1 text-sm bg-white border border-gray-300 rounded hover:bg-gray-100 italic"
+                      title="Italic"
+                    >
+                      I
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => insertFormatting('__', '__')}
+                      className="px-3 py-1 text-sm bg-white border border-gray-300 rounded hover:bg-gray-100 underline"
+                      title="Underline"
+                    >
+                      U
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => insertFormatting('`', '`')}
+                      className="px-3 py-1 text-sm bg-white border border-gray-300 rounded hover:bg-gray-100 font-mono"
+                      title="Code"
+                    >
+                      Code
+                    </button>
+                    <div className="border-l border-gray-300 mx-1"></div>
+                    <button
+                      type="button"
+                      onClick={() => insertHeading(1)}
+                      className="px-3 py-1 text-sm bg-white border border-gray-300 rounded hover:bg-gray-100"
+                      title="Heading 1"
+                    >
+                      H1
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => insertHeading(2)}
+                      className="px-3 py-1 text-sm bg-white border border-gray-300 rounded hover:bg-gray-100"
+                      title="Heading 2"
+                    >
+                      H2
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => insertHeading(3)}
+                      className="px-3 py-1 text-sm bg-white border border-gray-300 rounded hover:bg-gray-100"
+                      title="Heading 3"
+                    >
+                      H3
+                    </button>
+                    <div className="border-l border-gray-300 mx-1"></div>
+                    <button
+                      type="button"
+                      onClick={() => insertList(false)}
+                      className="px-3 py-1 text-sm bg-white border border-gray-300 rounded hover:bg-gray-100"
+                      title="Bullet List"
+                    >
+                      • List
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => insertList(true)}
+                      className="px-3 py-1 text-sm bg-white border border-gray-300 rounded hover:bg-gray-100"
+                      title="Numbered List"
+                    >
+                      1. List
+                    </button>
+                  </div>
+                )}
+                
                 <textarea
+                  id="content-textarea"
                   required
                   rows={15}
                   value={formData.content}
                   onChange={(e) => setFormData({...formData, content: e.target.value})}
-                  className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm ${
+                  className={`w-full px-3 py-2 border border-gray-300 ${
+                    contentMode === 'text' ? 'rounded-b-lg' : 'rounded-lg'
+                  } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm ${
                     contentMode === 'html' ? 'font-mono' : 'font-sans'
                   }`}
                   placeholder={contentMode === 'text' 
