@@ -199,10 +199,26 @@ export default function Admin() {
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        setError('Please select a valid image file');
+        return;
+      }
+      
+      // Validate file size (10MB limit)
+      if (file.size > 10 * 1024 * 1024) {
+        setError('Image file size must be less than 10MB');
+        return;
+      }
+      
       try {
         setLoading(true);
+        setError(null);
         await uploadImage(file);
         await loadImages();
+        
+        // Clear the file input
+        e.target.value = '';
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Failed to upload image';
         setError(`Unable to upload image: ${errorMessage}`);

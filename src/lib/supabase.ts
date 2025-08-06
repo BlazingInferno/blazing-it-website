@@ -339,6 +339,29 @@ export const uploadImage = async (file: File): Promise<UploadedImage | null> => 
   if (!supabase) return null;
   
   try {
+    // First, check if the bucket exists and create it if it doesn't
+    const { data: buckets, error: bucketsError } = await supabase.storage.listBuckets();
+    
+    if (bucketsError) {
+      console.error('Error checking buckets:', bucketsError);
+    }
+    
+    const bucketExists = buckets?.some(bucket => bucket.name === 'blog-images');
+    
+    if (!bucketExists) {
+      // Try to create the bucket
+      const { error: createBucketError } = await supabase.storage.createBucket('blog-images', {
+        public: true,
+        allowedMimeTypes: ['image/*'],
+        fileSizeLimit: 10485760 // 10MB
+      });
+      
+      if (createBucketError) {
+        console.error('Error creating bucket:', createBucketError);
+        throw new Error(`Failed to create storage bucket: ${createBucketError.message}`);
+      }
+    }
+    
     const fileName = `${Date.now()}-${file.name}`;
     
     // Upload to storage
@@ -348,7 +371,7 @@ export const uploadImage = async (file: File): Promise<UploadedImage | null> => 
     
     if (uploadError) {
       const { type, message } = handleDatabaseError(uploadError);
-      console.error(`Storage upload error (${type}):`, message);
+      console.error(`Storage upload error (${type}):`, message, uploadError);
       throw new Error(`Failed to upload image: ${message}`);
     }
     
@@ -356,6 +379,11 @@ export const uploadImage = async (file: File): Promise<UploadedImage | null> => 
     const { data: { publicUrl } } = supabase.storage
       .from('blog-images')
       .getPublicUrl(fileName);
+    
+    // Verify the URL is accessible
+    if (!publicUrl) {
+      throw new Error('Failed to generate public URL for uploaded image');
+    }
     
     // Save to database
     const imageData = {
@@ -377,6 +405,14 @@ export const uploadImage = async (file: File): Promise<UploadedImage | null> => 
     if (error) {
       const { type, message } = handleDatabaseError(error);
       console.error(`Database error (${type}):`, message);
+      
+      // If database insert fails, clean up the uploaded file
+      try {
+        await supabase.storage.from('blog-images').remove([fileName]);
+      } catch (cleanupError) {
+        console.error('Failed to cleanup uploaded file:', cleanupError);
+      }
+      
       throw new Error(`Failed to save image metadata: ${message}`);
     }
     
