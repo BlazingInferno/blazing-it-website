@@ -916,7 +916,7 @@ export default function Admin() {
                     </button>
                     <div className="border-l border-gray-300 mx-1"></div>
                     <div className="text-xs text-gray-600 px-2 py-1 flex items-center">
-                      💡 Text will be converted to HTML automatically when saved
+                      Text mode
                     </div>
                   </div>
                 )}
@@ -929,46 +929,15 @@ export default function Admin() {
                   onChange={(e) => setFormData({...formData, content: e.target.value})}
                   className={`w-full px-3 py-2 border border-gray-300 ${
                     contentMode === 'text' ? 'rounded-b-lg' : 'rounded-lg'
-                  } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm leading-relaxed font-sans ${
+                  } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm leading-relaxed ${
                     contentMode === 'html' ? 'font-mono' : 'font-sans'
-                  } whitespace-pre-wrap`}
+                  }`}
                   placeholder={contentMode === 'text' 
-                    ? `Write your content naturally. Supported formatting:
-
-# Heading 1
-## Heading 2  
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-**Bold text**
-*Italic text*
-__Underlined text__
-\`inline code\`
-
-- Bullet point
-- Another point
-
-1. Numbered list
-2. Second item
-
-Text alignment:
-[CENTER] Centered text
-[RIGHT] Right-aligned text
-[JUSTIFY] Justified text
-For images, switch to HTML mode and use:
-<img src="url" alt="description" />`
+                    ? "Enter your content"
                     : "Enter HTML content"
                   }
                   disabled={loading}
                 />
-                {contentMode === 'text' && (
-                  <p className="mt-2 text-sm text-gray-600">
-                    💡 <strong>Tip:</strong> Separate paragraphs with double line breaks (press Enter twice). Single line breaks become spaces. 
-                    Use toolbar buttons or type formatting manually. For images, switch to HTML mode.
-                  </p>
-                )}
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
