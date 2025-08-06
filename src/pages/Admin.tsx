@@ -191,6 +191,21 @@ export default function Admin() {
     }
   };
 
+  // Toggle publish status
+  const togglePublishStatus = async (post: BlogPost) => {
+    try {
+      setLoading(true);
+      await updateBlogPost(post.id, { published: !post.published }, user?.email);
+      await loadPosts();
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to update post';
+      setError(`Unable to update post: ${errorMessage}`);
+      console.error('Error updating post:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Handle image upload
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -267,7 +282,7 @@ export default function Admin() {
   // Convert plain text to HTML
   const convertTextToHTML = (text: string): string => {
     return text
-      .split(/\n\s*\n/)  // Split on double newlines with optional whitespace
+      .split(/\n\n+/)  // Split on double newlines (or more)
       .map(paragraph => {
         if (paragraph.trim() === '') return '';
         
@@ -321,12 +336,13 @@ export default function Admin() {
           .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italic
           .replace(/__(.*?)__/g, '<u>$1</u>') // Underline
           .replace(/`(.*?)`/g, '<code>$1</code>') // Inline code
-          .replace(/\n/g, ' '); // Convert single line breaks to spaces
+          .replace(/\n/g, ' ') // Convert single line breaks to spaces
+          .trim(); // Remove extra whitespace
         
         return `<p${alignmentClass}>${formatted}</p>`;
       })
       .filter(p => p !== '')
-      .join('\n\n'); // Add proper spacing between elements
+      .join(''); // No extra spacing - CSS handles paragraph margins
   };
 
   // Convert HTML back to plain text for editing
@@ -342,9 +358,10 @@ export default function Admin() {
       .replace(/<p class="text-right">(.*?)<\/p>/g, '[RIGHT] $1\n\n')
       .replace(/<p class="text-justify">(.*?)<\/p>/g, '[JUSTIFY] $1\n\n')
       .replace(/<p>(.*?)<\/p>/g, '$1\n\n')
-      .replace(/<br\s*\/?>/g, ' ')
+      .replace(/<br\s*\/?>/g, '\n')
       .replace(/<strong>(.*?)<\/strong>/g, '**$1**')
       .replace(/<em>(.*?)<\/em>/g, '*$1*')
+      .replace(/<u>(.*?)<\/u>/g, '__$1__')
       .replace(/<code>(.*?)<\/code>/g, '`$1`')
       .replace(/<ul><li>(.*?)<\/li><\/ul>/g, (match, content) => {
         return content.replace(/<\/li><li>/g, '\n- ').replace(/^/, '- ') + '\n\n';
@@ -912,9 +929,9 @@ export default function Admin() {
                   onChange={(e) => setFormData({...formData, content: e.target.value})}
                   className={`w-full px-3 py-2 border border-gray-300 ${
                     contentMode === 'text' ? 'rounded-b-lg' : 'rounded-lg'
-                  } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm leading-relaxed ${
+                  } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm leading-relaxed font-sans ${
                     contentMode === 'html' ? 'font-mono' : 'font-sans'
-                  }`}
+                  } whitespace-pre-wrap`}
                   placeholder={contentMode === 'text' 
                     ? `Write your content naturally. Supported formatting:
 
@@ -948,7 +965,7 @@ For images, switch to HTML mode and use:
                 />
                 {contentMode === 'text' && (
                   <p className="mt-2 text-sm text-gray-600">
-                    💡 <strong>Tip:</strong> Separate paragraphs with double line breaks. Single line breaks become spaces. 
+                    💡 <strong>Tip:</strong> Separate paragraphs with double line breaks (press Enter twice). Single line breaks become spaces. 
                     Use toolbar buttons or type formatting manually. For images, switch to HTML mode.
                   </p>
                 )}
@@ -1092,6 +1109,22 @@ Separate paragraphs with double line breaks.
                         <Eye className="h-4 w-4" />
                       </Link>
                     )}
+                    <button
+                      onClick={() => togglePublishStatus(post)}
+                      disabled={loading}
+                      className={`p-2 rounded transition-colors disabled:opacity-50 ${
+                        post.published 
+                          ? 'text-green-600 hover:text-green-800 bg-green-50 hover:bg-green-100' 
+                          : 'text-yellow-600 hover:text-yellow-800 bg-yellow-50 hover:bg-yellow-100'
+                      }`}
+                      title={post.published ? 'Unpublish Post' : 'Publish Post'}
+                    >
+                      {post.published ? (
+                        <Eye className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4 opacity-50" />
+                      )}
+                    </button>
                     <button
                       onClick={() => handleEdit(post)}
                       disabled={loading}
