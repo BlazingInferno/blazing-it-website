@@ -39,6 +39,7 @@ export default function Admin() {
     tags: '',
     published: false
   });
+  const [contentMode, setContentMode] = useState<'text' | 'html'>('text');
 
   // Generate slug from title
   const generateSlug = (title: string) => {
@@ -102,11 +103,17 @@ export default function Admin() {
       const slug = formData.slug || generateSlug(formData.title);
       const tags = formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
       
+      // Convert text content to HTML if in text mode
+      let processedContent = formData.content;
+      if (contentMode === 'text') {
+        processedContent = convertTextToHTML(formData.content);
+      }
+      
       const postData = {
         title: formData.title,
         slug,
         excerpt: formData.excerpt,
-        content: formData.content,
+        content: processedContent,
         author: formData.author,
         date: new Date().toLocaleDateString('en-US', { 
           year: 'numeric', 
@@ -151,11 +158,15 @@ export default function Admin() {
   // Handle editing a post
   const handleEdit = (post: BlogPost) => {
     setEditingPost(post);
+    // Detect if content is HTML or plain text
+    const isHTML = /<[a-z][\s\S]*>/i.test(post.content);
+    setContentMode(isHTML ? 'html' : 'text');
+    
     setFormData({
       title: post.title,
       slug: post.slug,
       excerpt: post.excerpt,
-      content: post.content,
+      content: isHTML ? post.content : convertHTMLToText(post.content),
       author: post.author,
       tags: post.tags.join(', '),
       published: post.published
@@ -251,6 +262,70 @@ export default function Admin() {
         setLoading(false);
       }
     }
+  };
+
+  // Convert plain text to HTML
+  const convertTextToHTML = (text: string): string => {
+    return text
+      .split('\n\n')
+      .map(paragraph => {
+        if (paragraph.trim() === '') return '';
+        
+        // Handle headings
+        if (paragraph.startsWith('# ')) {
+          return `<h1>${paragraph.substring(2)}</h1>`;
+        }
+        if (paragraph.startsWith('## ')) {
+          return `<h2>${paragraph.substring(3)}</h2>`;
+        }
+        if (paragraph.startsWith('### ')) {
+          return `<h3>${paragraph.substring(4)}</h3>`;
+        }
+        
+        // Handle lists
+        if (paragraph.includes('\n- ') || paragraph.startsWith('- ')) {
+          const items = paragraph.split('\n- ').map(item => item.replace(/^- /, ''));
+          return `<ul>${items.map(item => item.trim() ? `<li>${item}</li>` : '').join('')}</ul>`;
+        }
+        
+        if (paragraph.includes('\n1. ') || paragraph.match(/^\d+\. /)) {
+          const items = paragraph.split(/\n\d+\. /).map(item => item.replace(/^\d+\. /, ''));
+          return `<ol>${items.map(item => item.trim() ? `<li>${item}</li>` : '').join('')}</ol>`;
+        }
+        
+        // Handle regular paragraphs with basic formatting
+        let formatted = paragraph
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold
+          .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italic
+          .replace(/`(.*?)`/g, '<code>$1</code>') // Inline code
+          .replace(/\n/g, '<br>'); // Line breaks
+        
+        return `<p>${formatted}</p>`;
+      })
+      .filter(p => p !== '')
+      .join('\n');
+  };
+
+  // Convert HTML back to plain text for editing
+  const convertHTMLToText = (html: string): string => {
+    return html
+      .replace(/<h1>(.*?)<\/h1>/g, '# $1\n\n')
+      .replace(/<h2>(.*?)<\/h2>/g, '## $1\n\n')
+      .replace(/<h3>(.*?)<\/h3>/g, '### $1\n\n')
+      .replace(/<p>(.*?)<\/p>/g, '$1\n\n')
+      .replace(/<br\s*\/?>/g, '\n')
+      .replace(/<strong>(.*?)<\/strong>/g, '**$1**')
+      .replace(/<em>(.*?)<\/em>/g, '*$1*')
+      .replace(/<code>(.*?)<\/code>/g, '`$1`')
+      .replace(/<ul><li>(.*?)<\/li><\/ul>/g, (match, content) => {
+        return content.replace(/<\/li><li>/g, '\n- ').replace(/^/, '- ') + '\n\n';
+      })
+      .replace(/<ol><li>(.*?)<\/li><\/ol>/g, (match, content) => {
+        const items = content.split('<\/li><li>');
+        return items.map((item, index) => `${index + 1}. ${item}`).join('\n') + '\n\n';
+      })
+      .replace(/<[^>]*>/g, '') // Remove any remaining HTML tags
+      .trim();
   };
 
   // Load data on component mount
@@ -585,17 +660,69 @@ export default function Admin() {
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Content (HTML)
+                  Content
                 </label>
+                <div className="flex items-center mb-2 space-x-4">
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="contentMode"
+                      value="text"
+                      checked={contentMode === 'text'}
+                      onChange={(e) => setContentMode(e.target.value as 'text' | 'html')}
+                      className="mr-2"
+                    />
+                    <span className="text-sm text-gray-700">Text Mode (Recommended)</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="contentMode"
+                      value="html"
+                      checked={contentMode === 'html'}
+                      onChange={(e) => setContentMode(e.target.value as 'text' | 'html')}
+                      className="mr-2"
+                    />
+                    <span className="text-sm text-gray-700">HTML Mode</span>
+                  </label>
+                </div>
                 <textarea
                   required
                   rows={15}
                   value={formData.content}
                   onChange={(e) => setFormData({...formData, content: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-sm"
-                  placeholder="Enter HTML content"
+                  className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm ${
+                    contentMode === 'html' ? 'font-mono' : 'font-sans'
+                  }`}
+                  placeholder={contentMode === 'text' 
+                    ? `Write your content naturally. Supported formatting:
+
+# Heading 1
+## Heading 2  
+### Heading 3
+
+**Bold text**
+*Italic text*
+\`inline code\`
+
+- Bullet point
+- Another point
+
+1. Numbered list
+2. Second item
+
+For images, switch to HTML mode and use:
+<img src="url" alt="description" />`
+                    : "Enter HTML content"
+                  }
                   disabled={loading}
                 />
+                {contentMode === 'text' && (
+                  <p className="mt-2 text-sm text-gray-600">
+                    💡 <strong>Tip:</strong> Write naturally! Your text will be automatically converted to HTML. 
+                    For images, switch to HTML mode and use: <code>&lt;img src="url" alt="description" /&gt;</code>
+                  </p>
+                )}
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
