@@ -267,7 +267,7 @@ export default function Admin() {
   // Convert plain text to HTML
   const convertTextToHTML = (text: string): string => {
     return text
-      .split('\n\n')
+      .split(/\n\s*\n/)  // Split on double newlines with optional whitespace
       .map(paragraph => {
         if (paragraph.trim() === '') return '';
         
@@ -281,6 +281,15 @@ export default function Admin() {
         if (paragraph.startsWith('### ')) {
           return `<h3>${paragraph.substring(4)}</h3>`;
         }
+        if (paragraph.startsWith('#### ')) {
+          return `<h4>${paragraph.substring(5)}</h4>`;
+        }
+        if (paragraph.startsWith('##### ')) {
+          return `<h5>${paragraph.substring(6)}</h5>`;
+        }
+        if (paragraph.startsWith('###### ')) {
+          return `<h6>${paragraph.substring(7)}</h6>`;
+        }
         
         // Handle lists
         if (paragraph.includes('\n- ') || paragraph.startsWith('- ')) {
@@ -293,18 +302,31 @@ export default function Admin() {
           return `<ol>${items.map(item => item.trim() ? `<li>${item}</li>` : '').join('')}</ol>`;
         }
         
+        // Handle text alignment
+        let alignmentClass = '';
+        if (paragraph.startsWith('[CENTER]')) {
+          alignmentClass = ' class="text-center"';
+          paragraph = paragraph.replace('[CENTER]', '').trim();
+        } else if (paragraph.startsWith('[RIGHT]')) {
+          alignmentClass = ' class="text-right"';
+          paragraph = paragraph.replace('[RIGHT]', '').trim();
+        } else if (paragraph.startsWith('[JUSTIFY]')) {
+          alignmentClass = ' class="text-justify"';
+          paragraph = paragraph.replace('[JUSTIFY]', '').trim();
+        }
+        
         // Handle regular paragraphs with basic formatting
         let formatted = paragraph
           .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold
           .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italic
           .replace(/__(.*?)__/g, '<u>$1</u>') // Underline
           .replace(/`(.*?)`/g, '<code>$1</code>') // Inline code
-          .replace(/\n/g, '<br>'); // Line breaks
+          .replace(/\n/g, ' '); // Convert single line breaks to spaces
         
-        return `<p>${formatted}</p>`;
+        return `<p${alignmentClass}>${formatted}</p>`;
       })
       .filter(p => p !== '')
-      .join('\n');
+      .join('\n\n'); // Add proper spacing between elements
   };
 
   // Convert HTML back to plain text for editing
@@ -313,8 +335,14 @@ export default function Admin() {
       .replace(/<h1>(.*?)<\/h1>/g, '# $1\n\n')
       .replace(/<h2>(.*?)<\/h2>/g, '## $1\n\n')
       .replace(/<h3>(.*?)<\/h3>/g, '### $1\n\n')
+      .replace(/<h4>(.*?)<\/h4>/g, '#### $1\n\n')
+      .replace(/<h5>(.*?)<\/h5>/g, '##### $1\n\n')
+      .replace(/<h6>(.*?)<\/h6>/g, '###### $1\n\n')
+      .replace(/<p class="text-center">(.*?)<\/p>/g, '[CENTER] $1\n\n')
+      .replace(/<p class="text-right">(.*?)<\/p>/g, '[RIGHT] $1\n\n')
+      .replace(/<p class="text-justify">(.*?)<\/p>/g, '[JUSTIFY] $1\n\n')
       .replace(/<p>(.*?)<\/p>/g, '$1\n\n')
-      .replace(/<br\s*\/?>/g, '\n')
+      .replace(/<br\s*\/?>/g, ' ')
       .replace(/<strong>(.*?)<\/strong>/g, '**$1**')
       .replace(/<em>(.*?)<\/em>/g, '*$1*')
       .replace(/<code>(.*?)<\/code>/g, '`$1`')
@@ -379,28 +407,29 @@ export default function Admin() {
     
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
-    const selectedText = formData.content.substring(start, end) || `Heading ${level}`;
     
     // Find the start of the current line
     const beforeCursor = formData.content.substring(0, start);
     const lineStart = beforeCursor.lastIndexOf('\n') + 1;
-    const currentLine = formData.content.substring(lineStart, end);
+    const lineEnd = formData.content.indexOf('\n', start);
+    const actualLineEnd = lineEnd === -1 ? formData.content.length : lineEnd;
+    const currentLine = formData.content.substring(lineStart, actualLineEnd);
     
     // Remove existing heading markers if any
-    const cleanLine = currentLine.replace(/^#+\s*/, '');
+    const cleanLine = currentLine.replace(/^#{1,6}\s*/, '') || `Heading ${level}`;
     const prefix = '#'.repeat(level) + ' ';
     
     const newText = 
       formData.content.substring(0, lineStart) + 
-      prefix + (selectedText || cleanLine) + 
-      formData.content.substring(end);
+      prefix + cleanLine + 
+      formData.content.substring(actualLineEnd);
     
     setFormData({...formData, content: newText});
     
     // Restore cursor position
     setTimeout(() => {
       textarea.focus();
-      const newPosition = lineStart + prefix.length + (selectedText || cleanLine).length;
+      const newPosition = lineStart + prefix.length + cleanLine.length;
       textarea.setSelectionRange(newPosition, newPosition);
     }, 0);
   };
@@ -410,26 +439,24 @@ export default function Admin() {
     if (!textarea) return;
     
     const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const selectedText = formData.content.substring(start, end) || 'List item';
     
     // Check if we're at the start of a line
     const beforeCursor = formData.content.substring(0, start);
-    const needsNewline = beforeCursor.length > 0 && !beforeCursor.endsWith('\n');
+    const needsNewline = beforeCursor.length > 0 && !beforeCursor.endsWith('\n') && !beforeCursor.endsWith('\n\n');
     
-    const prefix = (needsNewline ? '\n' : '') + (ordered ? '1. ' : '- ');
+    const prefix = (needsNewline ? '\n' : '') + (ordered ? '1. ' : '- ') + 'List item';
     
     const newText = 
       formData.content.substring(0, start) + 
-      prefix + selectedText + 
-      formData.content.substring(end);
+      prefix + 
+      formData.content.substring(start);
     
     setFormData({...formData, content: newText});
     
     // Restore cursor position
     setTimeout(() => {
       textarea.focus();
-      const newPosition = start + prefix.length + selectedText.length;
+      const newPosition = start + prefix.length;
       textarea.setSelectionRange(newPosition, newPosition);
     }, 0);
   };
