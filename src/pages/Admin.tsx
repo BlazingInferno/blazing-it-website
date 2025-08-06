@@ -912,7 +912,7 @@ export default function Admin() {
                   onChange={(e) => setFormData({...formData, content: e.target.value})}
                   className={`w-full px-3 py-2 border border-gray-300 ${
                     contentMode === 'text' ? 'rounded-b-lg' : 'rounded-lg'
-                  } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm ${
+                  } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm leading-relaxed ${
                     contentMode === 'html' ? 'font-mono' : 'font-sans'
                   }`}
                   placeholder={contentMode === 'text' 
@@ -921,9 +921,13 @@ export default function Admin() {
 # Heading 1
 ## Heading 2  
 ### Heading 3
+#### Heading 4
+##### Heading 5
+###### Heading 6
 
 **Bold text**
 *Italic text*
+__Underlined text__
 \`inline code\`
 
 - Bullet point
@@ -932,6 +936,10 @@ export default function Admin() {
 1. Numbered list
 2. Second item
 
+Text alignment:
+[CENTER] Centered text
+[RIGHT] Right-aligned text
+[JUSTIFY] Justified text
 For images, switch to HTML mode and use:
 <img src="url" alt="description" />`
                     : "Enter HTML content"
@@ -940,8 +948,8 @@ For images, switch to HTML mode and use:
                 />
                 {contentMode === 'text' && (
                   <p className="mt-2 text-sm text-gray-600">
-                    💡 <strong>Tip:</strong> Write naturally! Your text will be automatically converted to HTML. 
-                    For images, switch to HTML mode and use: <code>&lt;img src="url" alt="description" /&gt;</code>
+                    💡 <strong>Tip:</strong> Separate paragraphs with double line breaks. Single line breaks become spaces. 
+                    Use toolbar buttons or type formatting manually. For images, switch to HTML mode.
                   </p>
                 )}
               </div>
@@ -1022,6 +1030,7 @@ For images, switch to HTML mode and use:
           </div>
         )}
 
+Separate paragraphs with double line breaks.
         {/* Posts List */}
         <div className="bg-white rounded-lg shadow-md">
           <div className="px-6 py-4 border-b border-gray-200">
