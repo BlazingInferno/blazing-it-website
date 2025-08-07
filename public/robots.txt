@@ -4,9 +4,5 @@ Allow: /
 # Sitemaps
 Sitemap: https://blazingit.co.uk/sitemap.xml
 
-# Crawl-delay
-Crawl-delay: 1
-
 # Disallow admin areas
 Disallow: /login
-Disallow: /admin
