@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemaps
-Sitemap: https://blazingit.co.uk/sitemap.xml
+Sitemap: https://blazingit.co.uk/netlify/functions/sitemap
 
 # Disallow admin areas
 Disallow: /login
