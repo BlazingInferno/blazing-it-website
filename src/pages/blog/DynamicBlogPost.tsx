@@ -91,7 +91,7 @@ export default function DynamicBlogPost() {
   }
   if (error || !post) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center"
         <div className="text-center max-w-2xl mx-auto px-4">
           <div className={`px-6 py-8 rounded-lg ${
             error?.includes('Supabase configuration') 
@@ -211,7 +211,7 @@ export default function DynamicBlogPost() {
               to="/contact"
               className="inline-flex items-center bg-blue-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-800 transition-colors"
             >
-              Get Consultation
+              Contact Blazing IT Today!
             </Link>
           </div>
         </div>
