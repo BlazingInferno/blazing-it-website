@@ -9,7 +9,17 @@
   from = "/*"
   to = "/index.html"
   status = 200
-
+  
+[[redirects]]
+  from = "https://jonathanstamp.ovh"
+  to = "/index.html"
+  status = 301
+  
+[[redirects]]
+  from = "https://blazingitlimited.co.uk"
+  to = "/index.html"
+  status = 301
+  
 # Generate dynamic sitemap
 [[redirects]]
   from = "/sitemap.xml"
