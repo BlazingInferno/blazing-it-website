@@ -26,9 +26,9 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="text-center lg:text-left">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-                Industrial Hardware
+                Looking for Industrial PCs
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-                  & Rugged Equipment
+                  & Rugged Equipment divison?
                 </span>
               </h1>
               <p className="text-xl md:text-2xl text-blue-200 mb-8 leading-relaxed">
@@ -56,13 +56,23 @@ export default function Home() {
             </div>
             
             <div className="relative">
-              <div className="relative z-10">
+              <a
+                href="https://industrial.blazingit.co.uk"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block relative z-10 group cursor-pointer"
+              >
                 <img
-                  src="https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&w=800"
-                  alt="Industrial rugged tablets and medical cart computers for B2B wholesale and healthcare solutions"
-                  className="rounded-2xl shadow-2xl"
+                  src="https://static.wixstatic.com/media/ebc82c_0a50bad0c01741869a5a76c0ce1a3a5e~mv2.jpg/v1/fill/w_1253,h_513,al_c,q_85,enc_avif,quality_auto/ebc82c_0a50bad0c01741869a5a76c0ce1a3a5e~mv2.jpg=800"
+                  alt="Rugged tablets and industrial panel PCs for healthcare medical cart computers and B2B wholesale"
+                  className="rounded-2xl shadow-2xl group-hover:shadow-3xl transition-shadow"
                 />
-              </div>
+                <div className="absolute inset-0 bg-blue-600 opacity-0 group-hover:opacity-10 transition-opacity rounded-2xl flex items-center justify-center">
+                  <span className="text-white text-xl font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                    Visit Industrial Site →
+                  </span>
+                </div>
+              </a>
               <div className="absolute -top-4 -right-4 w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl opacity-20"></div>
             </div>
           </div>
