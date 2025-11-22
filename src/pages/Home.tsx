@@ -28,11 +28,11 @@ export default function Home() {
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
                 Looking for Industrial PCs
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-                  & Rugged Equipment divison?
+                  & Rugged Equipment?
                 </span>
               </h1>
               <p className="text-xl md:text-2xl text-blue-200 mb-8 leading-relaxed">
-                Wholesale division specializing in industrial PCs, rugged tablets, medical cart computers, and B2B hardware solutions for demanding environments.
+                Blazing IT new wholesale division specializing in industrial panel PCs, rugged tablets, medicalcomputers, and B2B hardware solutions for demanding environments.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <a
@@ -41,7 +41,7 @@ export default function Home() {
                   rel="noopener noreferrer"
                   className="bg-white text-blue-900 px-8 py-3 rounded-lg text-lg font-medium hover:bg-gray-100 transition-colors shadow-lg hover:shadow-xl inline-flex items-center justify-center"
                 >
-                  Visit Industrial Site
+                  Visit Blazing IT Industrial
                   <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
@@ -67,7 +67,6 @@ export default function Home() {
                   alt="Rugged tablets and industrial panel PCs for healthcare medical cart computers and B2B wholesale"
                   className="rounded-2xl shadow-2xl group-hover:shadow-3xl transition-shadow w-full h-[500px] object-cover"
                 />
-                <div className="absolute inset-0 bg-blue-600 opacity-0 group-hover:opacity-10 transition-opacity rounded-2xl flex items-center justify-center">
                   <span className="text-white text-xl font-bold opacity-0 group-hover:opacity-100 transition-opacity">
                     Visit Industrial Site →
                   </span>
