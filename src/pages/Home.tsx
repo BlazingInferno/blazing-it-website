@@ -63,7 +63,7 @@ export default function Home() {
                 className="block relative z-10 group cursor-pointer"
               >
                 <img
-                  src="https://static.wixstatic.com/media/ebc82c_0a50bad0c01741869a5a76c0ce1a3a5e~mv2.jpg/v1/fill/w_1253,h_513,al_c,q_85,enc_avif,quality_auto/ebc82c_0a50bad0c01741869a5a76c0ce1a3a5e~mv2.jpg=800"
+                  src="https://static.wixstatic.com/media/ebc82c_0a50bad0c01741869a5a76c0ce1a3a5e~mv2.jpg/v1/fill/w_1253,h_513,al_c,q_85,enc_avif,quality_auto/ebc82c_0a50bad0c01741869a5a76c0ce1a3a5e~mv2.jpg"
                   alt="Rugged tablets and industrial panel PCs for healthcare medical cart computers and B2B wholesale"
                   className="rounded-2xl shadow-2xl group-hover:shadow-3xl transition-shadow"
                 />
