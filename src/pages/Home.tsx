@@ -12,8 +12,9 @@ export default function Home() {
         keywords="IT support Leeds, cybersecurity Yorkshire, cloud solutions UK, Microsoft 365, Azure, Google Workspace, IT consulting, data backup recovery"
         url="https://blazingit.co.uk"
       />
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-950 via-blue-900 to-indigo-950 text-white overflow-hidden">
+      
+      {/* Industrial Division Hero Banner */}
+      <section className="relative bg-gradient-to-br from-gray-900 via-blue-900 to-indigo-950 text-white overflow-hidden">
         <div className="absolute inset-0 bg-black opacity-20"></div>
         <div className="absolute inset-0">
           <div className="absolute top-20 left-10 w-72 h-72 bg-blue-600 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
@@ -25,26 +26,31 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="text-center lg:text-left">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-                Blazing Fast
+                Industrial Hardware
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-                  IT Solutions
+                  & Rugged Equipment
                 </span>
               </h1>
               <p className="text-xl md:text-2xl text-blue-200 mb-8 leading-relaxed">
-                Transform your business with cutting-edge technology solutions that drive growth, enhance security, and maximize efficiency.
+                Wholesale division specializing in industrial PCs, rugged tablets, medical cart computers, and B2B hardware solutions for demanding environments.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <Link
-                  to="/contact"
-                  className="bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-medium hover:bg-blue-800 transition-colors shadow-lg hover:shadow-xl"
+                <a
+                  href="https://industrial.blazingit.co.uk"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-white text-blue-900 px-8 py-3 rounded-lg text-lg font-medium hover:bg-gray-100 transition-colors shadow-lg hover:shadow-xl inline-flex items-center justify-center"
                 >
-                  Get Started
-                </Link>
+                  Visit Industrial Site
+                  <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
                 <Link
                   to="/services"
-                  className="bg-blue-100 text-blue-700 px-8 py-3 rounded-lg text-lg font-medium hover:bg-blue-200 transition-colors border border-blue-300"
+                  className="bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-medium hover:bg-blue-800 transition-colors border border-blue-600"
                 >
-                  Our Services
+                  IT Services
                 </Link>
               </div>
             </div>
@@ -53,7 +59,7 @@ export default function Home() {
               <div className="relative z-10">
                 <img
                   src="https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&w=800"
-                  alt="Leeds IT support team providing cybersecurity and cloud solutions for Yorkshire businesses"
+                  alt="Industrial rugged tablets and medical cart computers for B2B wholesale and healthcare solutions"
                   className="rounded-2xl shadow-2xl"
                 />
               </div>
