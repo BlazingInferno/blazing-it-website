@@ -65,7 +65,7 @@ export default function Home() {
                 <img
                   src="https://static.wixstatic.com/media/ebc82c_0a50bad0c01741869a5a76c0ce1a3a5e~mv2.jpg/v1/fill/w_1253,h_513,al_c,q_85,enc_avif,quality_auto/ebc82c_0a50bad0c01741869a5a76c0ce1a3a5e~mv2.jpg"
                   alt="Rugged tablets and industrial panel PCs for healthcare medical cart computers and B2B wholesale"
-                  className="rounded-2xl shadow-2xl group-hover:shadow-3xl transition-shadow"
+                  className="rounded-2xl shadow-2xl group-hover:shadow-3xl transition-shadow w-full h-[500px] object-cover"
                 />
                 <div className="absolute inset-0 bg-blue-600 opacity-0 group-hover:opacity-10 transition-opacity rounded-2xl flex items-center justify-center">
                   <span className="text-white text-xl font-bold opacity-0 group-hover:opacity-100 transition-opacity">
