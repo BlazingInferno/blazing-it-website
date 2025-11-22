@@ -70,7 +70,6 @@ export default function Home() {
                   <span className="text-white text-xl font-bold opacity-0 group-hover:opacity-100 transition-opacity">
                     Visit Industrial Site →
                   </span>
-                </div>
               </a>
               <div className="absolute -top-4 -right-4 w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl opacity-20"></div>
             </div>
